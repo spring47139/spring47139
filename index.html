@@ -292,7 +292,7 @@ document.getElementById('manifest-link').href = manifestUrl;
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
       <button class="btn bg-btn" style="margin-top:0;padding:7px 3px;font-size:10px;" onclick="doBG()" id="btn-bg">⛅ <span id="bg-lbl">閉關</span></button>
       <button class="btn bc-btn" style="margin-top:0;padding:7px 3px;font-size:10px;" onclick="doBreak()" id="btn-brk">⚡ 突破</button>
-      <button class="btn bs-btn" style="margin-top:0;padding:7px 3px;font-size:10px;" onclick="doRefine()" id="btn-ref">⚗ 煉丹</button>
+      <button class="btn bs-btn" style="margin-top:0;padding:7px 3px;font-size:10px;" onclick="doRefine()" id="btn-ref">⚗ 煉丹(5材)</button>
     </div>
     <div style="font-size:8px;color:var(--ink3);margin-top:3px;font-family:'Noto Sans SC',sans-serif;" id="bg-info"></div>
     <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--paper2);">
@@ -436,7 +436,7 @@ const BODIES=[
     20:'太陽真身：全力一擊，攻擊×200%傷害（每60秒自動觸發）',
     25:'太陽圓滿：攻擊附帶灼燒，持續傷害+攻擊×5%每秒',
   },
-  pdesc:'小境：攻+5 暴+0.9% 修/秒+0.1，大境×5'},
+  pdesc:'小境：攻+8 暴+1.3% 修/秒+0.15，大境×5'},
  {id:'chaos',name:'洪荒混沌體',icon:'🌀',color:'var(--sky2)',bg:'var(--sky4)',bc:'var(--sky2)',desc:'萬古難現，全屬性均衡提升',
   stages:[
    {n:'萌芽一重',major:false},{n:'萌芽二重',major:false},{n:'萌芽三重',major:false},{n:'萌芽四重',major:false},{n:'萌芽大成',major:true},
@@ -445,7 +445,7 @@ const BODIES=[
    {n:'混沌一重',major:false},{n:'混沌二重',major:false},{n:'混沌三重',major:false},{n:'混沌四重',major:false},{n:'混沌大成',major:true},
    {n:'洪荒一重',major:false},{n:'洪荒二重',major:false},{n:'洪荒三重',major:false},{n:'洪荒四重',major:false},{n:'洪荒圓滿',major:true},
   ],
-  perSt:{atk:3,def:3,hp:40,rate:.5,crit:.008,spd:1.5},majorMult:5,maxSt:25,
+  perSt:{atk:2,def:2,hp:22,rate:.3,crit:.005,spd:.8},majorMult:5,maxSt:25,
   cost:[250,500,850,1500,6000, 2500,4500,7500,13000,50000, 10000,18000,30000,50000,200000, 45000,80000,130000,220000,900000, 200000,350000,580000,1000000,4000000],
   special:{
     5:'混沌感知：敵方攻擊有10%機率被完全無效化',
@@ -454,7 +454,7 @@ const BODIES=[
     20:'混沌體相：每30秒隨機觸發一種體質特效（火焰/閃電/虛空/煞氣）',
     25:'洪荒圓滿：免疫一切負面狀態，所有屬性再+20%',
   },
-  pdesc:'小境：全屬均衡+速+1，大境×5'},
+  pdesc:'小境：攻/防+2 HP+22 修/秒+0.3 速+0.8，大境×5'},
  {id:'thunder',name:'九天雷霆體',icon:'⚡',color:'#1870c0',bg:'var(--sky4)',bc:'#2080d0',desc:'雷霆貫體，暴擊加成，攻速超凡',
   stages:[
    {n:'雷芽一重',major:false},{n:'雷芽二重',major:false},{n:'雷芽三重',major:false},{n:'雷芽四重',major:false},{n:'引雷初成',major:true},
@@ -472,7 +472,7 @@ const BODIES=[
     20:'九天雷降：每20秒自動落雷，傷害攻擊×300%',
     25:'九天圓滿：每次攻擊必定觸發雷電追擊（攻擊×50%），暴擊傷害額外+100%',
   },
-  pdesc:'小境：速+2 暴+1.2% 攻+3，大境×5'},
+  pdesc:'小境：暴+2.2% 攻+7 修/秒+0.3，大境×5'},
  {id:'void',name:'太虛虛空體',icon:'🕳',color:'var(--jade)',bg:'var(--jade4)',bc:'var(--jade2)',desc:'穿梭虛空，修為/秒極快，戰鬥閃避',
   stages:[
    {n:'入虛一重',major:false},{n:'入虛二重',major:false},{n:'入虛三重',major:false},{n:'入虛四重',major:false},{n:'入虛大成',major:true},
@@ -490,7 +490,7 @@ const BODIES=[
     20:'虛空瞬移：速度×2計算，閃避率上限提高至60%',
     25:'虛空圓滿：閃避時無視傷害，反擊攻擊×150%，修為/秒+速度×0.5',
   },
-  pdesc:'小境：修/秒+0.7 速+1.2 閃避+0.7%，大境×5'},
+  pdesc:'小境：修/秒+1.1 速+1.8 閃避+1.0%，大境×5'},
  {id:'demon',name:'九煞魔神體',icon:'👹',color:'var(--cr2)',bg:'var(--cr4)',bc:'var(--cr2)',desc:'殺戮養道，越戰越強，吸血回復',
   stages:[
    {n:'魔芽一重',major:false},{n:'魔芽二重',major:false},{n:'魔芽三重',major:false},{n:'魔芽四重',major:false},{n:'煞種大成',major:true},
@@ -508,7 +508,7 @@ const BODIES=[
     20:'煞氣凝聚：每次受傷積累煞氣，下次攻擊爆發（最多疊加5次，每層+20%）',
     25:'魔神圓滿：吸血無上限，攻擊的30%轉化為HP，受傷時煞氣自動爆發',
   },
-  pdesc:'小境：攻+4 吸血+0.4% 暴+0.7%，大境×5'},
+  pdesc:'小境：攻+6 吸血+0.6% 暴+1.1%，大境×5'},
 ];
 
 /* ── 境界（合體大乘後加仙道境界，參考遮天完美世界）── */
@@ -1229,7 +1229,7 @@ function doBreak(){
   updateUI();rBGA();
 }
 function checkBreak(){/* 突破需手動點擊按鈕，不自動觸發 */}
-function doRefine(){if(!G.started||G.stone<30)return;G.stone-=30;const roll=Math.random();if(roll<.55){const g=Math.floor(cR()*70+60);G.exp+=g;G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.3));LOG(`回元丹成功！修為+${fmt(g)}`,'gd');}else if(roll<.80){LOG('丹爐爆炸！煉丹失敗','dk');}else if(roll<.93){const g=Math.floor(cR()*140+150);G.exp+=g;G.bHp=cMH();LOG(`★ 上品靈丹！修為+${fmt(g)}，氣血全復！`,'go');}else{const g=Math.floor(cR()*300+380);G.exp+=g;G.bHp=cMH();G.stone+=60;LOG(`★★ 極品仙丹！修為+${fmt(g)}，靈石+60！`,'sp');}checkBreak();updateUI();}
+function doRefine(){if(!G.started||G.herb<5)return;G.herb-=5;const roll=Math.random();if(roll<.55){const g=Math.floor(cR()*70+60);G.exp+=g;G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.3));LOG(`回元丹成功！修為+${fmt(g)}`,'gd');}else if(roll<.80){LOG('丹爐爆炸！煉丹失敗','dk');}else if(roll<.93){const g=Math.floor(cR()*140+150);G.exp+=g;G.bHp=cMH();LOG(`★ 上品靈丹！修為+${fmt(g)}，氣血全復！`,'go');}else{const g=Math.floor(cR()*300+380);G.exp+=g;G.bHp=cMH();G.stone+=60;LOG(`★★ 極品仙丹！修為+${fmt(g)}，靈石+60！`,'sp');}checkBreak();updateUI();}
 
 function appEv(ev){const e=ev.e||0,s=ev.s||0,h=ev.h||0,f=ev.f||0,life=ev.life||0,r=ev.r||0,c=ev.c||0,hp=ev.hp||0;// 事件修為隨境界提升（每個大境界層×1.3）
 const _em=e>0?Math.floor(e*(1+G.ri*0.12)):e;G.exp+=_em;if(ev.expLoss)G.exp=Math.max(0,G.exp-Math.floor(G.exp*ev.expLoss));G.stone=Math.max(0,G.stone+s);if(ev.stoneLoss)G.stone=Math.max(0,G.stone-ev.stoneLoss);G.herb+=h;if(ev.herbLoss)G.herb=Math.max(0,G.herb-ev.herbLoss);G.fame+=f;// life獎勵已移除，改為自動計時
