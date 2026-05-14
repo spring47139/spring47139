@@ -150,9 +150,9 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 /* BODY */
 .bdcard{border:2px solid;border-radius:var(--r2);padding:10px;margin-bottom:6px;}
 .bddots{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px;}
-.bddot{width:10px;height:10px;border-radius:50%;background:var(--paper2);border:1px solid var(--paper3);}
+.bddot{width:8px;height:8px;border-radius:50%;background:var(--paper2);border:1px solid var(--paper3);}
 .bddot.f{background:var(--gold2);border-color:var(--gold);}
-.bddot.major{width:14px;height:14px;border-radius:3px;}
+.bddot.major{width:12px;height:12px;border-radius:3px;}
 /* EQUIP */
 .eslot{border:1px solid var(--paper3);border-radius:var(--r);padding:6px 3px;text-align:center;min-height:44px;background:var(--paper);}
 /* BIGUAN */
@@ -413,55 +413,65 @@ yueyao:`<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgc
 biluo:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`
 };
 
-/* ── 體質（大境界+小境界制，大境界大幅提升）── */
-// 每個體質有3大境界，每大境界3小重，共9重
-// 大境界標記 major:true，效果×4倍
+/* ── 體質（5大境界×5小重，共25重，大境界×5倍效果）── */
+// 架構：初期→初成→小成→大成→圓滿，每階4小重+1大成
+// 大境界標記 major:true，效果×5倍（相當於修為境界的大突破）
 const BODIES=[
  {id:'sun',name:'混元太陽體',icon:'☀',color:'var(--gold)',bg:'var(--gold4)',bc:'var(--gold2)',desc:'修煉太陽真火，攻擊暴增，暴擊加乘',
   stages:[
-   {n:'初顯一重',major:false},{n:'初顯二重',major:false},{n:'初顯大成',major:true},
-   {n:'小成一重',major:false},{n:'小成二重',major:false},{n:'小成大成',major:true},
-   {n:'大成一重',major:false},{n:'大成二重',major:false},{n:'太陽圓滿',major:true},
+   {n:'初期一重',major:false},{n:'初期二重',major:false},{n:'初期三重',major:false},{n:'初期四重',major:false},{n:'初期大成',major:true},
+   {n:'初成一重',major:false},{n:'初成二重',major:false},{n:'初成三重',major:false},{n:'初成四重',major:false},{n:'初成大成',major:true},
+   {n:'小成一重',major:false},{n:'小成二重',major:false},{n:'小成三重',major:false},{n:'小成四重',major:false},{n:'小成大成',major:true},
+   {n:'大成一重',major:false},{n:'大成二重',major:false},{n:'大成三重',major:false},{n:'大成四重',major:false},{n:'大成圓滿',major:true},
+   {n:'太陽一重',major:false},{n:'太陽二重',major:false},{n:'太陽三重',major:false},{n:'太陽四重',major:false},{n:'太陽圓滿',major:true},
   ],
-  perSt:{atk:8,crit:.015,rate:.15},majorMult:4,maxSt:9,
-  cost:[300,600,2500,1200,2400,9500,5000,10000,40000],
-  pdesc:'小境：攻+8 暴+1.5% 修/秒+0.15，大境×4'},
+  perSt:{atk:5,crit:.009,rate:.10},majorMult:5,maxSt:25,
+  cost:[200,400,700,1200,5000, 2000,3500,6000,10000,40000, 8000,14000,24000,40000,160000, 35000,60000,100000,170000,700000, 150000,260000,440000,750000,3000000],
+  pdesc:'小境：攻+5 暴+0.9% 修/秒+0.1，大境×5'},
  {id:'chaos',name:'洪荒混沌體',icon:'🌀',color:'var(--sky2)',bg:'var(--sky4)',bc:'var(--sky2)',desc:'萬古難現，全屬性均衡提升',
   stages:[
-   {n:'萌生一重',major:false},{n:'萌生二重',major:false},{n:'萌生大成',major:true},
-   {n:'凝固一重',major:false},{n:'凝固二重',major:false},{n:'凝固大成',major:true},
-   {n:'洪荒一重',major:false},{n:'洪荒二重',major:false},{n:'洪荒圓滿',major:true},
+   {n:'萌芽一重',major:false},{n:'萌芽二重',major:false},{n:'萌芽三重',major:false},{n:'萌芽四重',major:false},{n:'萌芽大成',major:true},
+   {n:'凝聚一重',major:false},{n:'凝聚二重',major:false},{n:'凝聚三重',major:false},{n:'凝聚四重',major:false},{n:'凝聚大成',major:true},
+   {n:'融合一重',major:false},{n:'融合二重',major:false},{n:'融合三重',major:false},{n:'融合四重',major:false},{n:'融合大成',major:true},
+   {n:'混沌一重',major:false},{n:'混沌二重',major:false},{n:'混沌三重',major:false},{n:'混沌四重',major:false},{n:'混沌大成',major:true},
+   {n:'洪荒一重',major:false},{n:'洪荒二重',major:false},{n:'洪荒三重',major:false},{n:'洪荒四重',major:false},{n:'洪荒圓滿',major:true},
   ],
-  perSt:{atk:4,def:4,hp:40,rate:.5,crit:.008},majorMult:4,maxSt:9,
-  cost:[400,800,3200,1600,3200,12800,6500,13000,52000],
-  pdesc:'小境：全屬均衡微升，大境×4'},
+  perSt:{atk:2,def:2,hp:25,rate:.3,crit:.005},majorMult:5,maxSt:25,
+  cost:[250,500,850,1500,6000, 2500,4500,7500,13000,50000, 10000,18000,30000,50000,200000, 45000,80000,130000,220000,900000, 200000,350000,580000,1000000,4000000],
+  pdesc:'小境：全屬均衡微升，大境×5'},
  {id:'thunder',name:'九天雷霆體',icon:'⚡',color:'#1870c0',bg:'var(--sky4)',bc:'#2080d0',desc:'雷霆貫體，暴擊加成，攻速超凡',
   stages:[
-   {n:'雷種一重',major:false},{n:'雷種二重',major:false},{n:'引雷大成',major:true},
-   {n:'御雷一重',major:false},{n:'御雷二重',major:false},{n:'御雷大成',major:true},
-   {n:'雷尊一重',major:false},{n:'雷尊二重',major:false},{n:'九天圓滿',major:true},
+   {n:'雷芽一重',major:false},{n:'雷芽二重',major:false},{n:'雷芽三重',major:false},{n:'雷芽四重',major:false},{n:'引雷初成',major:true},
+   {n:'聚雷一重',major:false},{n:'聚雷二重',major:false},{n:'聚雷三重',major:false},{n:'聚雷四重',major:false},{n:'聚雷大成',major:true},
+   {n:'御雷一重',major:false},{n:'御雷二重',major:false},{n:'御雷三重',major:false},{n:'御雷四重',major:false},{n:'御雷大成',major:true},
+   {n:'雷尊一重',major:false},{n:'雷尊二重',major:false},{n:'雷尊三重',major:false},{n:'雷尊四重',major:false},{n:'雷尊大成',major:true},
+   {n:'九天一重',major:false},{n:'九天二重',major:false},{n:'九天三重',major:false},{n:'九天四重',major:false},{n:'九天圓滿',major:true},
   ],
-  perSt:{spd:3,crit:.02,atk:5},majorMult:4,maxSt:9,
-  cost:[200,400,1700,900,1800,7000,3500,7000,28000],
-  pdesc:'小境：速+3 暴+2% 攻+5，大境×4'},
+  perSt:{spd:2,crit:.012,atk:3},majorMult:5,maxSt:25,
+  cost:[130,260,450,800,3200, 1300,2300,3800,6500,26000, 5000,9000,15000,26000,105000, 22000,38000,65000,110000,440000, 95000,165000,280000,480000,1900000],
+  pdesc:'小境：速+2 暴+1.2% 攻+3，大境×5'},
  {id:'void',name:'太虛虛空體',icon:'🕳',color:'var(--jade)',bg:'var(--jade4)',bc:'var(--jade2)',desc:'穿梭虛空，修為/秒極快，戰鬥閃避',
   stages:[
-   {n:'入虛一重',major:false},{n:'入虛二重',major:false},{n:'遊虛大成',major:true},
-   {n:'化虛一重',major:false},{n:'化虛二重',major:false},{n:'化虛大成',major:true},
-   {n:'太虛一重',major:false},{n:'太虛二重',major:false},{n:'虛空圓滿',major:true},
+   {n:'入虛一重',major:false},{n:'入虛二重',major:false},{n:'入虛三重',major:false},{n:'入虛四重',major:false},{n:'入虛大成',major:true},
+   {n:'游虛一重',major:false},{n:'游虛二重',major:false},{n:'游虛三重',major:false},{n:'游虛四重',major:false},{n:'游虛大成',major:true},
+   {n:'化虛一重',major:false},{n:'化虛二重',major:false},{n:'化虛三重',major:false},{n:'化虛四重',major:false},{n:'化虛大成',major:true},
+   {n:'太虛一重',major:false},{n:'太虛二重',major:false},{n:'太虛三重',major:false},{n:'太虛四重',major:false},{n:'太虛大成',major:true},
+   {n:'虛空一重',major:false},{n:'虛空二重',major:false},{n:'虛空三重',major:false},{n:'虛空四重',major:false},{n:'虛空圓滿',major:true},
   ],
-  perSt:{rate:1.1,spd:2,dodge:.012},majorMult:4,maxSt:9,
-  cost:[160,320,1300,640,1280,5000,2500,5000,20000],
-  pdesc:'小境：修/秒+1.1 速+2 閃避+1.2%，大境×4'},
+  perSt:{rate:.7,spd:1.2,dodge:.007},majorMult:5,maxSt:25,
+  cost:[100,200,350,600,2400, 1000,1800,3000,5000,20000, 4000,7000,12000,20000,80000, 17000,30000,50000,85000,340000, 75000,130000,220000,370000,1500000],
+  pdesc:'小境：修/秒+0.7 速+1.2 閃避+0.7%，大境×5'},
  {id:'demon',name:'九煞魔神體',icon:'👹',color:'var(--cr2)',bg:'var(--cr4)',bc:'var(--cr2)',desc:'殺戮養道，越戰越強，吸血回復',
   stages:[
-   {n:'魔種一重',major:false},{n:'魔種二重',major:false},{n:'煞凝大成',major:true},
-   {n:'魔成一重',major:false},{n:'魔成二重',major:false},{n:'魔成大成',major:true},
-   {n:'九煞一重',major:false},{n:'九煞二重',major:false},{n:'魔神圓滿',major:true},
+   {n:'魔芽一重',major:false},{n:'魔芽二重',major:false},{n:'魔芽三重',major:false},{n:'魔芽四重',major:false},{n:'煞種大成',major:true},
+   {n:'煞凝一重',major:false},{n:'煞凝二重',major:false},{n:'煞凝三重',major:false},{n:'煞凝四重',major:false},{n:'煞凝大成',major:true},
+   {n:'魔成一重',major:false},{n:'魔成二重',major:false},{n:'魔成三重',major:false},{n:'魔成四重',major:false},{n:'魔成大成',major:true},
+   {n:'九煞一重',major:false},{n:'九煞二重',major:false},{n:'九煞三重',major:false},{n:'九煞四重',major:false},{n:'九煞大成',major:true},
+   {n:'魔神一重',major:false},{n:'魔神二重',major:false},{n:'魔神三重',major:false},{n:'魔神四重',major:false},{n:'魔神圓滿',major:true},
   ],
-  perSt:{atk:7,leech:.007,crit:.012},majorMult:4,maxSt:9,
-  cost:[350,700,2800,1400,2800,11000,5500,11000,44000],
-  pdesc:'小境：攻+7 吸血+0.7% 暴+1.2%，大境×4'},
+  perSt:{atk:4,leech:.004,crit:.007},majorMult:5,maxSt:25,
+  cost:[220,440,750,1300,5200, 1800,3200,5300,9000,36000, 7000,12500,21000,35000,140000, 30000,53000,88000,150000,600000, 130000,230000,390000,660000,2600000],
+  pdesc:'小境：攻+4 吸血+0.4% 暴+0.7%，大境×5'},
 ];
 
 /* ── 境界（合體大乘後加仙道境界，參考遮天完美世界）── */
