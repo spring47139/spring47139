@@ -2202,20 +2202,25 @@ function saveGame(){
       _tjCD: TIANJIAO.map(tj=>tj.cdEnd||0),
       _ts: Date.now(),
     };
-    localStorage.setItem(SAVE_KEY, JSON.stringify(sv));
+    const json=JSON.stringify(sv);
+    try{localStorage.setItem(SAVE_KEY,json);}catch(e){console.warn('localStorage失敗',e);}
     // 視覺反饋
     const btn=document.querySelector('[title="手動存檔"]');
     if(btn){btn.textContent='✓';setTimeout(()=>{btn.textContent='💾';},1200);}
+    if(G.tick%30===0)return;// 自動存檔不顯示log
+    LOG(`💾 存檔成功（${new Date().toLocaleTimeString()}）`,'gd');
   } catch(e){
     console.warn('存檔失敗',e);
     const btn=document.querySelector('[title="手動存檔"]');
     if(btn){btn.textContent='✗';setTimeout(()=>{btn.textContent='💾';},1500);}
+    LOG('存檔失敗：'+e.message,'dk');
   }
 }
 
 function loadGame(){
   try{
-    const raw = localStorage.getItem(SAVE_KEY);
+    let raw = null;
+    try{raw=localStorage.getItem(SAVE_KEY);}catch(e){console.warn('localStorage讀取失敗',e);}
     if(!raw) return false;
     const sv = JSON.parse(raw);
     if(!sv.started) return false;
