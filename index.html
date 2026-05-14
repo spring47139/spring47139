@@ -1154,7 +1154,7 @@ function doBreak(){
   if(ok){
     G.ri++;
     const nr=REALMS[G.ri];
-    G.exp=0;// 突破後修為歸零，重新累積
+    G.exp=Math.max(0,G.exp-REALMS[G.ri-1].req);// 突破後扣除本層需求，保留超出部分
     G.bHp=cMH();
     G.fame+=8;
     G.brkFailCount=0;
