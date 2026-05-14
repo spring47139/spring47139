@@ -1427,18 +1427,72 @@ const DAO_CHAT={
   {t:'any',msg:'以前碧蘿以為，千年靈芝是世上最珍貴的。現在覺得……是你。',minAff:87,color:'#c0f088'},
   {t:'any',msg:'碧蘿不太懂「喜歡」是什麼，但每次見到你，心跳很快。',minAff:93,color:'#d8ffa8'},
   {t:'any',msg:'你要是走了，碧蘿會哭哭的。所以……不許走！',minAff:97,color:'#d8ffa8'},
+  // 門派專屬
+  {t:'any',msg:'你是劍修啊，碧蘿覺得你拿著劍的樣子好帥！',sid:['qy'],color:'#90e068'},
+  {t:'any',msg:'你練體修的，能讓碧蘿摸摸你的手嗎？好硬……',sid:['xm'],color:'#90e068'},
+  {t:'any',msg:'你修水法的，感覺好溫柔，跟碧蘿很像！',sid:['th'],color:'#90e068'},
+  {t:'any',msg:'你是魔修……碧蘿有點怕，但你對碧蘿很好，所以不怕了！',sid:['ms'],color:'#90e068'},
+  {t:'any',msg:'你不入宗門，碧蘿也不屬於任何地方，我們很像呢！',sid:['sm'],color:'#90e068'},
  ],
 };
+
+/* ── 道侶門派專屬對話（雪靈兒/焰妃/月瑤對各門派的反應）── */
+// 這些台詞會和通用台詞一起加入 DAO_CHAT 對應道侶的池子中
+(function(){
+  const extra={
+    xueling:[
+      {t:'any',msg:'劍修……有鋒芒，但也容易傷到自己。要小心。',sid:['qy'],color:'#90c8ff'},
+      {t:'any',msg:'體修以身入道，你比一般人更能承受。……嗯。',sid:['xm'],color:'#90c8ff'},
+      {t:'any',msg:'水法與冰，本源相近。你能感受到我的寒意嗎。',sid:['th'],color:'#90c8ff'},
+      {t:'any',msg:'魔修……只要你不傷人，我不在乎你走哪條路。',sid:['ms'],color:'#90c8ff'},
+      {t:'any',msg:'不入宗門，一人走天下。……我懂那種感覺。',sid:['sm'],color:'#c0e8ff'},
+      {t:'zone',msg:'劍修的速度很快，但破綻也在速度上。',sid:['qy'],color:'#90c8ff'},
+      {t:'zone',msg:'體修就算受傷也還能撐，你不一樣。讓我護你。',sid:['xm'],color:'#90c8ff'},
+      {t:'zone',msg:'水法者觀察力好，你的戰場判斷很準。',sid:['th'],color:'#90c8ff'},
+      {t:'zone',msg:'魔修攻擊兇猛，但氣血消耗也快。我會留意。',sid:['ms'],color:'#90c8ff'},
+      {t:'zone',msg:'散修無門無派，反而沒有弱點被人針對。聰明。',sid:['sm'],color:'#90c8ff'},
+    ],
+    yanfei:[
+      {t:'any',msg:'劍修？哼，劍法再快，也沒我的火快！',sid:['qy'],color:'#ff9070'},
+      {t:'any',msg:'你練體修的，那身板……不說了，還行啦！',sid:['xm'],color:'#ff9070'},
+      {t:'any',msg:'水法克火……你敢用水法對我試試看！？',sid:['th'],color:'#ff9070'},
+      {t:'any',msg:'魔修嗎……你和我火靈族倒有幾分相似，都不被世人待見。',sid:['ms'],color:'#ffb090'},
+      {t:'any',msg:'散修！自由自在，我最羨慕你們了。宗門規矩煩死人！',sid:['sm'],color:'#ff9070'},
+      {t:'zone',msg:'劍修對上我的火，就是鐵劍碰烈焰，看誰先熔！',sid:['qy'],color:'#ff9070'},
+      {t:'zone',msg:'體修皮糙肉厚的……那你就頂在前面，我在後面燒！',sid:['xm'],color:'#ff9070'},
+      {t:'zone',msg:'水法師是個輔助天才，要配合好！別讓我白燒！',sid:['th'],color:'#ff9070'},
+      {t:'zone',msg:'魔修爆發力強，你負責衝，我負責補刀，懂嗎！',sid:['ms'],color:'#ff9070'},
+      {t:'zone',msg:'散修什麼都會一點，優點也是缺點！不過有我在就夠了！',sid:['sm'],color:'#ff9070'},
+    ],
+    yueyao:[
+      {t:'any',msg:'劍修以意御劍，與月瑤以心感月，道理相通。',sid:['qy'],color:'#c0a8ff'},
+      {t:'any',msg:'體修者以己身為道，最是純粹，月瑤敬佩。',sid:['xm'],color:'#c0a8ff'},
+      {t:'any',msg:'水法靜柔，與月華同性，你我之間或有天定緣份。',sid:['th'],color:'#e0d0ff'},
+      {t:'any',msg:'魔道非惡，不過是另一條路。月瑤不以此論人。',sid:['ms'],color:'#c0a8ff'},
+      {t:'any',msg:'散修者，不為俗世所縛，反得天地之道的真諦。',sid:['sm'],color:'#e0d0ff'},
+      {t:'zone',msg:'劍修出手如電，月瑤從旁以月力加持，可如虎添翼。',sid:['qy'],color:'#c0a8ff'},
+      {t:'zone',msg:'體修如山，月瑤如水，山有水則生，攻守相宜。',sid:['xm'],color:'#c0a8ff'},
+      {t:'zone',msg:'同為以「靜」入道，你我配合，可令敵無所遁形。',sid:['th'],color:'#c0a8ff'},
+      {t:'zone',msg:'魔修以力破萬法，月瑤在側護法，可保萬全。',sid:['ms'],color:'#c0a8ff'},
+      {t:'zone',msg:'散修身法飄忽，月瑤難以預測你的下一步……這反而是優勢。',sid:['sm'],color:'#c0a8ff'},
+    ],
+  };
+  Object.keys(extra).forEach(k=>{
+    if(DAO_CHAT[k])DAO_CHAT[k]=DAO_CHAT[k].concat(extra[k]);
+  });
+})();
 
 /* 觸發道侶對話 */
 function trigDaoChat(ctx){
   const fd=gD();if(!fd||!fd.met)return;
   const pool=DAO_CHAT[fd.id];if(!pool)return;
-  // 過濾情境（camp/trav/zone/any）和最低好感度
+  // 過濾情境（camp/trav/zone/any）和最低好感度，以及門派對話
   const avail=pool.filter(c=>{
     const ctxOk=c.t==='any'||c.t===ctx;
     const affOk=!c.minAff||fd.aff>=c.minAff;
-    return ctxOk&&affOk;
+    // 門派過濾：c.sid 為陣列表示只對特定門派說，無 sid 則通用
+    const sidOk=!c.sid||c.sid.includes(G.sid);
+    return ctxOk&&affOk&&sidOk;
   });
   if(!avail.length)return;
   const chat=avail[Math.floor(Math.random()*avail.length)];
@@ -1457,8 +1511,24 @@ function updateBUI(){if(!G.zone.active)return;const m=G.zone.mon;const mxHp=cMH(
 function bLog(msg,cls=''){const b=document.getElementById('blog');const el=document.createElement('div');el.className='bl'+(cls?' '+cls:'');el.textContent=msg;b.prepend(el);while(b.children.length>20)b.removeChild(b.lastChild);}
 
 function autoFight(){if(!G.zone.active||!G.zone.mon)return;const m=G.zone.mon;if(cDodge()>0&&Math.random()<cDodge()){bLog(`${G.playerName}閃避！`,'wi');return;}const ic=Math.random()<cC();// 體修：攻擊以防禦值計算
-let dmg;let critMult=1.85;if(G.sid==='qy'&&G.mfl.lv>0)critMult=2.35;if(G.sid==='xm'){dmg=Math.max(1,Math.floor(cD()*0.9+R(-1,2)));if(ic)dmg=Math.floor(dmg*critMult);}else{dmg=Math.max(1,Math.floor(cA()-m.def+R(-2,2)));// 魔刀殺戮疊加攻擊
-if(G.sid==='ms'&&G.mfl.killBuff)dmg=Math.floor(dmg*(1+G.mfl.killBuff));if(ic)dmg=Math.floor(dmg*critMult);}m.hp-=dmg;const leech=cLeech();if(leech>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*leech));if(ic){bLog(`✦ ${G.playerName} 暴擊【${m.n}】！造成 ${fmt(dmg)} 傷害`,'cr');}
+let dmg;let critMult=1.85;
+if(G.sid==='qy'&&G.mfl.lv>0)critMult=2.35;
+if(G.sid==='sm')critMult=2.1;// 散修暴擊倍率
+if(G.sid==='xm'){
+  dmg=Math.max(1,Math.floor(cD()*0.9+R(-1,2)));
+  if(ic)dmg=Math.floor(dmg*critMult);
+}else if(G.sid==='sm'){
+  // 散修：攻防平均，萬法歸一
+  const smBase=Math.floor((cA()+cD()*0.6)/1.6);
+  dmg=Math.max(1,Math.floor(smBase-m.def*0.7+R(-2,2)));
+
+  if(ic)dmg=Math.floor(dmg*critMult);
+}else{
+  dmg=Math.max(1,Math.floor(cA()-m.def+R(-2,2)));
+  // 魔刀殺戮疊加攻擊
+  if(G.sid==='ms'&&G.mfl.killBuff)dmg=Math.floor(dmg*(1+G.mfl.killBuff));
+  if(ic)dmg=Math.floor(dmg*critMult);
+}m.hp-=dmg;const leech=cLeech();if(leech>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*leech));if(ic){bLog(`✦ ${G.playerName} 暴擊【${m.n}】！造成 ${fmt(dmg)} 傷害`,'cr');}
   else{bLog(`${G.playerName} 普通攻擊【${m.n}】，造成 ${fmt(dmg)} 傷害`);}
   if(leech>0)bLog(`吸血回復 ${fmt(Math.floor(dmg*leech))} 氣血`,'wi');
   applyDaoFx(dmg);if(m.hp<=0){onKill();return;}
@@ -1536,7 +1606,7 @@ function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();const 
 const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)G.exp+=Math.floor(m.exp*.10);if(m.boss){bLog(`★Boss【${m.n}】！修為+${fmt(m.exp)} 石+${fmt(m.stone)}${m.fame?' 望+'+m.fame:''}${m.herb?' 藥+'+m.herb:''}`,'wi');tryDrop();if(Math.random()<.45)tryDrop();}else if(Math.random()<.08)tryDrop();G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.06));spawnM();checkBreak();if(G.curTab==='zone')updateBUI();updateUI();}
 function onDefeat(){G.bHp=Math.floor(cMH()*.2);bLog('力竭撤退...','lo');LOG(`在【${ZONES[G.zone.zi].n}】敗退`,'dk');exitZone();}
 function exitZone(){G.zone.active=false;document.getElementById('btl-wrap').style.display='none';rZones();updateUI();}
-function tryDrop(){const zi=G.zone.zi;const grade=Math.min(5,Math.floor(zi+Math.random()*1.5));const si=Math.floor(Math.random()*6);const sn=EQUIP_SLOTS[si];const wN=[['木劍','靈鐵劍','玄鐵刀','紫霄劍','混沌戟','道祖劍'],['鐵拳套','玄鐵拳','煉體拳','龍骨拳','太古拳','混沌拳'],['水靈杖','天河杖','靈水器','滄海器','時間杖','混沌源'],['血刀','魔煞刀','屠神刀','萬煞刀','血海刀','混沌刀']];const gN=[['布帽','玄鐵冠','星辰冠','龍角冠','天道冠','仙台冠'],['粗布衣','靈蠶甲','玄鐵甲','龍紋甲','天道甲','洪荒甲'],['布護腕','靈玉腕','玄金腕','星紋腕','龍爪腕','道祖腕'],['草鞋','靈雲靴','疾風靴','縮地靴','天馬靴','混沌靴'],['靈石碎','聚靈珠','元神珠','星辰珠','天道珠','洪荒珠']];const si2={'qy':0,'xm':1,'th':2,'ms':3}[G.sid]||0;const name=sn==='武器'?wN[si2][grade]:({頭盔:gN[0],胸甲:gN[1],護腕:gN[2],靴子:gN[3],法寶:gN[4]}[sn]||gN[0])[grade];const item={slot:sn,name,grade,atk:sn==='武器'?[8,32,100,320,1100,4800][grade]:0,def:['胸甲','頭盔','護腕'].includes(sn)?[4,16,50,160,560,2400][grade]:0,spd:sn==='靴子'?[2,10,28,88,300,1200][grade]:0,rate:sn==='法寶'?[.2,1,3.2,12,44,180][grade]:0,hp:['胸甲','頭盔'].includes(sn)?[15,65,200,640,2400,9600][grade]:0};G.bag.push(item);LOG(`✦ 掉落【${name}】（${EG[grade]}品·${sn}）`,'go');if(G.curTab==='equip')rEquip();}
+function tryDrop(){const zi=G.zone.zi;const grade=Math.min(5,Math.floor(zi+Math.random()*1.5));const si=Math.floor(Math.random()*6);const sn=EQUIP_SLOTS[si];const wN=[['木劍','靈鐵劍','玄鐵刀','紫霄劍','混沌戟','道祖劍'],['鐵拳套','玄鐵拳','煉體拳','龍骨拳','太古拳','混沌拳'],['水靈杖','天河杖','靈水器','滄海器','時間杖','混沌源'],['血刀','魔煞刀','屠神刀','萬煞刀','血海刀','混沌刀']];const gN=[['布帽','玄鐵冠','星辰冠','龍角冠','天道冠','仙台冠'],['粗布衣','靈蠶甲','玄鐵甲','龍紋甲','天道甲','洪荒甲'],['布護腕','靈玉腕','玄金腕','星紋腕','龍爪腕','道祖腕'],['草鞋','靈雲靴','疾風靴','縮地靴','天馬靴','混沌靴'],['靈石碎','聚靈珠','元神珠','星辰珠','天道珠','洪荒珠']];const si2=G.sid==='sm'?Math.floor(Math.random()*4):({'qy':0,'xm':1,'th':2,'ms':3}[G.sid]||0);const name=sn==='武器'?wN[si2][grade]:({頭盔:gN[0],胸甲:gN[1],護腕:gN[2],靴子:gN[3],法寶:gN[4]}[sn]||gN[0])[grade];const item={slot:sn,name,grade,atk:sn==='武器'?[8,32,100,320,1100,4800][grade]:0,def:['胸甲','頭盔','護腕'].includes(sn)?[4,16,50,160,560,2400][grade]:0,spd:sn==='靴子'?[2,10,28,88,300,1200][grade]:0,rate:sn==='法寶'?[.2,1,3.2,12,44,180][grade]:0,hp:['胸甲','頭盔'].includes(sn)?[15,65,200,640,2400,9600][grade]:0};G.bag.push(item);LOG(`✦ 掉落【${name}】（${EG[grade]}品·${sn}）`,'go');if(G.curTab==='equip')rEquip();}
 
 // 宗門掛機
 function startCamp(){if(G.zone.active||G.trav.active){alert('請先停止征戰或外出歷練！');return;}G.camp.active=true;G.camp.at=0;document.getElementById('btn-cs').disabled=true;document.getElementById('btn-ce').disabled=false;LOG('開始宗門掛機...','gd');pushEv('🏯 宗門掛機開始','修為速率降為50%，每10~15秒觸發宗門事件（有好有壞）','var(--jade2)');rCamp();rZones();}
@@ -1901,7 +1971,7 @@ function fightTianJiao(i){
       const si=Math.floor(Math.random()*6);const sn=EQUIP_SLOTS[si];
       const wN=[['木劍','靈鐵劍','玄鐵刀','紫霄劍','混沌戟','道祖劍'],['鐵拳套','玄鐵拳','煉體拳','龍骨拳','太古拳','混沌拳'],['水靈杖','天河杖','靈水器','滄海器','時間杖','混沌源'],['血刀','魔煞刀','屠神刀','萬煞刀','血海刀','混沌刀']];
       const gN=[['布帽','玄鐵冠','星辰冠','龍角冠','天道冠','仙台冠'],['粗布衣','靈蠶甲','玄鐵甲','龍紋甲','天道甲','洪荒甲'],['布護腕','靈玉腕','玄金腕','星紋腕','龍爪腕','道祖腕'],['草鞋','靈雲靴','疾風靴','縮地靴','天馬靴','混沌靴'],['靈石碎','聚靈珠','元神珠','星辰珠','天道珠','洪荒珠']];
-      const si2={'qy':0,'xm':1,'th':2,'ms':3}[G.sid]||0;
+      const si2=G.sid==='sm'?Math.floor(Math.random()*4):({'qy':0,'xm':1,'th':2,'ms':3}[G.sid]||0);
       const name=sn==='武器'?wN[si2][grade]:({頭盔:gN[0],胸甲:gN[1],護腕:gN[2],靴子:gN[3],法寶:gN[4]}[sn]||gN[0])[grade];
       const item={slot:sn,name,grade,atk:sn==='武器'?[8,32,100,320,1100,4800][grade]:0,def:['胸甲','頭盔','護腕'].includes(sn)?[4,16,50,160,560,2400][grade]:0,spd:sn==='靴子'?[2,10,28,88,300,1200][grade]:0,rate:sn==='法寶'?[.2,1,3.2,12,44,180][grade]:0,hp:['胸甲','頭盔'].includes(sn)?[15,65,200,640,2400,9600][grade]:0};
       G.bag.push(item);
