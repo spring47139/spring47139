@@ -37,47 +37,47 @@
   --r:7px;--r2:12px;--nh:52px;
 }
 html,body{height:100%;overflow:hidden;}
-body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink);display:flex;flex-direction:column;font-size:19px;}
+body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink);display:flex;flex-direction:column;font-size:21px;}
 /* TOPBAR */
 .topbar{background:var(--ink);padding:6px 10px;display:flex;align-items:center;gap:7px;flex-shrink:0;}
 .ava{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold2);overflow:hidden;flex-shrink:0;}
 .ava svg{width:100%;height:100%;display:block;}
 .pi{flex:1;min-width:0;}
-.pn{font-size:14px;font-weight:700;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.pr{font-size:12px;color:var(--gold3);}
-.ps{font-size:10px;color:var(--paper3);}
+.pn{font-size:16px;font-weight:700;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pr{font-size:14px;color:var(--gold3);}
+.ps{font-size:12px;color:var(--paper3);}
 .rr{display:flex;gap:6px;align-items:center;}
 .r1{text-align:center;min-width:28px;}
-.rv{font-size:13px;font-weight:700;color:var(--gold2);}
-.rl{font-size:10px;color:var(--paper4);}
+.rv{font-size:15px;font-weight:700;color:var(--gold2);}
+.rl{font-size:12px;color:var(--paper4);}
 .rb{text-align:center;padding:0 6px;border-left:1px solid rgba(255,255,255,.15);}
-.rbv{font-size:14px;font-weight:700;color:var(--jade3);}
-.rbl{font-size:10px;color:var(--paper4);}
+.rbv{font-size:16px;font-weight:700;color:var(--jade3);}
+.rbl{font-size:12px;color:var(--paper4);}
 /* NAV */
 .nav{display:flex;background:var(--ink2);flex-shrink:0;height:var(--nh);border-bottom:1px solid var(--paper3);}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:3px 1px;font-size:12px;color:rgba(200,160,80,.5);cursor:pointer;border:none;background:transparent;transition:all .2s;border-bottom:2px solid transparent;}
-.nb .ico{font-size:18px;line-height:1;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:3px 1px;font-size:14px;color:rgba(200,160,80,.5);cursor:pointer;border:none;background:transparent;transition:all .2s;border-bottom:2px solid transparent;}
+.nb .ico{font-size:20px;line-height:1;}
 .nb.on{color:var(--gold2);border-bottom-color:var(--gold2);}
 .nb:hover:not(.on){color:var(--gold3);}
 /* SCROLL */
 .sc{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 9px 12px;-webkit-overflow-scrolling:touch;}
 /* CARD */
 .card{background:var(--paper);border:1px solid var(--paper3);border-radius:var(--r2);padding:11px 13px;margin-bottom:8px;box-shadow:0 1px 5px rgba(24,12,0,.07);}
-.ct{font-size:15px;font-weight:700;color:var(--ink3);letter-spacing:1.5px;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.ct{font-size:17px;font-weight:700;color:var(--ink3);letter-spacing:1.5px;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
 .ct::before{content:'';display:inline-block;width:3px;height:12px;background:var(--gold2);border-radius:1px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;}
 .g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;}
 /* STAT */
 .sc4{background:var(--paper2);border:1px solid var(--paper3);border-radius:var(--r);padding:6px 3px;text-align:center;}
-.sv{font-size:12px;font-weight:700;color:var(--ink2);}
-.sl{font-size:8px;color:var(--ink3);margin-top:2px;}
+.sv{font-size:14px;font-weight:700;color:var(--ink2);}
+.sl{font-size:10px;color:var(--ink3);margin-top:2px;}
 /* BARS */
 .bg{background:var(--paper3);border-radius:99px;overflow:hidden;}
 .bar{border-radius:99px;transition:width .5s;}
-.bh{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);margin-bottom:3px;}
+.bh{display:flex;justify-content:space-between;font-size:14px;color:var(--ink3);margin-bottom:3px;}
 /* PILLS */
-.pill{font-size:11px;padding:2px 6px;border-radius:99px;white-space:nowrap;display:inline-block;font-family:'Noto Sans SC',sans-serif;}
+.pill{font-size:13px;padding:2px 6px;border-radius:99px;white-space:nowrap;display:inline-block;font-family:'Noto Sans SC',sans-serif;}
 .pg{background:var(--gold4);color:var(--gold);}
 .pj{background:var(--jade4);color:var(--jade);}
 .ps2{background:var(--sky4);color:var(--sky2);}
@@ -87,15 +87,15 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 /* ROW */
 .row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--paper2);}
 .row:last-child{border-bottom:none;}
-.rlt{font-size:10px;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;}
-.rvt{font-size:10px;font-weight:600;color:var(--ink2);}
+.rlt{font-size:12px;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;}
+.rvt{font-size:12px;font-weight:600;color:var(--ink2);}
 /* BUTTONS */
-.sb{font-size:11px;padding:3px 9px;border:1px solid var(--paper3);border-radius:99px;background:var(--paper);color:var(--ink2);cursor:pointer;white-space:nowrap;}
+.sb{font-size:13px;padding:3px 9px;border:1px solid var(--paper3);border-radius:99px;background:var(--paper);color:var(--ink2);cursor:pointer;white-space:nowrap;}
 .sb.cg{border-color:var(--gold);color:var(--gold);}
 .sb.cj{border-color:var(--jade);color:var(--jade);}
 .sb.cc{border-color:var(--cr2);color:var(--cr2);}
 .sb:disabled{opacity:.3;cursor:not-allowed;}
-.btn{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;padding:9px 5px;border-radius:var(--r);font-family:'Noto Serif SC',serif;font-size:14px;cursor:pointer;border:1px solid;transition:all .15s;margin-top:5px;}
+.btn{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;padding:9px 5px;border-radius:var(--r);font-family:'Noto Serif SC',serif;font-size:16px;cursor:pointer;border:1px solid;transition:all .15s;margin-top:5px;}
 .btn:active{transform:scale(.97);}
 .btn:disabled{opacity:.32;cursor:not-allowed;}
 .bg-btn{background:linear-gradient(135deg,#c89020,#8a6010);color:#fff;border-color:var(--gold);}
@@ -105,28 +105,28 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 .bo-btn{background:transparent;color:var(--ink2);border-color:var(--paper3);}
 /* EVENT BOARD */
 .evboard{background:var(--ink);border-radius:var(--r2);padding:8px 10px;margin-bottom:8px;min-height:52px;}
-.evb-hd{font-size:11px;color:var(--paper4);letter-spacing:1px;margin-bottom:5px;display:flex;justify-content:space-between;}
+.evb-hd{font-size:13px;color:var(--paper4);letter-spacing:1px;margin-bottom:5px;display:flex;justify-content:space-between;}
 .ev-row{border-left:3px solid var(--gold2);padding:4px 7px;margin-bottom:4px;background:rgba(255,255,255,.04);border-radius:0 var(--r) var(--r) 0;animation:ein .3s ease;}
 @keyframes ein{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
 .ev-row:last-child{margin-bottom:0;}
-.ev-tit{font-size:10px;font-weight:700;letter-spacing:.5px;}
-.ev-desc{font-size:9px;margin-top:2px;line-height:1.6;font-family:'Noto Sans SC',sans-serif;color:rgba(240,210,160,.85);}
+.ev-tit{font-size:12px;font-weight:700;letter-spacing:.5px;}
+.ev-desc{font-size:11px;margin-top:2px;line-height:1.6;font-family:'Noto Sans SC',sans-serif;color:rgba(240,210,160,.85);}
 /* CLOG */
 .clog-item{padding:4px 0;border-bottom:1px solid var(--paper2);display:flex;gap:5px;align-items:flex-start;}
 .clog-item:last-child{border-bottom:none;}
 .cdot{width:6px;height:6px;border-radius:50%;margin-top:4px;flex-shrink:0;}
-.clog-txt{font-size:9px;line-height:1.5;font-family:'Noto Sans SC',sans-serif;}
+.clog-txt{font-size:11px;line-height:1.5;font-family:'Noto Sans SC',sans-serif;}
 /* BATTLE */
 .btlbg{background:linear-gradient(160deg,#130a04,#1e0e06,#130a04);border-radius:var(--r2);padding:10px;margin-bottom:6px;}
 .frow{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .fbox{text-align:center;flex:1;}
-.fico{font-size:28px;line-height:1;}
-.fn{font-size:13px;font-weight:600;color:var(--gold2);margin-top:2px;}
-.fh{font-size:10px;color:rgba(200,160,80,.65);}
+.fico{font-size:30px;line-height:1;}
+.fn{font-size:15px;font-weight:600;color:var(--gold2);margin-top:2px;}
+.fh{font-size:12px;color:rgba(200,160,80,.65);}
 .vsbox{padding:0 5px;text-align:center;}
-.vstxt{font-size:16px;font-weight:700;color:var(--gold2);}
+.vstxt{font-size:18px;font-weight:700;color:var(--gold2);}
 .blog{background:rgba(0,0,0,.5);border-radius:var(--r);padding:6px;max-height:80px;overflow-y:auto;margin-top:6px;}
-.bl{font-size:11px;color:rgba(200,175,120,.75);padding:1px 0;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
+.bl{font-size:13px;color:rgba(200,175,120,.75);padding:1px 0;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
 .bl.hi{color:var(--cr3);}.bl.cr{color:var(--gold2);font-weight:700;}
 .bl.wi{color:var(--jade3);font-weight:700;}.bl.lo{color:#e87070;}.bl.sk{color:var(--sky3);font-weight:600;}
 .bl.dao{color:#f0a0c8;font-weight:500;}
@@ -138,15 +138,15 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 .dcard.active-dao{border-color:var(--gold2);box-shadow:0 0 12px rgba(212,160,48,.35);background:var(--gold4);}
 .dport{width:90px;flex-shrink:0;overflow:hidden;border-right:1px solid var(--paper3);}.dport img{width:100%;height:100%;display:block;object-fit:cover;min-height:110px;}
 .dinfo{flex:1;padding:8px 10px;min-width:0;}
-.dn{font-size:14px;font-weight:700;color:var(--ink2);}
-.dt{font-size:11px;color:var(--ink3);margin-top:1px;}
-.dd{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
+.dn{font-size:16px;font-weight:700;color:var(--ink2);}
+.dt{font-size:13px;color:var(--ink3);margin-top:1px;}
+.dd{font-size:13px;color:var(--ink3);margin-top:2px;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
 /* SKILL */
 .skcard{border:1px solid var(--paper3);border-radius:var(--r);padding:8px;margin-bottom:5px;}
 .skcard.lu{border-color:var(--gold3);background:var(--gold4);}
-.skn{font-size:14px;font-weight:700;color:var(--ink2);}
-.skd{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
-.tag{font-size:10px;padding:1px 5px;border-radius:99px;font-family:'Noto Sans SC',sans-serif;display:inline-block;margin-right:2px;margin-top:2px;}
+.skn{font-size:16px;font-weight:700;color:var(--ink2);}
+.skd{font-size:13px;color:var(--ink3);margin-top:2px;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
+.tag{font-size:12px;padding:1px 5px;border-radius:99px;font-family:'Noto Sans SC',sans-serif;display:inline-block;margin-right:2px;margin-top:2px;}
 /* BODY */
 .bdcard{border:2px solid;border-radius:var(--r2);padding:10px;margin-bottom:6px;}
 .bddots{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px;}
@@ -157,20 +157,20 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 .eslot{border:1px solid var(--paper3);border-radius:var(--r);padding:6px 3px;text-align:center;min-height:44px;background:var(--paper);}
 /* BIGUAN */
 .bibox{background:var(--ink);border:1px solid var(--gold);border-radius:var(--r2);padding:7px 11px;margin-bottom:7px;text-align:center;}
-.bi-tit{font-size:15px;font-weight:700;color:var(--gold2);margin-bottom:2px;}
-.bi-sub{font-size:11px;color:var(--paper4);font-family:'Noto Sans SC',sans-serif;}
-.bi-timer{font-size:19px;font-weight:700;color:var(--jade3);margin-top:3px;}
+.bi-tit{font-size:17px;font-weight:700;color:var(--gold2);margin-bottom:2px;}
+.bi-sub{font-size:13px;color:var(--paper4);font-family:'Noto Sans SC',sans-serif;}
+.bi-timer{font-size:21px;font-weight:700;color:var(--jade3);margin-top:3px;}
 /* LOG */
 .logbox{background:var(--ink);border-radius:var(--r2);padding:6px 10px;max-height:90px;overflow-y:auto;margin-top:0;}
-.le{font-size:11px;color:rgba(200,175,120,.7);padding:1px 0;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
+.le{font-size:13px;color:rgba(200,175,120,.7);padding:1px 0;line-height:1.4;font-family:'Noto Sans SC',sans-serif;}
 .le.sp{color:var(--gold2);font-weight:600;}.le.dk{color:var(--cr3);}.le.gd{color:var(--jade3);}
 .le.pk{color:#f0a0c8;}.le.bo{color:var(--sky3);font-weight:600;}.le.go{color:var(--gold2);font-weight:700;}
 /* INIT */
 .iw{max-width:440px;margin:0 auto;padding:16px 0 20px;}
-.it{text-align:center;font-size:24px;font-weight:700;color:var(--ink2);letter-spacing:3px;margin-bottom:3px;}
-.is{text-align:center;font-size:11px;color:var(--ink3);letter-spacing:2px;margin-bottom:14px;}
-.istep{font-size:14px;font-weight:700;color:var(--ink3);letter-spacing:1.5px;margin-bottom:5px;}
-.inp{width:100%;padding:8px 11px;border:1px solid var(--paper3);border-radius:var(--r);background:var(--paper);color:var(--ink);font-size:16px;font-family:'Noto Serif SC',serif;outline:none;margin-bottom:9px;}
+.it{text-align:center;font-size:26px;font-weight:700;color:var(--ink2);letter-spacing:3px;margin-bottom:3px;}
+.is{text-align:center;font-size:13px;color:var(--ink3);letter-spacing:2px;margin-bottom:14px;}
+.istep{font-size:16px;font-weight:700;color:var(--ink3);letter-spacing:1.5px;margin-bottom:5px;}
+.inp{width:100%;padding:8px 11px;border:1px solid var(--paper3);border-radius:var(--r);background:var(--paper);color:var(--ink);font-size:18px;font-family:'Noto Serif SC',serif;outline:none;margin-bottom:9px;}
 .inp:focus{border-color:var(--gold2);}
 .bpk{border:1px solid var(--paper3);border-radius:var(--r);padding:8px 10px;margin-bottom:5px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
 .bpk:hover{background:var(--paper2);}.bpk.sel{border-width:2px;}
@@ -180,27 +180,27 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 /* 本命法寶 */
 .mfl-card{border:2px solid var(--gold2);border-radius:var(--r2);padding:10px 12px;background:linear-gradient(135deg,var(--gold4),var(--paper));margin-bottom:7px;}
 .mfl-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.mfl-ico{font-size:28px;}
-.mfl-nm{font-size:15px;font-weight:700;color:var(--gold);}
-.mfl-ti{font-size:10px;color:var(--ink3);margin-top:1px;}
-.mfl-lv{font-size:11px;font-weight:700;color:var(--gold2);margin-left:auto;}
+.mfl-ico{font-size:30px;}
+.mfl-nm{font-size:17px;font-weight:700;color:var(--gold);}
+.mfl-ti{font-size:12px;color:var(--ink3);margin-top:1px;}
+.mfl-lv{font-size:13px;font-weight:700;color:var(--gold2);margin-left:auto;}
 .mfl-bar-wrap{margin-bottom:7px;}
 .mfl-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px;}
 .mfl-stat{background:rgba(212,160,48,.12);border-radius:var(--r);padding:4px;text-align:center;}
-.mfl-sv{font-size:13px;font-weight:700;color:var(--gold);}
-.mfl-sl{font-size:10px;color:var(--ink3);margin-top:1px;}
+.mfl-sv{font-size:15px;font-weight:700;color:var(--gold);}
+.mfl-sl{font-size:12px;color:var(--ink3);margin-top:1px;}
 .mfl-sk{background:rgba(212,160,48,.08);border-radius:var(--r);padding:5px 7px;margin-bottom:4px;border-left:2px solid var(--gold2);}
-.mfl-skn{font-size:12px;font-weight:700;color:var(--gold);}
-.mfl-skd{font-size:11px;color:var(--ink3);margin-top:1px;font-family:'Noto Sans SC',sans-serif;}
+.mfl-skn{font-size:14px;font-weight:700;color:var(--gold);}
+.mfl-skd{font-size:13px;color:var(--ink3);margin-top:1px;font-family:'Noto Sans SC',sans-serif;}
 /* 天驕榜 */
 .tj-card{border:1px solid var(--paper3);border-radius:var(--r);padding:8px 10px;margin-bottom:5px;display:flex;align-items:center;gap:10px;transition:all .15s;}
 .tj-card:hover:not(.tj-cd){background:var(--paper2);}
 .tj-card.tj-cd{opacity:.55;}
-.tj-ico{font-size:26px;flex-shrink:0;}
+.tj-ico{font-size:28px;flex-shrink:0;}
 .tj-info{flex:1;}
-.tj-name{font-size:14px;font-weight:700;color:var(--ink2);}
-.tj-desc{font-size:11px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;}
-.tj-reward{font-size:11px;margin-top:3px;font-family:'Noto Sans SC',sans-serif;}
+.tj-name{font-size:16px;font-weight:700;color:var(--ink2);}
+.tj-desc{font-size:13px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;}
+.tj-reward{font-size:13px;margin-top:3px;font-family:'Noto Sans SC',sans-serif;}
 </style>
 <link rel="manifest" id="manifest-link">
 <script>
@@ -426,8 +426,16 @@ const BODIES=[
    {n:'大成一重',major:false},{n:'大成二重',major:false},{n:'大成三重',major:false},{n:'大成四重',major:false},{n:'大成圓滿',major:true},
    {n:'太陽一重',major:false},{n:'太陽二重',major:false},{n:'太陽三重',major:false},{n:'太陽四重',major:false},{n:'太陽圓滿',major:true},
   ],
-  perSt:{atk:5,crit:.009,rate:.10},majorMult:5,maxSt:25,
+  perSt:{atk:8,crit:.013,rate:.15},majorMult:5,maxSt:25,
   cost:[200,400,700,1200,5000, 2000,3500,6000,10000,40000, 8000,14000,24000,40000,160000, 35000,60000,100000,170000,700000, 150000,260000,440000,750000,3000000],
+  // 特殊能力：大境界觸發（每5重大成）
+  special:{
+    5:'烈日灼傷：每次攻擊有20%機率追加攻擊×30%火焰傷害',
+    10:'太陽護體：受到致命傷時有15%機率免疫一次，反傷攻擊×50%',
+    15:'日輪暴走：戰鬥中暴擊後下一擊傷害+50%',
+    20:'太陽真身：全力一擊，攻擊×200%傷害（每60秒自動觸發）',
+    25:'太陽圓滿：攻擊附帶灼燒，持續傷害+攻擊×5%每秒',
+  },
   pdesc:'小境：攻+5 暴+0.9% 修/秒+0.1，大境×5'},
  {id:'chaos',name:'洪荒混沌體',icon:'🌀',color:'var(--sky2)',bg:'var(--sky4)',bc:'var(--sky2)',desc:'萬古難現，全屬性均衡提升',
   stages:[
@@ -437,9 +445,16 @@ const BODIES=[
    {n:'混沌一重',major:false},{n:'混沌二重',major:false},{n:'混沌三重',major:false},{n:'混沌四重',major:false},{n:'混沌大成',major:true},
    {n:'洪荒一重',major:false},{n:'洪荒二重',major:false},{n:'洪荒三重',major:false},{n:'洪荒四重',major:false},{n:'洪荒圓滿',major:true},
   ],
-  perSt:{atk:2,def:2,hp:25,rate:.3,crit:.005},majorMult:5,maxSt:25,
+  perSt:{atk:3,def:3,hp:40,rate:.5,crit:.008,spd:1.5},majorMult:5,maxSt:25,
   cost:[250,500,850,1500,6000, 2500,4500,7500,13000,50000, 10000,18000,30000,50000,200000, 45000,80000,130000,220000,900000, 200000,350000,580000,1000000,4000000],
-  pdesc:'小境：全屬均衡微升，大境×5'},
+  special:{
+    5:'混沌感知：敵方攻擊有10%機率被完全無效化',
+    10:'混沌吸收：受到傷害時有20%機率吸收轉化為HP',
+    15:'洪荒之力：全屬性額外+10%',
+    20:'混沌體相：每30秒隨機觸發一種體質特效（火焰/閃電/虛空/煞氣）',
+    25:'洪荒圓滿：免疫一切負面狀態，所有屬性再+20%',
+  },
+  pdesc:'小境：全屬均衡+速+1，大境×5'},
  {id:'thunder',name:'九天雷霆體',icon:'⚡',color:'#1870c0',bg:'var(--sky4)',bc:'#2080d0',desc:'雷霆貫體，暴擊加成，攻速超凡',
   stages:[
    {n:'雷芽一重',major:false},{n:'雷芽二重',major:false},{n:'雷芽三重',major:false},{n:'雷芽四重',major:false},{n:'引雷初成',major:true},
@@ -448,8 +463,15 @@ const BODIES=[
    {n:'雷尊一重',major:false},{n:'雷尊二重',major:false},{n:'雷尊三重',major:false},{n:'雷尊四重',major:false},{n:'雷尊大成',major:true},
    {n:'九天一重',major:false},{n:'九天二重',major:false},{n:'九天三重',major:false},{n:'九天四重',major:false},{n:'九天圓滿',major:true},
   ],
-  perSt:{spd:2,crit:.012,atk:3},majorMult:5,maxSt:25,
+  perSt:{crit:.022,atk:7,rate:.3},majorMult:5,maxSt:25,
   cost:[130,260,450,800,3200, 1300,2300,3800,6500,26000, 5000,9000,15000,26000,105000, 22000,38000,65000,110000,440000, 95000,165000,280000,480000,1900000],
+  special:{
+    5:'雷霆連擊：每回合有機率觸發連擊（暴擊率×1.5倍機率，50%傷害）',
+    10:'落雷術：暴擊時追加雷電傷害×80%，並有30%機率麻痺敵方（攻擊-20%一回合）',
+    15:'三連雷擊：連擊後有30%機率再次連擊（30%傷害），最多三連',
+    20:'九天雷降：每20秒自動落雷，傷害攻擊×300%',
+    25:'九天圓滿：每次攻擊必定觸發雷電追擊（攻擊×50%），暴擊傷害額外+100%',
+  },
   pdesc:'小境：速+2 暴+1.2% 攻+3，大境×5'},
  {id:'void',name:'太虛虛空體',icon:'🕳',color:'var(--jade)',bg:'var(--jade4)',bc:'var(--jade2)',desc:'穿梭虛空，修為/秒極快，戰鬥閃避',
   stages:[
@@ -459,8 +481,15 @@ const BODIES=[
    {n:'太虛一重',major:false},{n:'太虛二重',major:false},{n:'太虛三重',major:false},{n:'太虛四重',major:false},{n:'太虛大成',major:true},
    {n:'虛空一重',major:false},{n:'虛空二重',major:false},{n:'虛空三重',major:false},{n:'虛空四重',major:false},{n:'虛空圓滿',major:true},
   ],
-  perSt:{rate:.7,spd:1.2,dodge:.007},majorMult:5,maxSt:25,
+  perSt:{rate:1.1,spd:1.8,dodge:.010},majorMult:5,maxSt:25,
   cost:[100,200,350,600,2400, 1000,1800,3000,5000,20000, 4000,7000,12000,20000,80000, 17000,30000,50000,85000,340000, 75000,130000,220000,370000,1500000],
+  special:{
+    5:'虛空步：閃避成功時立即反擊（攻擊×60%），閃避率額外+3%',
+    10:'空間折疊：速度超過一定值後，修為/秒額外+每點速度×0.1',
+    15:'太虛幻境：每15秒自動閃避下一次攻擊，並對敵方造成攻擊×100%傷害',
+    20:'虛空瞬移：速度×2計算，閃避率上限提高至60%',
+    25:'虛空圓滿：閃避時無視傷害，反擊攻擊×150%，修為/秒+速度×0.5',
+  },
   pdesc:'小境：修/秒+0.7 速+1.2 閃避+0.7%，大境×5'},
  {id:'demon',name:'九煞魔神體',icon:'👹',color:'var(--cr2)',bg:'var(--cr4)',bc:'var(--cr2)',desc:'殺戮養道，越戰越強，吸血回復',
   stages:[
@@ -470,8 +499,15 @@ const BODIES=[
    {n:'九煞一重',major:false},{n:'九煞二重',major:false},{n:'九煞三重',major:false},{n:'九煞四重',major:false},{n:'九煞大成',major:true},
    {n:'魔神一重',major:false},{n:'魔神二重',major:false},{n:'魔神三重',major:false},{n:'魔神四重',major:false},{n:'魔神圓滿',major:true},
   ],
-  perSt:{atk:4,leech:.004,crit:.007},majorMult:5,maxSt:25,
+  perSt:{atk:6,leech:.006,crit:.011},majorMult:5,maxSt:25,
   cost:[220,440,750,1300,5200, 1800,3200,5300,9000,36000, 7000,12500,21000,35000,140000, 30000,53000,88000,150000,600000, 130000,230000,390000,660000,2600000],
+  special:{
+    5:'噬魂：殺敵後吸血+10%（疊加，戰鬥中最高+50%），一場戰鬥重置',
+    10:'魔神之怒：HP低於30%時，攻擊+50%，吸血+15%',
+    15:'血路狂殺：每殺100敵，攻擊永久+1%（最高+30%）',
+    20:'煞氣凝聚：每次受傷積累煞氣，下次攻擊爆發（最多疊加5次，每層+20%）',
+    25:'魔神圓滿：吸血無上限，攻擊的30%轉化為HP，受傷時煞氣自動爆發',
+  },
   pdesc:'小境：攻+4 吸血+0.4% 暴+0.7%，大境×5'},
 ];
 
@@ -1012,14 +1048,17 @@ if(fd&&fd.sp==='cult'&&fd.aff>=80)r*=1.3;
 // 本命法寶修為/秒加成
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.rate)r+=ml.perLv.rate*G.mfl.lv;// 天河靈器被動
 if(G.sid==='th'&&ml)r*=(1+Math.min(.5,Math.floor(cR()*.001)*.01));}// 本命法寶修為/秒buff
-if(G.mfl.rateBuff)r*=G.mfl.rateBuff;// 聲望加成修為/秒（每100聲望+0.2%，上限30%）
+if(G.mfl.rateBuff)r*=G.mfl.rateBuff;// 太虛虛空體10重特效：速度×修為/秒加成
+const vbd=gB();if(vbd&&vbd.id==='void'&&G.bStage>=10)r*=(1+Math.min(.50,cS()*.001));// 聲望加成修為/秒（每100聲望+0.2%，上限30%）
 if(G.fame>0)r*=(1+Math.min(.30,Math.floor(G.fame/100)*.002));// 渡劫虛弱削弱修為/秒
 if(G.brkWeak&&nowSec()<G.brkWeakEnd)r*=.70;// 閉關加速buff
 if(G.bgBuff&&nowSec()<G.bgBuff.end)r*=G.bgBuff.mult;
 return Math.max(.1,parseFloat(r.toFixed(2)));}
 function cA(){if(!G.started)return 0;const s=gS();let a=s.iAtk*s.bonus.atk+G.permAtk;G.skills.forEach(sk=>{if(sk.u&&sk.atk)a+=sk.atk;});G.abilities.forEach(b=>{if(b.u&&b.atk)a+=b.atk;});G.equip.forEach(e=>{if(e&&e.atk)a+=e.atk;});REALMS.slice(0,G.ri+1).forEach(rv=>{a+=rv.atk;});if(G.tempBuffs.atk)a*=(1+G.tempBuffs.atk.val);if(G.mAgAtk)a*=(1+G.mAgAtk);const bd=gB();if(bd)a+=bdStatAt(bd,G.bStage,'atk');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.atk){const di=dRI(d);a=Math.floor(a*(1+d.atk*(1+DAO_RL[di].b)));}});// 本命法寶攻擊加成
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.atk)a+=ml.perLv.atk*G.mfl.lv;}const rm=rM();a*=rm.atk;if(rm.all)a*=(1+rm.all);// 焰妃跟隨攻擊+15%
-const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)a*=1.15;// 聲望加成攻擊（每200聲望+0.1%，上限15%）
+const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)a*=1.15;// 魔神體煞氣爆發：疊加層數加成（20重解鎖）
+const dbd2=gB();if(dbd2&&dbd2.id==='demon'&&G.bStage>=20&&G._demonStacks>0)a*=(1+G._demonStacks*.20);// 魔神體血路狂殺永久加成
+if(G._demonPermAtk)a*=(1+G._demonPermAtk);// 聲望加成攻擊（每200聲望+0.1%，上限15%）
 if(G.fame>0)a*=(1+Math.min(.15,Math.floor(G.fame/200)*.001));// 渡劫虛弱削弱攻擊
 if(G.brkWeak&&nowSec()<G.brkWeakEnd)a*=.75;return Math.floor(a);}
 function cD(){if(!G.started)return 0;const s=gS();let d=s.iDef*s.bonus.def+G.permDef;G.skills.forEach(sk=>{if(sk.u&&sk.def)d+=sk.def;});G.abilities.forEach(b=>{if(b.u&&b.def)d+=b.def;});G.equip.forEach(e=>{if(e&&e.def)d+=e.def;});REALMS.slice(0,G.ri+1).forEach(rv=>{d+=rv.def;});if(G.tempBuffs.def)d*=(1+G.tempBuffs.def.val);if(G.mAgDef)d*=(1+G.mAgDef);const bd=gB();if(bd)d+=bdStatAt(bd,G.bStage,'def');// 本命法寶防禦加成
@@ -1638,7 +1677,15 @@ function spawnM(){const z=ZONES[G.zone.zi];const isBoss=G.kills>0&&(G.kills%30==
 function updateBUI(){if(!G.zone.active)return;const m=G.zone.mon;const mxHp=cMH();document.getElementById('zone-nm').textContent=ZONES[G.zone.zi].n+' · 已殺'+G.kills;document.getElementById('zone-pill').textContent=G.zone.isBoss?'Boss!':'戰鬥中';document.getElementById('zone-pill').className='pill '+(G.zone.isBoss?'pc':'pg');document.getElementById('f-pn').textContent=G.playerName;document.getElementById('f-ph').textContent=`${fmt(Math.max(0,G.bHp))}/${fmt(mxHp)}`;document.getElementById('f-pb').style.width=Math.max(0,G.bHp/mxHp*100)+'%';document.getElementById('f-mi').textContent=m.ico;document.getElementById('f-mn').textContent=(m.boss?'👑 ':'')+m.n;document.getElementById('f-mh').textContent=`${fmt(Math.max(0,G.zone.mon.hp))}/${fmt(m.hpMax)}`;document.getElementById('f-mb').style.width=Math.max(0,G.zone.mon.hp/m.hpMax*100)+'%';const fd=gD();const daoIcons={xueling:'❄',yanfei:'🔥',yueyao:'🌙',biluo:'🌿'};document.getElementById('dao-ib').textContent=fd?(daoIcons[fd.id]||'♡'):'';document.getElementById('dao-nb').textContent=fd?fd.n:'';trySk();}
 function bLog(msg,cls=''){const b=document.getElementById('blog');const el=document.createElement('div');el.className='bl'+(cls?' '+cls:'');el.textContent=msg;b.prepend(el);while(b.children.length>20)b.removeChild(b.lastChild);}
 
-function autoFight(){if(!G.zone.active||!G.zone.mon)return;const m=G.zone.mon;if(cDodge()>0&&Math.random()<cDodge()){bLog(`${G.playerName}閃避！`,'wi');return;}const ic=Math.random()<cC();// 體修：攻擊以防禦值計算
+function autoFight(){if(!G.zone.active||!G.zone.mon)return;const m=G.zone.mon;
+  // 速度加成閃避：速度每50點+1%閃避（上限+15%）
+  const spdDodge=Math.min(.15,Math.floor(cS()/50)*.01);
+  const totalDodge=cDodge()+spdDodge;
+  if(totalDodge>0&&Math.random()<totalDodge){
+    if(spdDodge>0&&Math.random()<spdDodge)bLog(`⚡ 速度閃避！`,`wi`);
+    else bLog(`${G.playerName}閃避！`,'wi');
+    return;
+  }const ic=Math.random()<cC();// 體修：攻擊以防禦值計算
 let dmg;let critMult=1.85;
 if(G.sid==='qy'&&G.mfl.lv>0)critMult=2.35;
 if(G.sid==='sm')critMult=2.1;// 散修暴擊倍率
@@ -1666,7 +1713,32 @@ if(G.sid==='xm'){
   G.bHp-=pDmg;
   if(pDmg>cMH()*.3)bLog(`【${m.n}】重擊！你受到 ${fmt(pDmg)} 傷害`,'hi');
   else bLog(`【${m.n}】反擊，你受到 ${fmt(pDmg)} 傷害`,'hi');
-  if(G.bHp<=0)onDefeat();}
+  if(G.bHp<=0){onDefeat();return;}
+  // 九天雷霆體5重：機率連擊（暴擊率×1.5倍觸發機率）
+  const tbd=gB();
+  if(tbd&&tbd.id==='thunder'&&G.bStage>=5){
+    const comboChance=Math.min(.45,cC()*1.5);
+    if(Math.random()<comboChance){
+      const comboDmg=Math.floor(cA()*.5);
+      m.hp-=comboDmg;
+      bLog(`⚡ 雷霆連擊！追加 ${fmt(comboDmg)} 傷害`,'sk');
+      if(m.hp<=0){onKill();return;}
+      // 15重：連擊再觸發連擊（30%）
+      if(G.bStage>=15&&Math.random()<.30){
+        const combo2Dmg=Math.floor(cA()*.3);
+        m.hp-=combo2Dmg;
+        bLog(`⚡⚡ 雷霆三連！追加 ${fmt(combo2Dmg)} 傷害`,'sk');
+        if(m.hp<=0){onKill();return;}
+      }
+    }
+  }
+  // 九煞魔神體：受傷積累煞氣
+  const dbd=gB();
+  if(dbd&&dbd.id==='demon'&&G.bStage>=20){
+    if(!G._demonStacks)G._demonStacks=0;
+    G._demonStacks=Math.min(5,(G._demonStacks||0)+1);
+  }
+}
 function applyDaoFx(dmg){
   const fd=gD();if(!fd||fd.aff<80||!G.zone.active)return;const m=G.zone.mon;
   // 基礎屬性攻擊
@@ -1730,7 +1802,20 @@ function tryDaoSkills(fd,m){
 
 function trySk(){if(!G.zone.active)return;gS().bSkills.forEach(sk=>{if(sk.cur>0){sk.cur=Math.max(0,sk.cur-1);return;}const eff=Math.min(.8,sk.prob+(G.ri*.006));if(Math.random()<eff){sk.cur=sk.cd;const m=G.zone.mon;// 體修：防禦值計算傷害
 if(sk.defMult&&m){const dmg=Math.floor(cD()*sk.defMult);m.hp-=dmg;bLog(`⚔ 【${sk.n}】以防禦之力轟出！對【${m.n}】造成 ${fmt(dmg)} 傷害`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.defReflect&&m){const rd=Math.floor(cD()*sk.defReflect);m.hp-=rd;bLog(`🛡 【${sk.n}】護盾反震！以防禦反彈 ${fmt(rd)} 傷害回【${m.n}】`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.mult>0){let dmg=Math.floor(cA()*sk.mult);if(sk.leech&&dmg>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*sk.leech));if(sk.lowHp){const pct=G.bHp/cMH();dmg=Math.floor(dmg*(1+.1+(.5*(1-pct))));}if(m){m.hp-=dmg;bLog(`⚔ 【${sk.n}】發動！對【${m.n}】造成 ${fmt(dmg)} 傷害`,'sk');if(sk.debuffSpd)m.atk=Math.floor(m.atk*.7);if(m.hp<=0){onKill();return;}}}if(sk.buffAtk){G.mAgAtk=sk.buffAtk;setTimeout(()=>{G.mAgAtk=0;},(sk.buffDur||12)*1000);bLog(`⚔ 【${sk.n}】發動！攻擊提升 ${Math.round(sk.buffAtk*100)}%（${sk.buffDur||12}秒）`,'sk');}if(sk.selfDef){G.mAgDef=sk.selfDef;setTimeout(()=>{G.mAgDef=0;},(sk.dur||8)*1000);}if(sk.tbR){G.tempBuffs.rate={val:sk.tbR*cR(),end:Date.now()+sk.tbD*1000};}if(sk.tbS){G.tempBuffs.spd={val:sk.tbS,end:Date.now()+sk.tbD*1000};}if(sk.heal){const rh=Math.floor(cMH()*sk.heal);G.bHp=Math.min(cMH(),G.bHp+rh);bLog(`💚 【${sk.n}】恢復 ${fmt(rh)} 氣血`,'wi');}}});}
-function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();const rm=rM();G.exp+=m.exp*(1+rm.killExp);G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);// 焰妃殺敵修為+10%
+function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();
+  // 九煞魔神體15重：每殺100敵永久攻擊+1%（最高+30%）
+  const dbd=gB();
+  if(dbd&&dbd.id==='demon'&&G.bStage>=15){
+    if(!G._demonKills)G._demonKills=0;
+    G._demonKills++;
+    if(G._demonKills%100===0){
+      const cur=G._demonPermAtk||0;
+      if(cur<0.30){
+        G._demonPermAtk=(cur+.01);
+        LOG(`✦ 血路狂殺！攻擊永久+1%（當前+${Math.round(G._demonPermAtk*100)}%）`,'go');
+      }
+    }
+  }const rm=rM();G.exp+=m.exp*(1+rm.killExp);G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);// 焰妃殺敵修為+10%
 const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)G.exp+=Math.floor(m.exp*.10);if(m.boss){bLog(`★Boss【${m.n}】！修為+${fmt(m.exp)} 石+${fmt(m.stone)}${m.fame?' 望+'+m.fame:''}${m.herb?' 藥+'+m.herb:''}`,'wi');tryDrop();if(Math.random()<.45)tryDrop();}else if(Math.random()<.08)tryDrop();G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.06));spawnM();checkBreak();if(G.curTab==='zone')updateBUI();updateUI();}
 function onDefeat(){G.bHp=Math.floor(cMH()*.2);bLog('力竭撤退...','lo');LOG(`在【${ZONES[G.zone.zi].n}】敗退`,'dk');exitZone();}
 function exitZone(){G.zone.active=false;document.getElementById('btl-wrap').style.display='none';rZones();updateUI();}
@@ -1922,13 +2007,11 @@ function rMFL(){
 function equipBest(){
   let changed=0;
   EQUIP_SLOTS.forEach((slot,si)=>{
-    // 找背包中同部位最高品質的
     let best=null,bestIdx=-1;
-    const filteredBag=G.bagFilter===-1?G.bag.map((item,i)=>({item,i})):G.bag.map((item,i)=>({item,i})).filter(({item})=>item.grade===G.bagFilter);if(!filteredBag.length&&G.bag.length){bl.innerHTML='<div style="font-size:9px;color:var(--ink3);padding:5px 0;">此品質無裝備</div>';return;}filteredBag.forEach(({item,i})=>{
+    G.bag.forEach((item,i)=>{
       if(item.slot!==slot)return;
       const cur=G.equip[si];
       if(!best||item.grade>best.grade||(item.grade===best.grade&&itemScore(item)>itemScore(best))){
-        // 比現有裝備好才換
         if(!cur||item.grade>cur.grade||(item.grade===cur.grade&&itemScore(item)>itemScore(cur))){
           best=item;bestIdx=i;
         }
@@ -1969,7 +2052,7 @@ function autoDiscard(){
   });
   // 從後往前刪避免 index 錯位
   toDiscard.reverse().forEach(i=>{
-    stone+=Math.floor([1,3,8,25,80,250][G.bag[i].grade]*1.2);
+    const bv=[2,8,25,100,400,1800][G.bag[i].grade]||2;stone+=Math.floor(bv*(1+G.ri*0.05));
     G.bag.splice(i,1);
     cnt++;
   });
@@ -2010,7 +2093,16 @@ function rEquip(){
   if(mflEl&&G.started)mflEl.innerHTML=rMFL();
   const sl=document.getElementById('equip-slots');sl.innerHTML='';EQUIP_SLOTS.forEach((s,i)=>{const e=G.equip[i];const d=document.createElement('div');d.className='eslot';if(e){d.style.borderColor=EC[e.grade];d.innerHTML=`<div style="font-size:9px;font-weight:700;color:${EC[e.grade]};">${e.name}</div><div style="font-size:8px;color:var(--ink3);">${s}·${EG[e.grade]}</div>`;}else{d.innerHTML=`<div style="font-size:9px;color:var(--ink3);">—空—</div><div style="font-size:8px;color:var(--ink3);">${s}</div>`;}sl.appendChild(d);});const cnt=G.equip.filter(Boolean).length;document.getElementById('equip-set').textContent=cnt>=6?'✦ 六件全套：戰力+15%！':`裝備 ${cnt}/6 件`;const bl=document.getElementById('bag-list');document.getElementById('bag-cnt').textContent=G.bag.length+'件';bl.innerHTML='';if(!G.bag.length){bl.innerHTML='<div style="font-size:9px;color:var(--ink3);padding:6px 0;">背包空空，征戰打Boss獲得裝備！</div>';return;}G.bag.forEach((item,i)=>{const si2=EQUIP_SLOTS.indexOf(item.slot);const cur=G.equip[si2];const better=!cur||item.grade>=cur.grade;const d=document.createElement('div');d.className='row';d.innerHTML=`<div><div style="font-size:10px;font-weight:700;color:${EC[item.grade]};">${item.name} <span class="pill" style="background:${EC[item.grade]}18;color:${EC[item.grade]};">${EG[item.grade]}</span></div><div style="font-size:8px;color:var(--ink3);">${item.slot}${item.atk?' 攻+'+item.atk:''}${item.def?' 防+'+item.def:''}${item.spd?' 速+'+item.spd:''}${item.rate?' 修/秒+'+item.rate:''}${item.hp?' HP+'+item.hp:''}</div></div><div style="display:flex;gap:3px;"><button class="sb${better?' cg':''}" onclick="equipI(${i})">穿${better?'↑':''}</button><button class="sb cc" onclick="discI(${i})">棄</button></div>`;bl.appendChild(d);});}
 function equipI(i){const item=G.bag[i];const si2=EQUIP_SLOTS.indexOf(item.slot);if(G.equip[si2])G.bag.push(G.equip[si2]);G.equip[si2]=item;G.bag.splice(i,1);LOG(`穿戴【${item.name}】(${item.slot})`,'gd');rEquip();updateUI();}
-function discI(i){const item=G.bag[i];G.stone+=Math.floor([1,3,8,25,80,250][item.grade]*1.2);G.bag.splice(i,1);LOG(`分解【${item.name}】回收靈石`,'go');rEquip();updateUI();}
+function discI(i){
+  const item=G.bag[i];
+  const baseVal=[2,8,25,100,400,1800][item.grade]||2;
+  const riBonus=1+G.ri*0.05;// 境界越高，分解值越高
+  const stone=Math.floor(baseVal*riBonus);
+  G.stone+=stone;
+  G.bag.splice(i,1);
+  LOG(`分解【${item.name}】回收靈石 ${stone}`,'go');
+  rEquip();updateUI();
+}
 
 // 體質（大境界大幅提升，小境界小幅）
 function rBody(){const bd=gB();if(!bd){document.getElementById('body-detail').textContent='—';return;}const st=G.bStage;const nextSt=bd.stages[st];const cost=st<bd.maxSt?bd.cost[st]:Infinity;
@@ -2018,7 +2110,12 @@ function rBody(){const bd=gB();if(!bd){document.getElementById('body-detail').te
  const totalRate=bdStatAt(bd,st,'rate'),totalCrit=bdStatAt(bd,st,'crit'),totalSpd=bdStatAt(bd,st,'spd');
  const totalDodge=bdStatAt(bd,st,'dodge'),totalLeech=bdStatAt(bd,st,'leech');
  let dotsHtml='';for(let i=0;i<bd.maxSt;i++){const s=bd.stages[i];dotsHtml+=`<div class="bddot${i<st?' f':''}${s.major?' major':''}" title="${s.n}${s.major?' (大境界)':''}"></div>`;}
- document.getElementById('body-detail').innerHTML=`<div class="bdcard" style="border-color:${bd.bc};background:${bd.bg};"><div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;"><span style="font-size:24px;">${bd.icon}</span><div><div style="font-size:12px;font-weight:700;color:${bd.color};">${bd.name}</div><div style="font-size:9px;color:var(--ink3);">${bd.desc}</div><div style="font-size:10px;color:${bd.color};font-weight:700;margin-top:2px;">當前：${st>0?bd.stages[st-1].n:'未覺醒'}（${st}/${bd.maxSt}重）</div></div></div><div class="bddots">${dotsHtml}</div><div style="font-size:8px;color:var(--ink3);margin-top:3px;"></div><div style="font-size:8px;color:${bd.color};margin-top:3px;">${bd.pdesc}</div><div class="g4" style="margin-top:6px;">${totalAtk?`<div class="sc4"><div class="sv" style="color:${bd.color};">${totalAtk}</div><div class="sl">體質攻</div></div>`:''}${totalDef?`<div class="sc4"><div class="sv" style="color:${bd.color};">${totalDef}</div><div class="sl">體質防</div></div>`:''}${totalHp?`<div class="sc4"><div class="sv" style="color:${bd.color};">${totalHp}</div><div class="sl">體質HP</div></div>`:''}${totalRate?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${totalRate.toFixed(1)}</div><div class="sl">修為/秒</div></div>`:''}${totalCrit?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${Math.round(totalCrit*100)}%</div><div class="sl">暴擊</div></div>`:''}${totalSpd?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${totalSpd}</div><div class="sl">速度</div></div>`:''}${totalDodge?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${Math.round(totalDodge*100)}%</div><div class="sl">閃避</div></div>`:''}${totalLeech?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${Math.round(totalLeech*100)}%</div><div class="sl">吸血</div></div>`:''}</div></div>`;
+ // 找已解鎖的特殊能力
+const specialKeys=bd.special?Object.keys(bd.special).filter(k=>st>=parseInt(k)).sort((a,b)=>b-a):[];
+const latestSpecial=specialKeys.length>0?bd.special[specialKeys[0]]:'';
+const nextSpecialKey=bd.special?Object.keys(bd.special).find(k=>st<parseInt(k)):null;
+const nextSpecial=nextSpecialKey?`<div style="font-size:9px;color:var(--ink3);margin-top:3px;">下一特殊能力（${nextSpecialKey}重）：${bd.special[nextSpecialKey]}</div>`:'';
+document.getElementById('body-detail').innerHTML=`<div class="bdcard" style="border-color:${bd.bc};background:${bd.bg};"><div style="display:flex;align-items:center;gap:9px;margin-bottom:6px;"><span style="font-size:24px;">${bd.icon}</span><div><div style="font-size:12px;font-weight:700;color:${bd.color};">${bd.name}</div><div style="font-size:9px;color:var(--ink3);">${bd.desc}</div><div style="font-size:10px;color:${bd.color};font-weight:700;margin-top:2px;">當前：${st>0?bd.stages[st-1].n:'未覺醒'}（${st}/${bd.maxSt}重）</div></div></div><div class="bddots">${dotsHtml}</div><div style="font-size:8px;color:var(--ink3);margin-top:3px;"></div><div style="font-size:9px;color:${bd.color};margin-top:3px;">${bd.pdesc}</div>${latestSpecial?`<div style="font-size:9px;color:${bd.color};font-weight:700;margin-top:4px;padding:4px 6px;background:rgba(0,0,0,.05);border-radius:4px;border-left:2px solid ${bd.color};">✦ 已解鎖：${latestSpecial}</div>`:''}${nextSpecial}<div class="g4" style="margin-top:6px;">${totalAtk?`<div class="sc4"><div class="sv" style="color:${bd.color};">${totalAtk}</div><div class="sl">體質攻</div></div>`:''}${totalDef?`<div class="sc4"><div class="sv" style="color:${bd.color};">${totalDef}</div><div class="sl">體質防</div></div>`:''}${totalHp?`<div class="sc4"><div class="sv" style="color:${bd.color};">${totalHp}</div><div class="sl">體質HP</div></div>`:''}${totalRate?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${totalRate.toFixed(1)}</div><div class="sl">修為/秒</div></div>`:''}${totalCrit?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${Math.round(totalCrit*100)}%</div><div class="sl">暴擊</div></div>`:''}${totalSpd?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${totalSpd}</div><div class="sl">速度</div></div>`:''}${totalDodge?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${Math.round(totalDodge*100)}%</div><div class="sl">閃避</div></div>`:''}${totalLeech?`<div class="sc4"><div class="sv" style="color:${bd.color};">+${Math.round(totalLeech*100)}%</div><div class="sl">吸血</div></div>`:''}</div></div>`;
  const bt=document.getElementById('body-train');
  if(st>=bd.maxSt){bt.innerHTML=`<div style="text-align:center;color:var(--jade);font-size:11px;font-weight:700;padding:9px;">✦ ${bd.name}已達${bd.stages[bd.maxSt-1].n}！圓滿！</div>`;}
  else{const isMajorNext=nextSt.major;bt.innerHTML=`<div class="row"><span class="rlt">下一重：${nextSt.n} ${isMajorNext?'<span class="pill pg">大境界</span>':''}</span><span class="rvt" style="color:${G.stone>=cost?'var(--jade)':'var(--cr2)'};">需靈石 ${cost.toLocaleString()}</span></div><div style="font-size:9px;color:${isMajorNext?'var(--gold)':'var(--ink3)'};margin:5px 0;font-family:'Noto Sans SC',sans-serif;">${isMajorNext?'⚠ 大境界！效果大幅提升（小境界×'+bd.majorMult+'倍）':''}</div><button class="btn bg-btn" onclick="trainBody()" ${G.stone>=cost?'':'disabled'}>突破至 ${nextSt.n} (${cost.toLocaleString()} 靈石)</button>`;}
@@ -2177,7 +2274,7 @@ setInterval(()=>{
   if(G.curTab==='camp')rCamp();
   if(G.curTab==='dao'&&G.tick%15===0)rDao();if(G.curTab==='body'&&G.tick%10===0)rBody();
   // 每30秒自動存檔
-  if(G.tick%30===0)saveGame();
+  if(G.tick%30===0){saveGame(true).catch(e=>console.warn('自動存檔失敗',e));}
 },1000);
 
 /* ══════════════════════════════
@@ -2185,10 +2282,52 @@ setInterval(()=>{
 ══════════════════════════════ */
 const SAVE_KEY = 'xianxia_save_v11';
 
-function saveGame(){
+/* ── 多層存檔系統（localStorage + IndexedDB + Cookie）── */
+let _idb=null;
+function initIDB(){
+  return new Promise((res)=>{
+    try{
+      const req=indexedDB.open('xianxia_db',1);
+      req.onupgradeneeded=e=>{e.target.result.createObjectStore('save');};
+      req.onsuccess=e=>{_idb=e.target.result;res(true);};
+      req.onerror=()=>res(false);
+    }catch(e){res(false);}
+  });
+}
+function idbSave(key,val){
+  return new Promise((res)=>{
+    if(!_idb){res(false);return;}
+    try{
+      const tx=_idb.transaction('save','readwrite');
+      tx.objectStore('save').put(val,key);
+      tx.oncomplete=()=>res(true);
+      tx.onerror=()=>res(false);
+    }catch(e){res(false);}
+  });
+}
+function idbLoad(key){
+  return new Promise((res)=>{
+    if(!_idb){res(null);return;}
+    try{
+      const tx=_idb.transaction('save','readonly');
+      const req=tx.objectStore('save').get(key);
+      req.onsuccess=e=>res(e.target.result||null);
+      req.onerror=()=>res(null);
+    }catch(e){res(null);}
+  });
+}
+// Cookie 存檔（限 4KB，只存關鍵欄位）
+function cookieSave(json){
+  try{
+    // 只存關鍵欄位（壓縮版）
+    const mini={ri:G.ri,exp:G.exp,stone:G.stone,fame:G.fame,con:G.con,sid:G.sid,tick:G.tick,_ts:Date.now()};
+    document.cookie=SAVE_KEY+'_mini='+encodeURIComponent(JSON.stringify(mini))+';max-age=31536000;path=/';
+  }catch(e){}
+}
+
+async function saveGame(_autoSave=false){
   if(!G.started) return;
   try{
-    // 道侶 skills 只存 cur/offCur，不存函數
     const daoSv=G.dao.map(d=>({
       ...d,
       skills:d.skills?d.skills.map(s=>({...s,action:undefined})):[]
@@ -2203,24 +2342,32 @@ function saveGame(){
       _ts: Date.now(),
     };
     const json=JSON.stringify(sv);
-    try{localStorage.setItem(SAVE_KEY,json);}catch(e){console.warn('localStorage失敗',e);}
+    // 1. localStorage
+    try{localStorage.setItem(SAVE_KEY,json);}catch(e){}
+    // 2. IndexedDB（最可靠）
+    await idbSave(SAVE_KEY,json);
+    // 3. Cookie（備援）
+    cookieSave(json);
     // 視覺反饋
     const btn=document.querySelector('[title="手動存檔"]');
     if(btn){btn.textContent='✓';setTimeout(()=>{btn.textContent='💾';},1200);}
-    if(G.tick%30===0)return;// 自動存檔不顯示log
-    LOG(`💾 存檔成功（${new Date().toLocaleTimeString()}）`,'gd');
+    if(!_autoSave)LOG(`💾 存檔成功（${new Date().toLocaleTimeString()}）`,'gd');
   } catch(e){
-    console.warn('存檔失敗',e);
     const btn=document.querySelector('[title="手動存檔"]');
     if(btn){btn.textContent='✗';setTimeout(()=>{btn.textContent='💾';},1500);}
     LOG('存檔失敗：'+e.message,'dk');
   }
 }
 
-function loadGame(){
+async function loadGame(){
   try{
+    // 先初始化 IndexedDB
+    await initIDB();
     let raw = null;
-    try{raw=localStorage.getItem(SAVE_KEY);}catch(e){console.warn('localStorage讀取失敗',e);}
+    // 1. 先試 IndexedDB
+    raw = await idbLoad(SAVE_KEY);
+    // 2. 再試 localStorage
+    if(!raw){try{raw=localStorage.getItem(SAVE_KEY);}catch(e){}}
     if(!raw) return false;
     const sv = JSON.parse(raw);
     if(!sv.started) return false;
@@ -2249,6 +2396,9 @@ function loadGame(){
 
     // 確保新增欄位有預設值（向後相容）
     if(!G.mfl)G.mfl={lv:0,killBuff:0,activeCur:0,defBuff:0,rateBuff:1};
+    if(!G._demonKills)G._demonKills=0;
+    if(!G._demonPermAtk)G._demonPermAtk=0;
+    if(!G._demonStacks)G._demonStacks=0;
     if(G.mfl.rateBuff===undefined)G.mfl.rateBuff=1;
     if(G.mfl.defBuff===undefined)G.mfl.defBuff=0;
     if(!G.stask)G.stask={cl:[false,false],resetAt:0};
@@ -2279,13 +2429,25 @@ function loadGame(){
 
 function deleteSave(){
   if(!confirm('確定要刪除存檔？此操作無法復原！')) return;
-  localStorage.removeItem(SAVE_KEY);
-  location.reload();
+  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+  // 清除 IndexedDB
+  if(_idb){
+    try{
+      const tx=_idb.transaction('save','readwrite');
+      tx.objectStore('save').delete(SAVE_KEY);
+      tx.oncomplete=()=>location.reload();
+      tx.onerror=()=>location.reload();
+    }catch(e){location.reload();}
+  } else {
+    location.reload();
+  }
 }
 
-function showSaveInfo(){
+async function showSaveInfo(){
   try{
-    const raw = localStorage.getItem(SAVE_KEY);
+    let raw=null;
+    try{raw=await idbLoad(SAVE_KEY);}catch(e){}
+    if(!raw){try{raw=localStorage.getItem(SAVE_KEY);}catch(e){}}
     if(!raw){ LOG('尚無存檔','dk'); return; }
     const sv = JSON.parse(raw);
     const d = new Date(sv._ts);
@@ -2295,9 +2457,9 @@ function showSaveInfo(){
 }
 
 // 啟動時嘗試讀取存檔
-(function(){
+(async function(){
   renderBodyPick();
-  if(loadGame()){
+  if(await loadGame()){
     // 讀檔成功：跳過初始畫面，直接進遊戲
     document.getElementById('pane-init').style.display='none';
     document.getElementById('pane-main').style.display='';
