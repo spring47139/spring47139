@@ -3,8 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="pragma" content="no-cache">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="data:application/json,{
   &quot;name&quot;: &quot;洪荒修仙錄&quot;,
@@ -229,6 +227,7 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
   </div>
   <div class="rb"><div class="rbv" id="r-rt">0</div><div class="rbl">修為/秒</div></div>
 <button onclick="saveGame();showSaveInfo();" style="background:none;border:1px solid rgba(200,160,80,.3);border-radius:99px;color:var(--gold3);font-size:8px;padding:2px 7px;cursor:pointer;white-space:nowrap;flex-shrink:0;" title="手動存檔">💾</button>
+<input type="file" id="import-file" accept=".json" style="display:none;" onchange="importSave(this)">
 </div>
 <div class="nav" id="main-nav" style="display:none;">
   <button class="nb on" onclick="T('main')" id="t-main"><span class="ico">☯</span>修煉</button>
@@ -395,13 +394,17 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 <div style="text-align:right;padding:3px 4px 0;">
   <button onclick="deleteSave()" style="background:none;border:none;color:var(--cr3);font-size:8px;cursor:pointer;opacity:.5;font-family:'Noto Sans SC',sans-serif;">✕ 刪除存檔重玩</button>
 </div>
+<div style="display:flex;gap:10px;margin:8px 4px 4px;">
+  <button onclick="exportSave();" style="flex:1;padding:12px 0;background:linear-gradient(135deg,#2a5020,#1a3010);border:1px solid #4a8040;border-radius:var(--r);color:#90e068;font-family:'Noto Serif SC',serif;font-size:22px;cursor:pointer;">📤<div style="font-size:12px;margin-top:2px;">匯出存檔</div></button>
+  <button onclick="showImportDialog();" style="flex:1;padding:12px 0;background:linear-gradient(135deg,#1a2050,#0a1030);border:1px solid #4040a0;border-radius:var(--r);color:#9090f0;font-family:'Noto Serif SC',serif;font-size:22px;cursor:pointer;">📥<div style="font-size:12px;margin-top:2px;">匯入存檔</div></button>
+</div>
 </div>
 <script>
 const DSVG={
 xueling:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`,
 yanfei:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`,
 yueyao:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`,
-biluo:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`
+biluo:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`
 };
 
 /* ── 體質（5大境界×5小重，共25重，大境界×5倍效果）── */
@@ -503,16 +506,16 @@ const BODIES=[
 /* ── 境界（合體大乘後加仙道境界，參考遮天完美世界）── */
 const REALMS=[
 
- {n:'煉氣一層',ti:'凡人',req:200,hp:0,atk:0,def:0,rate:0},
- {n:'煉氣二層',ti:'凡人',req:500,hp:5,atk:1,def:1,rate:.07},
- {n:'煉氣三層',ti:'凡人',req:1000,hp:10,atk:2,def:2,rate:.13},
- {n:'煉氣四層',ti:'凡人',req:1800,hp:16,atk:3,def:3,rate:.20},
- {n:'煉氣五層',ti:'凡人',req:3000,hp:24,atk:4,def:4,rate:.30},
- {n:'煉氣六層',ti:'凡人',req:5000,hp:34,atk:6,def:5,rate:.42},
- {n:'煉氣七層',ti:'凡人',req:8000,hp:46,atk:8,def:7,rate:.57},
- {n:'煉氣八層',ti:'凡人',req:12000,hp:60,atk:10,def:9,rate:.75},
- {n:'煉氣九層',ti:'凡人',req:17000,hp:70,atk:13,def:11,rate:.95},
- {n:'煉氣圓滿',ti:'凡人',req:24000,hp:82,atk:16,def:13,rate:1.2},
+ {n:'煉氣一層',ti:'凡人',req:200,hp:40,atk:0,def:0,rate:0},
+ {n:'煉氣二層',ti:'凡人',req:500,hp:25,atk:1,def:1,rate:.07},
+ {n:'煉氣三層',ti:'凡人',req:1000,hp:30,atk:2,def:2,rate:.13},
+ {n:'煉氣四層',ti:'凡人',req:1800,hp:36,atk:3,def:3,rate:.20},
+ {n:'煉氣五層',ti:'凡人',req:3000,hp:44,atk:4,def:4,rate:.30},
+ {n:'煉氣六層',ti:'凡人',req:5000,hp:54,atk:6,def:5,rate:.42},
+ {n:'煉氣七層',ti:'凡人',req:8000,hp:66,atk:8,def:7,rate:.57},
+ {n:'煉氣八層',ti:'凡人',req:12000,hp:80,atk:10,def:9,rate:.75},
+ {n:'煉氣九層',ti:'凡人',req:17000,hp:90,atk:13,def:11,rate:.95},
+ {n:'煉氣圓滿',ti:'凡人',req:24000,hp:102,atk:16,def:13,rate:1.2},
 
  {n:'築基一層',ti:'築基',req:38000,hp:150,atk:26,def:16,rate:2.5},
  {n:'築基二層',ti:'築基',req:58000,hp:200,atk:38,def:23,rate:3.8},
@@ -603,7 +606,7 @@ const ZONES=[
 /* ── 道侶（結識後可選出戰，跟隨道侶修為+50%，觸發專屬事件）── */
 const DAO_DATA=[
  {id:'xueling',n:'雪靈兒',ti:'天山雪蓮轉世',aff:0,met:false,following:false,gN:'寒玉珠',gC:60,gG:18,
-  atk:.10,rate:.12,d:'冰封敵方削攻12%，追加冰傷25%，修為加速',sp:'ice',ri:0,
+  atk:.10,rate:.12,d:'冰封敵方削攻12%，追加冰傷40%，修為加速',sp:'ice',ri:0,
 
   baseAtk:28,baseDef:35,baseHp:180,
 
@@ -614,7 +617,7 @@ const DAO_DATA=[
    {n:'冰魄共鳴',t:'aux',d:'冰力共鳴，玩家閃避+8%、修為/秒+18%（10秒）',cd:20,cur:0,prob:.08,tbDodge:.08,tbR:.18,tbD:10},
    {n:'冰霜護盾',t:'def',d:'冰晶護體，為玩家分擔傷害提升至35%（8秒）',cd:18,cur:0,prob:.07,shieldBuff:.35,shieldDur:8},
   ],
-  followBonus:'冰魄護體，戰鬥閃避+5%，修為/秒×1.5，分擔18%傷害',
+  followBonus:'冰魄護體，戰鬥閃避+5%，修為/秒×1.5，追加冰傷40%，分擔18%傷害',
   events:[
    {t:'雪靈兒悄悄送來一顆寒玉，修為+{e}',e:5,bad:false},
    {t:'雪靈兒共同修煉，修為/秒臨時+15%（15秒）',tb:'rate',tv:.15,td:15,bad:false},
@@ -625,7 +628,7 @@ const DAO_DATA=[
    {t:'雪靈兒憶起前世，道侶靈力波動，修為略損',expLoss:.04,bad:true},
   ]},
  {id:'yanfei',n:'焰妃',ti:'火靈族聖女',aff:0,met:false,following:false,gN:'鳳凰羽',gC:80,gG:18,
-  atk:.20,rate:.04,d:'每回合造成敵方HP4%火傷，殺敵修為加成',sp:'fire',ri:0,
+  atk:.20,rate:.04,d:'每回合造成敵方HP8%火傷，殺敵修為加成',sp:'fire',ri:0,
 
   baseAtk:65,baseDef:18,baseHp:120,
   shield:.10,
@@ -634,7 +637,7 @@ const DAO_DATA=[
    {n:'火靈激發',t:'aux',d:'激發玩家鬥志，攻擊+25%、暴擊+8%（12秒）',cd:22,cur:0,prob:.07,tbAtk:.25,tbCrit:.08,tbD:12},
    {n:'火焰壁壘',t:'def',d:'以火焰阻擋敵方，反彈敵方攻擊80%傷害',cd:16,cur:0,prob:.08,fireReflect:.8},
   ],
-  followBonus:'火靈燃魂，攻擊+15%，每殺一敵修為+10%，分擔10%傷害',
+  followBonus:'火靈燃魂，攻擊+15%，每殺一敵修為+3%，分擔10%傷害',
   events:[
    {t:'焰妃火法助戰，攻擊+20%臨時（12秒）',tb:'atk',tv:.20,td:12,bad:false},
    {t:'焰妃帶來火靈丹，修為+{e}，氣血恢復',e:6,heal:.25,bad:false},
@@ -654,7 +657,7 @@ const DAO_DATA=[
    {n:'星月靜心',t:'aux',d:'月光沐浴，玩家修為/秒+35%、HP恢復15%（14秒）',cd:24,cur:0,prob:.07,tbR:.35,tbD:14,auxHeal:.15},
    {n:'月華結界',t:'def',d:'月光護盾，分擔玩家傷害提升至40%（10秒）',cd:20,cur:0,prob:.06,shieldBuff:.40,shieldDur:10},
   ],
-  followBonus:'月華靜心，修為/秒×1.8，閉關修為倍率+0.5，分擔22%傷害',
+  followBonus:'月華靜心，修為/秒×1.5，閉關修為倍率+1.0，分擔22%傷害',
   events:[
    {t:'月瑤靜心引導，修為/秒+25%臨時（18秒）',tb:'rate',tv:.25,td:18,bad:false},
    {t:'月瑤月華療癒，氣血全復',healFull:true,bad:false},
@@ -665,16 +668,17 @@ const DAO_DATA=[
    {t:'月光下共同打坐，修為+{e}，聲望+{f}',e:8,f:2,bad:false},
   ]},
  {id:'biluo',n:'碧蘿',ti:'草木精靈化形',aff:0,met:false,following:false,gN:'千年靈芝',gC:90,gG:19,
-  atk:.07,rate:.10,d:'每回合恢復HP7%，偶爾掉落藥材',sp:'heal',ri:0,
+  atk:.07,rate:.10,d:'每次行動恢復HP2%，偶爾掉落藥材',sp:'heal',ri:0,
 
   baseAtk:18,baseDef:22,baseHp:200,
   shield:.25,
   skills:[
    {n:'藤蔓纏縛',t:'atk',d:'草木纏住敵人，180%傷害+敵速-40%（4回合）',mult:1.8,debuffSpd:.40,cd:13,cur:0,prob:.09},
    {n:'生機共鳴',t:'aux',d:'草木靈氣灌注，恢復玩家HP25%，修為/秒+12%（10秒）',cd:18,cur:0,prob:.09,auxHeal:.25,tbR:.12,tbD:10},
+   {n:'天地靈脈',t:'aux',d:'引動天地草木靈氣，修為/秒+20%（14秒）',cd:22,cur:0,prob:.07,tbR:.20,tbD:14},
    {n:'草木庇護',t:'def',d:'生命之盾，分擔玩家傷害提升至45%（8秒）',cd:16,cur:0,prob:.08,shieldBuff:.45,shieldDur:8},
   ],
-  followBonus:'草木靈氣，每秒恢復HP0.8%，偶爾自動掉落藥材，分擔25%傷害',
+  followBonus:'草木靈氣，修為/秒+20%，每次行動恢復HP2%，煉丹額外修為+50%，分擔25%傷害',
   events:[
    {t:'碧蘿靈氣療癒，氣血恢復30%',heal:.30,bad:false},
    {t:'碧蘿採到千年靈芝，藥材+{h}，修為+{e}',h:3,e:5,bad:false},
@@ -697,7 +701,7 @@ const DAO_MEET=[
 /* ── 門派（玄冥宗體修：防禦算傷害&反彈，招式調整）── */
 const SECTS=[
  {id:'qy',name:'青雲宗',icon:'⚡',desc:'劍修',color:'var(--sky2)',bg:'var(--sky4)',bc:'var(--sky2)',
-  bonus:{atk:1.2,def:.9,spd:1.1,crit:.12,rate:1.0},iAtk:12,iDef:5,iSpd:10,iHp:70,bgLbl:'運劍閉關',lifeBonus:8,
+  bonus:{atk:1.2,def:.9,spd:1.1,crit:.12,rate:1.0},iAtk:12,iDef:5,iSpd:10,iHp:100,bgLbl:'運劍閉關',lifeBonus:8,
   rankNames:['記名弟子','外門弟子','內門弟子','真傳弟子','劍道長老','掌門'],
   rankPerks:['無加成','修為/秒+5%','修為/秒+10%，靈石+5%','修為/秒+18%，攻擊+5%','修為/秒+28%，攻擊+8%','全屬性+12%'],
   bSkills:[
@@ -708,11 +712,56 @@ const SECTS=[
    {n:'御劍飛遁',t:'aux',d:'腳踏飛劍，速度+35%（10秒）',cd:20,cur:0,prob:.05,tbS:.35,tbD:10},
   ],
   skills:[
-   {n:'青雲劍訣',d:'暴擊+10%，攻擊+12，修為/秒+1',rate:1,atk:12,crit:.10,cost:0,con:0,u:true},
-   {n:'萬劍歸宗訣',d:'攻擊+40，暴擊+8%，修為/秒+2.5',rate:2.5,atk:40,crit:.08,cost:120,con:50,u:false},
-   {n:'天劍破霄訣',d:'攻擊+140，暴擊+12%，修為/秒+8',rate:8,atk:140,crit:.12,cost:600,con:200,u:false},
-   {n:'九霄神劍陣',d:'攻擊+500，暴擊+16%，修為/秒+28',rate:28,atk:500,crit:.16,cost:3500,con:800,u:false},
-   {n:'混沌劍胎訣',d:'攻擊+2500，暴擊+22%，修為/秒+120',rate:120,atk:2500,crit:.22,cost:25000,con:3000,u:false},
+   {n:'青雲劍訣一重',d:'攻擊+2，暴擊+0.8%',atk:2,crit:0.008,cost:50,con:0,rank:0,u:true},
+   {n:'青雲劍訣二重',d:'攻擊+4，暴擊+1.0%',atk:4,crit:0.01,cost:100,con:10,rank:0,u:false},
+   {n:'青雲劍訣三重',d:'攻擊+6，暴擊+1.2%',atk:6,crit:0.012,cost:200,con:25,rank:0,u:false},
+   {n:'青雲劍訣四重',d:'攻擊+8，暴擊+1.4%',atk:8,crit:0.014,cost:400,con:60,rank:0,u:false},
+   {n:'青雲劍訣五重',d:'攻擊+10，暴擊+1.6%',atk:10,crit:0.016,cost:800,con:150,rank:0,u:false},
+   {n:'青雲劍訣六重',d:'攻擊+12，暴擊+1.8%',atk:12,crit:0.018,cost:1600,con:300,rank:0,u:false},
+   {n:'青雲劍訣七重',d:'攻擊+14，暴擊+2.0%',atk:14,crit:0.02,cost:3200,con:600,rank:0,u:false},
+   {n:'青雲劍訣八重',d:'攻擊+16，暴擊+2.2%',atk:16,crit:0.022,cost:6400,con:1200,rank:0,u:false},
+   {n:'青雲劍訣九重',d:'攻擊+18，暴擊+2.4%',atk:18,crit:0.024,cost:12800,con:2500,rank:0,u:false},
+   {n:'青雲劍訣第十重',d:'攻擊+20，暴擊+2.6%',atk:20,crit:0.026,cost:25600,con:5000,rank:1,u:false},
+   {n:'萬劍訣一重',d:'攻擊+5，暴擊+1.0%，修為/秒+0.2',atk:5,crit:0.01,rate:0.2,cost:50,con:0,rank:1,u:false},
+   {n:'萬劍訣二重',d:'攻擊+9，暴擊+1.2%，修為/秒+0.4',atk:9,crit:0.012,rate:0.4,cost:100,con:10,rank:1,u:false},
+   {n:'萬劍訣三重',d:'攻擊+13，暴擊+1.4%，修為/秒+0.6',atk:13,crit:0.014,rate:0.6,cost:200,con:25,rank:1,u:false},
+   {n:'萬劍訣四重',d:'攻擊+17，暴擊+1.6%，修為/秒+0.8',atk:17,crit:0.016,rate:0.8,cost:400,con:60,rank:1,u:false},
+   {n:'萬劍訣五重',d:'攻擊+21，暴擊+1.8%，修為/秒+1.0',atk:21,crit:0.018,rate:1.0,cost:800,con:150,rank:1,u:false},
+   {n:'萬劍訣六重',d:'攻擊+25，暴擊+2.0%，修為/秒+1.2',atk:25,crit:0.02,rate:1.2,cost:1600,con:300,rank:1,u:false},
+   {n:'萬劍訣七重',d:'攻擊+29，暴擊+2.2%，修為/秒+1.4',atk:29,crit:0.022,rate:1.4,cost:3200,con:600,rank:1,u:false},
+   {n:'萬劍訣八重',d:'攻擊+33，暴擊+2.4%，修為/秒+1.6',atk:33,crit:0.024,rate:1.6,cost:6400,con:1200,rank:1,u:false},
+   {n:'萬劍訣九重',d:'攻擊+37，暴擊+2.6%，修為/秒+1.8',atk:37,crit:0.026,rate:1.8,cost:12800,con:2500,rank:1,u:false},
+   {n:'萬劍訣第十重',d:'攻擊+41，暴擊+2.8%，修為/秒+2.0',atk:41,crit:0.028,rate:2.0,cost:25600,con:5000,rank:2,u:false},
+   {n:'天劍訣一重',d:'攻擊+12，暴擊+1.2%，修為/秒+0.5',atk:12,crit:0.012,rate:0.5,cost:50,con:0,rank:2,u:false},
+   {n:'天劍訣二重',d:'攻擊+22，暴擊+1.4%，修為/秒+0.9',atk:22,crit:0.014,rate:0.9,cost:100,con:10,rank:2,u:false},
+   {n:'天劍訣三重',d:'攻擊+32，暴擊+1.6%，修為/秒+1.3',atk:32,crit:0.016,rate:1.3,cost:200,con:25,rank:2,u:false},
+   {n:'天劍訣四重',d:'攻擊+42，暴擊+1.8%，修為/秒+1.7',atk:42,crit:0.018,rate:1.7,cost:400,con:60,rank:2,u:false},
+   {n:'天劍訣五重',d:'攻擊+52，暴擊+2.0%，修為/秒+2.1',atk:52,crit:0.02,rate:2.1,cost:800,con:150,rank:2,u:false},
+   {n:'天劍訣六重',d:'攻擊+62，暴擊+2.2%，修為/秒+2.5',atk:62,crit:0.022,rate:2.5,cost:1600,con:300,rank:2,u:false},
+   {n:'天劍訣七重',d:'攻擊+72，暴擊+2.4%，修為/秒+2.9',atk:72,crit:0.024,rate:2.9,cost:3200,con:600,rank:2,u:false},
+   {n:'天劍訣八重',d:'攻擊+82，暴擊+2.6%，修為/秒+3.3',atk:82,crit:0.026,rate:3.3,cost:6400,con:1200,rank:2,u:false},
+   {n:'天劍訣九重',d:'攻擊+92，暴擊+2.8%，修為/秒+3.7',atk:92,crit:0.028,rate:3.7,cost:12800,con:2500,rank:2,u:false},
+   {n:'天劍訣第十重',d:'攻擊+102，暴擊+3.0%，修為/秒+4.1',atk:102,crit:0.03,rate:4.1,cost:25600,con:5000,rank:3,u:false},
+   {n:'九霄劍訣一重',d:'攻擊+30，暴擊+1.4%，修為/秒+1.5',atk:30,crit:0.014,rate:1.5,cost:50,con:0,rank:3,u:false},
+   {n:'九霄劍訣二重',d:'攻擊+55，暴擊+1.6%，修為/秒+2.7',atk:55,crit:0.016,rate:2.7,cost:100,con:10,rank:3,u:false},
+   {n:'九霄劍訣三重',d:'攻擊+80，暴擊+1.8%，修為/秒+3.9',atk:80,crit:0.018,rate:3.9,cost:200,con:25,rank:3,u:false},
+   {n:'九霄劍訣四重',d:'攻擊+105，暴擊+2.0%，修為/秒+5.1',atk:105,crit:0.02,rate:5.1,cost:400,con:60,rank:3,u:false},
+   {n:'九霄劍訣五重',d:'攻擊+130，暴擊+2.2%，修為/秒+6.3',atk:130,crit:0.022,rate:6.3,cost:800,con:150,rank:3,u:false},
+   {n:'九霄劍訣六重',d:'攻擊+155，暴擊+2.4%，修為/秒+7.5',atk:155,crit:0.024,rate:7.5,cost:1600,con:300,rank:3,u:false},
+   {n:'九霄劍訣七重',d:'攻擊+180，暴擊+2.6%，修為/秒+8.7',atk:180,crit:0.026,rate:8.7,cost:3200,con:600,rank:3,u:false},
+   {n:'九霄劍訣八重',d:'攻擊+205，暴擊+2.8%，修為/秒+9.9',atk:205,crit:0.028,rate:9.9,cost:6400,con:1200,rank:3,u:false},
+   {n:'九霄劍訣九重',d:'攻擊+230，暴擊+3.0%，修為/秒+11.1',atk:230,crit:0.03,rate:11.1,cost:12800,con:2500,rank:3,u:false},
+   {n:'九霄劍訣第十重',d:'攻擊+255，暴擊+3.2%，修為/秒+12.3',atk:255,crit:0.032,rate:12.3,cost:25600,con:5000,rank:4,u:false},
+   {n:'混沌劍訣一重',d:'攻擊+80，暴擊+1.6%，修為/秒+4.0',atk:80,crit:0.016,rate:4.0,cost:50,con:0,rank:4,u:false},
+   {n:'混沌劍訣二重',d:'攻擊+145，暴擊+1.8%，修為/秒+7.5',atk:145,crit:0.018,rate:7.5,cost:100,con:10,rank:4,u:false},
+   {n:'混沌劍訣三重',d:'攻擊+210，暴擊+2.0%，修為/秒+11.0',atk:210,crit:0.02,rate:11.0,cost:200,con:25,rank:4,u:false},
+   {n:'混沌劍訣四重',d:'攻擊+275，暴擊+2.2%，修為/秒+14.5',atk:275,crit:0.022,rate:14.5,cost:400,con:60,rank:4,u:false},
+   {n:'混沌劍訣五重',d:'攻擊+340，暴擊+2.4%，修為/秒+18.0',atk:340,crit:0.024,rate:18.0,cost:800,con:150,rank:4,u:false},
+   {n:'混沌劍訣六重',d:'攻擊+405，暴擊+2.6%，修為/秒+21.5',atk:405,crit:0.026,rate:21.5,cost:1600,con:300,rank:4,u:false},
+   {n:'混沌劍訣七重',d:'攻擊+470，暴擊+2.8%，修為/秒+25.0',atk:470,crit:0.028,rate:25.0,cost:3200,con:600,rank:4,u:false},
+   {n:'混沌劍訣八重',d:'攻擊+535，暴擊+3.0%，修為/秒+28.5',atk:535,crit:0.03,rate:28.5,cost:6400,con:1200,rank:4,u:false},
+   {n:'混沌劍訣九重',d:'攻擊+600，暴擊+3.2%，修為/秒+32.0',atk:600,crit:0.032,rate:32.0,cost:12800,con:2500,rank:4,u:false},
+   {n:'混沌劍訣第十重',d:'攻擊+665，暴擊+3.4%，修為/秒+35.5',atk:665,crit:0.034,rate:35.5,cost:25600,con:5000,rank:5,u:false},
   ],
   campEvs:[
    {t:'晨課切磋，修為+{e}',e:3,bad:false,type:'daily'},
@@ -743,7 +792,7 @@ const SECTS=[
    {t:'懸崖悟道，修為+{e}',e:6,bad:false},
   ]},
  {id:'xm',name:'玄冥宗',icon:'🌑',desc:'體修',color:'var(--cr2)',bg:'var(--cr4)',bc:'var(--cr2)',
-  bonus:{atk:.95,def:1.3,spd:.9,crit:.06,rate:1.05},iAtk:10,iDef:16,iSpd:7,iHp:130,bgLbl:'淬體閉關',lifeBonus:10,
+  bonus:{atk:.95,def:1.3,spd:.9,crit:.06,rate:1.05},iAtk:10,iDef:16,iSpd:7,iHp:160,bgLbl:'淬體閉關',lifeBonus:10,
   rankNames:['記名弟子','外門弟子','內門弟子','真傳弟子','體道長老','宗主'],
   rankPerks:['無加成','防禦+6%','防禦+12%，HP+8%','防禦+20%，HP+15%','防禦+28%，HP+22%，修為/秒+8%','全屬性+12%'],
 
@@ -755,11 +804,56 @@ const SECTS=[
    {n:'體魄共鳴',t:'aux',d:'與天地共鳴，修為/秒+18%（14秒）',cd:24,cur:0,prob:.04,tbR:.18,tbD:14},
   ],
   skills:[
-   {n:'玄冥體訣',d:'防禦+18，HP+150，修為/秒+0.8',rate:.8,def:18,hp:150,cost:0,con:0,u:true},
-   {n:'金剛不壞訣',d:'防禦+60，HP+600，修為/秒+2',rate:2,def:60,hp:600,cost:120,con:50,u:false},
-   {n:'鐵布衫極境',d:'防禦+220，HP+2500，修為/秒+7',rate:7,def:220,hp:2500,cost:600,con:200,u:false},
-   {n:'混沌血肉訣',d:'防禦+800，HP+10000，修為/秒+25',rate:25,def:800,hp:10000,cost:3500,con:800,u:false},
-   {n:'永恆真身訣',d:'防禦+3500，HP+55000，修為/秒+100',rate:100,def:3500,hp:55000,cost:25000,con:3000,u:false},
+   {n:'玄冥初訣一重',d:'防禦+3，HP+30',def:3,hp:30,cost:50,con:0,rank:0,u:true},
+   {n:'玄冥初訣二重',d:'防禦+5，HP+50',def:5,hp:50,cost:100,con:10,rank:0,u:false},
+   {n:'玄冥初訣三重',d:'防禦+7，HP+70',def:7,hp:70,cost:200,con:25,rank:0,u:false},
+   {n:'玄冥初訣四重',d:'防禦+9，HP+90',def:9,hp:90,cost:400,con:60,rank:0,u:false},
+   {n:'玄冥初訣五重',d:'防禦+11，HP+110',def:11,hp:110,cost:800,con:150,rank:0,u:false},
+   {n:'玄冥初訣六重',d:'防禦+13，HP+130',def:13,hp:130,cost:1600,con:300,rank:0,u:false},
+   {n:'玄冥初訣七重',d:'防禦+15，HP+150',def:15,hp:150,cost:3200,con:600,rank:0,u:false},
+   {n:'玄冥初訣八重',d:'防禦+17，HP+170',def:17,hp:170,cost:6400,con:1200,rank:0,u:false},
+   {n:'玄冥初訣九重',d:'防禦+19，HP+190',def:19,hp:190,cost:12800,con:2500,rank:0,u:false},
+   {n:'玄冥初訣第十重',d:'防禦+21，HP+210',def:21,hp:210,cost:25600,con:5000,rank:1,u:false},
+   {n:'玄冥體訣一重',d:'防禦+8，HP+90，修為/秒+0.2',def:8,hp:90,rate:0.2,cost:50,con:0,rank:1,u:false},
+   {n:'玄冥體訣二重',d:'防禦+14，HP+160，修為/秒+0.4',def:14,hp:160,rate:0.4,cost:100,con:10,rank:1,u:false},
+   {n:'玄冥體訣三重',d:'防禦+20，HP+230，修為/秒+0.6',def:20,hp:230,rate:0.6,cost:200,con:25,rank:1,u:false},
+   {n:'玄冥體訣四重',d:'防禦+26，HP+300，修為/秒+0.8',def:26,hp:300,rate:0.8,cost:400,con:60,rank:1,u:false},
+   {n:'玄冥體訣五重',d:'防禦+32，HP+370，修為/秒+1.0',def:32,hp:370,rate:1.0,cost:800,con:150,rank:1,u:false},
+   {n:'玄冥體訣六重',d:'防禦+38，HP+440，修為/秒+1.2',def:38,hp:440,rate:1.2,cost:1600,con:300,rank:1,u:false},
+   {n:'玄冥體訣七重',d:'防禦+44，HP+510，修為/秒+1.4',def:44,hp:510,rate:1.4,cost:3200,con:600,rank:1,u:false},
+   {n:'玄冥體訣八重',d:'防禦+50，HP+580，修為/秒+1.6',def:50,hp:580,rate:1.6,cost:6400,con:1200,rank:1,u:false},
+   {n:'玄冥體訣九重',d:'防禦+56，HP+650，修為/秒+1.8',def:56,hp:650,rate:1.8,cost:12800,con:2500,rank:1,u:false},
+   {n:'玄冥體訣第十重',d:'防禦+62，HP+720，修為/秒+2.0',def:62,hp:720,rate:2.0,cost:25600,con:5000,rank:2,u:false},
+   {n:'玄冥鐵身訣一重',d:'防禦+22，HP+280，修為/秒+0.6',def:22,hp:280,rate:0.6,cost:50,con:0,rank:2,u:false},
+   {n:'玄冥鐵身訣二重',d:'防禦+40，HP+500，修為/秒+1.0',def:40,hp:500,rate:1.0,cost:100,con:10,rank:2,u:false},
+   {n:'玄冥鐵身訣三重',d:'防禦+58，HP+720，修為/秒+1.4',def:58,hp:720,rate:1.4,cost:200,con:25,rank:2,u:false},
+   {n:'玄冥鐵身訣四重',d:'防禦+76，HP+940，修為/秒+1.8',def:76,hp:940,rate:1.8,cost:400,con:60,rank:2,u:false},
+   {n:'玄冥鐵身訣五重',d:'防禦+94，HP+1160，修為/秒+2.2',def:94,hp:1160,rate:2.2,cost:800,con:150,rank:2,u:false},
+   {n:'玄冥鐵身訣六重',d:'防禦+112，HP+1380，修為/秒+2.6',def:112,hp:1380,rate:2.6,cost:1600,con:300,rank:2,u:false},
+   {n:'玄冥鐵身訣七重',d:'防禦+130，HP+1600，修為/秒+3.0',def:130,hp:1600,rate:3.0,cost:3200,con:600,rank:2,u:false},
+   {n:'玄冥鐵身訣八重',d:'防禦+148，HP+1820，修為/秒+3.4',def:148,hp:1820,rate:3.4,cost:6400,con:1200,rank:2,u:false},
+   {n:'玄冥鐵身訣九重',d:'防禦+166，HP+2040，修為/秒+3.8',def:166,hp:2040,rate:3.8,cost:12800,con:2500,rank:2,u:false},
+   {n:'玄冥鐵身訣第十重',d:'防禦+184，HP+2260，修為/秒+4.2',def:184,hp:2260,rate:4.2,cost:25600,con:5000,rank:3,u:false},
+   {n:'玄冥不壞訣一重',d:'防禦+60，HP+850，修為/秒+2.0',def:60,hp:850,rate:2.0,cost:50,con:0,rank:3,u:false},
+   {n:'玄冥不壞訣二重',d:'防禦+110，HP+1530，修為/秒+3.5',def:110,hp:1530,rate:3.5,cost:100,con:10,rank:3,u:false},
+   {n:'玄冥不壞訣三重',d:'防禦+160，HP+2210，修為/秒+5.0',def:160,hp:2210,rate:5.0,cost:200,con:25,rank:3,u:false},
+   {n:'玄冥不壞訣四重',d:'防禦+210，HP+2890，修為/秒+6.5',def:210,hp:2890,rate:6.5,cost:400,con:60,rank:3,u:false},
+   {n:'玄冥不壞訣五重',d:'防禦+260，HP+3570，修為/秒+8.0',def:260,hp:3570,rate:8.0,cost:800,con:150,rank:3,u:false},
+   {n:'玄冥不壞訣六重',d:'防禦+310，HP+4250，修為/秒+9.5',def:310,hp:4250,rate:9.5,cost:1600,con:300,rank:3,u:false},
+   {n:'玄冥不壞訣七重',d:'防禦+360，HP+4930，修為/秒+11.0',def:360,hp:4930,rate:11.0,cost:3200,con:600,rank:3,u:false},
+   {n:'玄冥不壞訣八重',d:'防禦+410，HP+5610，修為/秒+12.5',def:410,hp:5610,rate:12.5,cost:6400,con:1200,rank:3,u:false},
+   {n:'玄冥不壞訣九重',d:'防禦+460，HP+6290，修為/秒+14.0',def:460,hp:6290,rate:14.0,cost:12800,con:2500,rank:3,u:false},
+   {n:'玄冥不壞訣第十重',d:'防禦+510，HP+6970，修為/秒+15.5',def:510,hp:6970,rate:15.5,cost:25600,con:5000,rank:4,u:false},
+   {n:'永恆真身訣一重',d:'防禦+170，HP+2500，修為/秒+6',def:170,hp:2500,rate:6,cost:50,con:0,rank:4,u:false},
+   {n:'永恆真身訣二重',d:'防禦+310，HP+4500，修為/秒+11',def:310,hp:4500,rate:11,cost:100,con:10,rank:4,u:false},
+   {n:'永恆真身訣三重',d:'防禦+450，HP+6500，修為/秒+16',def:450,hp:6500,rate:16,cost:200,con:25,rank:4,u:false},
+   {n:'永恆真身訣四重',d:'防禦+590，HP+8500，修為/秒+21',def:590,hp:8500,rate:21,cost:400,con:60,rank:4,u:false},
+   {n:'永恆真身訣五重',d:'防禦+730，HP+10500，修為/秒+26',def:730,hp:10500,rate:26,cost:800,con:150,rank:4,u:false},
+   {n:'永恆真身訣六重',d:'防禦+870，HP+12500，修為/秒+31',def:870,hp:12500,rate:31,cost:1600,con:300,rank:4,u:false},
+   {n:'永恆真身訣七重',d:'防禦+1010，HP+14500，修為/秒+36',def:1010,hp:14500,rate:36,cost:3200,con:600,rank:4,u:false},
+   {n:'永恆真身訣八重',d:'防禦+1150，HP+16500，修為/秒+41',def:1150,hp:16500,rate:41,cost:6400,con:1200,rank:4,u:false},
+   {n:'永恆真身訣九重',d:'防禦+1290，HP+18500，修為/秒+46',def:1290,hp:18500,rate:46,cost:12800,con:2500,rank:4,u:false},
+   {n:'永恆真身訣第十重',d:'防禦+1430，HP+20500，修為/秒+51',def:1430,hp:20500,rate:51,cost:25600,con:5000,rank:5,u:false},
   ],
   campEvs:[
    {t:'淬體課，修為+{e}',e:3,bad:false,type:'daily'},
@@ -789,7 +883,7 @@ const SECTS=[
    {t:'【危機】心魔入侵，修為損6%',expLoss:.06,bad:true},
   ]},
  {id:'th',name:'天河閣',icon:'💧',desc:'水法修',color:'var(--jade)',bg:'var(--jade4)',bc:'var(--jade2)',
-  bonus:{atk:.8,def:.9,spd:1.15,crit:.09,rate:1.45},iAtk:8,iDef:7,iSpd:13,iHp:80,bgLbl:'靜水閉關',lifeBonus:6,
+  bonus:{atk:.8,def:.9,spd:1.15,crit:.09,rate:1.45},iAtk:8,iDef:7,iSpd:13,iHp:110,bgLbl:'靜水閉關',lifeBonus:6,
   rankNames:['記名弟子','外門弟子','內門弟子','真傳弟子','水道長老','閣主'],
   rankPerks:['無加成','修為/秒+8%','修為/秒+16%，靈石+5%','修為/秒+26%，速度+5%','修為/秒+40%，速度+8%','全屬性+12%'],
   bSkills:[
@@ -800,11 +894,56 @@ const SECTS=[
    {n:'靜水無波',t:'aux',d:'心如止水，恢復HP20%',heal:.20,cd:14,cur:0,prob:.07},
   ],
   skills:[
-   {n:'天河水訣',d:'修為/秒+2，速度+6，攻擊+8',rate:2,spd:6,atk:8,cost:0,con:0,u:true},
-   {n:'滄海潮生訣',d:'修為/秒+7，速度+16，攻擊+24',rate:7,spd:16,atk:24,cost:120,con:50,u:false},
-   {n:'萬川歸海功',d:'修為/秒+24，速度+50，攻擊+80',rate:24,spd:50,atk:80,cost:600,con:200,u:false},
-   {n:'時間長河訣',d:'修為/秒+80，速度+160，攻擊+300',rate:80,spd:160,atk:300,cost:3500,con:800,u:false},
-   {n:'混沌靈水訣',d:'修為/秒+320，速度+600，攻擊+1500',rate:320,spd:600,atk:1500,cost:25000,con:3000,u:false},
+   {n:'天河初訣一重',d:'修為/秒+0.3，速度+2，攻擊+2',rate:0.3,spd:2,atk:2,cost:50,con:0,rank:0,u:true},
+   {n:'天河初訣二重',d:'修為/秒+0.38，速度+3，攻擊+3',rate:0.38,spd:3,atk:3,cost:100,con:10,rank:0,u:false},
+   {n:'天河初訣三重',d:'修為/秒+0.46，速度+4，攻擊+4',rate:0.46,spd:4,atk:4,cost:200,con:25,rank:0,u:false},
+   {n:'天河初訣四重',d:'修為/秒+0.54，速度+5，攻擊+5',rate:0.54,spd:5,atk:5,cost:400,con:60,rank:0,u:false},
+   {n:'天河初訣五重',d:'修為/秒+0.62，速度+6，攻擊+6',rate:0.62,spd:6,atk:6,cost:800,con:150,rank:0,u:false},
+   {n:'天河初訣六重',d:'修為/秒+0.7，速度+7，攻擊+7',rate:0.7,spd:7,atk:7,cost:1600,con:300,rank:0,u:false},
+   {n:'天河初訣七重',d:'修為/秒+0.78，速度+8，攻擊+8',rate:0.78,spd:8,atk:8,cost:3200,con:600,rank:0,u:false},
+   {n:'天河初訣八重',d:'修為/秒+0.86，速度+9，攻擊+9',rate:0.86,spd:9,atk:9,cost:6400,con:1200,rank:0,u:false},
+   {n:'天河初訣九重',d:'修為/秒+0.94，速度+10，攻擊+10',rate:0.94,spd:10,atk:10,cost:12800,con:2500,rank:0,u:false},
+   {n:'天河初訣第十重',d:'修為/秒+1.02，速度+11，攻擊+11',rate:1.02,spd:11,atk:11,cost:25600,con:5000,rank:1,u:false},
+   {n:'靈水訣一重',d:'修為/秒+1.0，速度+5，攻擊+5',rate:1.0,spd:5,atk:5,cost:50,con:0,rank:1,u:false},
+   {n:'靈水訣二重',d:'修為/秒+1.2，速度+8，攻擊+8',rate:1.2,spd:8,atk:8,cost:100,con:10,rank:1,u:false},
+   {n:'靈水訣三重',d:'修為/秒+1.4，速度+11，攻擊+11',rate:1.4,spd:11,atk:11,cost:200,con:25,rank:1,u:false},
+   {n:'靈水訣四重',d:'修為/秒+1.6，速度+14，攻擊+14',rate:1.6,spd:14,atk:14,cost:400,con:60,rank:1,u:false},
+   {n:'靈水訣五重',d:'修為/秒+1.8，速度+17，攻擊+17',rate:1.8,spd:17,atk:17,cost:800,con:150,rank:1,u:false},
+   {n:'靈水訣六重',d:'修為/秒+2.0，速度+20，攻擊+20',rate:2.0,spd:20,atk:20,cost:1600,con:300,rank:1,u:false},
+   {n:'靈水訣七重',d:'修為/秒+2.2，速度+23，攻擊+23',rate:2.2,spd:23,atk:23,cost:3200,con:600,rank:1,u:false},
+   {n:'靈水訣八重',d:'修為/秒+2.4，速度+26，攻擊+26',rate:2.4,spd:26,atk:26,cost:6400,con:1200,rank:1,u:false},
+   {n:'靈水訣九重',d:'修為/秒+2.6，速度+29，攻擊+29',rate:2.6,spd:29,atk:29,cost:12800,con:2500,rank:1,u:false},
+   {n:'靈水訣第十重',d:'修為/秒+2.8，速度+32，攻擊+32',rate:2.8,spd:32,atk:32,cost:25600,con:5000,rank:2,u:false},
+   {n:'滄海訣一重',d:'修為/秒+3.0，速度+14，攻擊+14',rate:3.0,spd:14,atk:14,cost:50,con:0,rank:2,u:false},
+   {n:'滄海訣二重',d:'修為/秒+3.6，速度+24，攻擊+24',rate:3.6,spd:24,atk:24,cost:100,con:10,rank:2,u:false},
+   {n:'滄海訣三重',d:'修為/秒+4.2，速度+34，攻擊+34',rate:4.2,spd:34,atk:34,cost:200,con:25,rank:2,u:false},
+   {n:'滄海訣四重',d:'修為/秒+4.8，速度+44，攻擊+44',rate:4.8,spd:44,atk:44,cost:400,con:60,rank:2,u:false},
+   {n:'滄海訣五重',d:'修為/秒+5.4，速度+54，攻擊+54',rate:5.4,spd:54,atk:54,cost:800,con:150,rank:2,u:false},
+   {n:'滄海訣六重',d:'修為/秒+6.0，速度+64，攻擊+64',rate:6.0,spd:64,atk:64,cost:1600,con:300,rank:2,u:false},
+   {n:'滄海訣七重',d:'修為/秒+6.6，速度+74，攻擊+74',rate:6.6,spd:74,atk:74,cost:3200,con:600,rank:2,u:false},
+   {n:'滄海訣八重',d:'修為/秒+7.2，速度+84，攻擊+84',rate:7.2,spd:84,atk:84,cost:6400,con:1200,rank:2,u:false},
+   {n:'滄海訣九重',d:'修為/秒+7.8，速度+94，攻擊+94',rate:7.8,spd:94,atk:94,cost:12800,con:2500,rank:2,u:false},
+   {n:'滄海訣第十重',d:'修為/秒+8.4，速度+104，攻擊+104',rate:8.4,spd:104,atk:104,cost:25600,con:5000,rank:3,u:false},
+   {n:'萬川歸海訣一重',d:'修為/秒+8.0，速度+40，攻擊+40',rate:8.0,spd:40,atk:40,cost:50,con:0,rank:3,u:false},
+   {n:'萬川歸海訣二重',d:'修為/秒+9.8，速度+70，攻擊+70',rate:9.8,spd:70,atk:70,cost:100,con:10,rank:3,u:false},
+   {n:'萬川歸海訣三重',d:'修為/秒+11.6，速度+100，攻擊+100',rate:11.6,spd:100,atk:100,cost:200,con:25,rank:3,u:false},
+   {n:'萬川歸海訣四重',d:'修為/秒+13.4，速度+130，攻擊+130',rate:13.4,spd:130,atk:130,cost:400,con:60,rank:3,u:false},
+   {n:'萬川歸海訣五重',d:'修為/秒+15.2，速度+160，攻擊+160',rate:15.2,spd:160,atk:160,cost:800,con:150,rank:3,u:false},
+   {n:'萬川歸海訣六重',d:'修為/秒+17.0，速度+190，攻擊+190',rate:17.0,spd:190,atk:190,cost:1600,con:300,rank:3,u:false},
+   {n:'萬川歸海訣七重',d:'修為/秒+18.8，速度+220，攻擊+220',rate:18.8,spd:220,atk:220,cost:3200,con:600,rank:3,u:false},
+   {n:'萬川歸海訣八重',d:'修為/秒+20.6，速度+250，攻擊+250',rate:20.6,spd:250,atk:250,cost:6400,con:1200,rank:3,u:false},
+   {n:'萬川歸海訣九重',d:'修為/秒+22.4，速度+280，攻擊+280',rate:22.4,spd:280,atk:280,cost:12800,con:2500,rank:3,u:false},
+   {n:'萬川歸海訣第十重',d:'修為/秒+24.2，速度+310，攻擊+310',rate:24.2,spd:310,atk:310,cost:25600,con:5000,rank:4,u:false},
+   {n:'混沌靈水訣一重',d:'修為/秒+22，速度+110，攻擊+110',rate:22,spd:110,atk:110,cost:50,con:0,rank:4,u:false},
+   {n:'混沌靈水訣二重',d:'修為/秒+27，速度+195，攻擊+195',rate:27,spd:195,atk:195,cost:100,con:10,rank:4,u:false},
+   {n:'混沌靈水訣三重',d:'修為/秒+32，速度+280，攻擊+280',rate:32,spd:280,atk:280,cost:200,con:25,rank:4,u:false},
+   {n:'混沌靈水訣四重',d:'修為/秒+37，速度+365，攻擊+365',rate:37,spd:365,atk:365,cost:400,con:60,rank:4,u:false},
+   {n:'混沌靈水訣五重',d:'修為/秒+42，速度+450，攻擊+450',rate:42,spd:450,atk:450,cost:800,con:150,rank:4,u:false},
+   {n:'混沌靈水訣六重',d:'修為/秒+47，速度+535，攻擊+535',rate:47,spd:535,atk:535,cost:1600,con:300,rank:4,u:false},
+   {n:'混沌靈水訣七重',d:'修為/秒+52，速度+620，攻擊+620',rate:52,spd:620,atk:620,cost:3200,con:600,rank:4,u:false},
+   {n:'混沌靈水訣八重',d:'修為/秒+57，速度+705，攻擊+705',rate:57,spd:705,atk:705,cost:6400,con:1200,rank:4,u:false},
+   {n:'混沌靈水訣九重',d:'修為/秒+62，速度+790，攻擊+790',rate:62,spd:790,atk:790,cost:12800,con:2500,rank:4,u:false},
+   {n:'混沌靈水訣第十重',d:'修為/秒+67，速度+875，攻擊+875',rate:67,spd:875,atk:875,cost:25600,con:5000,rank:5,u:false},
   ],
   campEvs:[
    {t:'瀑布打坐，修為+{e}',e:4,bad:false,type:'daily'},
@@ -832,7 +971,7 @@ const SECTS=[
    {t:'【機緣】觸動水脈，修為大增+{e}',e:13,bad:false},
   ]},
  {id:'ms',name:'魔煞堂',icon:'🔥',desc:'魔修',color:'var(--cr)',bg:'var(--cr4)',bc:'var(--cr)',
-  bonus:{atk:1.35,def:.78,spd:.98,crit:.10,rate:.88},iAtk:22,iDef:4,iSpd:9,iHp:60,bgLbl:'煉魔閉關',lifeBonus:5,
+  bonus:{atk:1.35,def:.78,spd:.98,crit:.10,rate:.88},iAtk:22,iDef:4,iSpd:9,iHp:90,bgLbl:'煉魔閉關',lifeBonus:5,
   rankNames:['記名堂眾','外堂弟子','內堂弟子','核心弟子','執法長老','堂主'],
   rankPerks:['無加成','攻擊+5%','攻擊+10%，暴擊+3%','攻擊+18%，暴擊+6%','攻擊+28%，暴擊+8%，殺敵修為+15%','全屬性+12%'],
   bSkills:[
@@ -843,11 +982,56 @@ const SECTS=[
    {n:'嗜血狂暴',t:'aux',d:'HP越低攻擊越高（+10%~+60%）',cd:22,cur:0,prob:.05,lowHp:true},
   ],
   skills:[
-   {n:'魔煞血訣',d:'攻擊+28，暴擊+8%，修為/秒+0.7',rate:.7,atk:28,crit:.08,cost:0,con:0,u:true},
-   {n:'萬煞訣',d:'攻擊+100，暴擊+10%，修為/秒+1.8',rate:1.8,atk:100,crit:.10,cost:120,con:50,u:false},
-   {n:'血海屠神訣',d:'攻擊+380，暴擊+12%，修為/秒+6',rate:6,atk:380,crit:.12,cost:600,con:200,u:false},
-   {n:'煞氣化龍訣',d:'攻擊+1500，暴擊+16%，修為/秒+22',rate:22,atk:1500,crit:.16,cost:3500,con:800,u:false},
-   {n:'混沌魔神訣',d:'攻擊+7000，暴擊+25%，修為/秒+90',rate:90,atk:7000,crit:.25,cost:25000,con:3000,u:false},
+   {n:'魔煞初訣一重',d:'攻擊+4，暴擊+1.0%',atk:4,crit:0.01,cost:50,con:0,rank:0,u:true},
+   {n:'魔煞初訣二重',d:'攻擊+7，暴擊+1.2%',atk:7,crit:0.012,cost:100,con:10,rank:0,u:false},
+   {n:'魔煞初訣三重',d:'攻擊+10，暴擊+1.4%',atk:10,crit:0.014,cost:200,con:25,rank:0,u:false},
+   {n:'魔煞初訣四重',d:'攻擊+13，暴擊+1.6%',atk:13,crit:0.016,cost:400,con:60,rank:0,u:false},
+   {n:'魔煞初訣五重',d:'攻擊+16，暴擊+1.8%',atk:16,crit:0.018,cost:800,con:150,rank:0,u:false},
+   {n:'魔煞初訣六重',d:'攻擊+19，暴擊+2.0%',atk:19,crit:0.02,cost:1600,con:300,rank:0,u:false},
+   {n:'魔煞初訣七重',d:'攻擊+22，暴擊+2.2%',atk:22,crit:0.022,cost:3200,con:600,rank:0,u:false},
+   {n:'魔煞初訣八重',d:'攻擊+25，暴擊+2.4%',atk:25,crit:0.024,cost:6400,con:1200,rank:0,u:false},
+   {n:'魔煞初訣九重',d:'攻擊+28，暴擊+2.6%',atk:28,crit:0.026,cost:12800,con:2500,rank:0,u:false},
+   {n:'魔煞初訣第十重',d:'攻擊+31，暴擊+2.8%',atk:31,crit:0.028,cost:25600,con:5000,rank:1,u:false},
+   {n:'血煞訣一重',d:'攻擊+10，暴擊+1.3%，修為/秒+0.1',atk:10,crit:0.013,rate:0.1,cost:50,con:0,rank:1,u:false},
+   {n:'血煞訣二重',d:'攻擊+18，暴擊+1.5%，修為/秒+0.2',atk:18,crit:0.015,rate:0.2,cost:100,con:10,rank:1,u:false},
+   {n:'血煞訣三重',d:'攻擊+26，暴擊+1.7%，修為/秒+0.3',atk:26,crit:0.017,rate:0.3,cost:200,con:25,rank:1,u:false},
+   {n:'血煞訣四重',d:'攻擊+34，暴擊+1.9%，修為/秒+0.4',atk:34,crit:0.019,rate:0.4,cost:400,con:60,rank:1,u:false},
+   {n:'血煞訣五重',d:'攻擊+42，暴擊+2.1%，修為/秒+0.5',atk:42,crit:0.021,rate:0.5,cost:800,con:150,rank:1,u:false},
+   {n:'血煞訣六重',d:'攻擊+50，暴擊+2.3%，修為/秒+0.6',atk:50,crit:0.023,rate:0.6,cost:1600,con:300,rank:1,u:false},
+   {n:'血煞訣七重',d:'攻擊+58，暴擊+2.5%，修為/秒+0.7',atk:58,crit:0.025,rate:0.7,cost:3200,con:600,rank:1,u:false},
+   {n:'血煞訣八重',d:'攻擊+66，暴擊+2.7%，修為/秒+0.8',atk:66,crit:0.027,rate:0.8,cost:6400,con:1200,rank:1,u:false},
+   {n:'血煞訣九重',d:'攻擊+74，暴擊+2.9%，修為/秒+0.9',atk:74,crit:0.029,rate:0.9,cost:12800,con:2500,rank:1,u:false},
+   {n:'血煞訣第十重',d:'攻擊+82，暴擊+3.1%，修為/秒+1.0',atk:82,crit:0.031,rate:1.0,cost:25600,con:5000,rank:2,u:false},
+   {n:'萬煞訣一重',d:'攻擊+28，暴擊+1.6%，修為/秒+0.4',atk:28,crit:0.016,rate:0.4,cost:50,con:0,rank:2,u:false},
+   {n:'萬煞訣二重',d:'攻擊+50，暴擊+1.8%，修為/秒+0.7',atk:50,crit:0.018,rate:0.7,cost:100,con:10,rank:2,u:false},
+   {n:'萬煞訣三重',d:'攻擊+72，暴擊+2.0%，修為/秒+1.0',atk:72,crit:0.02,rate:1.0,cost:200,con:25,rank:2,u:false},
+   {n:'萬煞訣四重',d:'攻擊+94，暴擊+2.2%，修為/秒+1.3',atk:94,crit:0.022,rate:1.3,cost:400,con:60,rank:2,u:false},
+   {n:'萬煞訣五重',d:'攻擊+116，暴擊+2.4%，修為/秒+1.6',atk:116,crit:0.024,rate:1.6,cost:800,con:150,rank:2,u:false},
+   {n:'萬煞訣六重',d:'攻擊+138，暴擊+2.6%，修為/秒+1.9',atk:138,crit:0.026,rate:1.9,cost:1600,con:300,rank:2,u:false},
+   {n:'萬煞訣七重',d:'攻擊+160，暴擊+2.8%，修為/秒+2.2',atk:160,crit:0.028,rate:2.2,cost:3200,con:600,rank:2,u:false},
+   {n:'萬煞訣八重',d:'攻擊+182，暴擊+3.0%，修為/秒+2.5',atk:182,crit:0.03,rate:2.5,cost:6400,con:1200,rank:2,u:false},
+   {n:'萬煞訣九重',d:'攻擊+204，暴擊+3.2%，修為/秒+2.8',atk:204,crit:0.032,rate:2.8,cost:12800,con:2500,rank:2,u:false},
+   {n:'萬煞訣第十重',d:'攻擊+226，暴擊+3.4%，修為/秒+3.1',atk:226,crit:0.034,rate:3.1,cost:25600,con:5000,rank:3,u:false},
+   {n:'屠神訣一重',d:'攻擊+75，暴擊+1.9%，修為/秒+1.2',atk:75,crit:0.019,rate:1.2,cost:50,con:0,rank:3,u:false},
+   {n:'屠神訣二重',d:'攻擊+137，暴擊+2.1%，修為/秒+2.2',atk:137,crit:0.021,rate:2.2,cost:100,con:10,rank:3,u:false},
+   {n:'屠神訣三重',d:'攻擊+199，暴擊+2.3%，修為/秒+3.2',atk:199,crit:0.023,rate:3.2,cost:200,con:25,rank:3,u:false},
+   {n:'屠神訣四重',d:'攻擊+261，暴擊+2.5%，修為/秒+4.2',atk:261,crit:0.025,rate:4.2,cost:400,con:60,rank:3,u:false},
+   {n:'屠神訣五重',d:'攻擊+323，暴擊+2.7%，修為/秒+5.2',atk:323,crit:0.027,rate:5.2,cost:800,con:150,rank:3,u:false},
+   {n:'屠神訣六重',d:'攻擊+385，暴擊+2.9%，修為/秒+6.2',atk:385,crit:0.029,rate:6.2,cost:1600,con:300,rank:3,u:false},
+   {n:'屠神訣七重',d:'攻擊+447，暴擊+3.1%，修為/秒+7.2',atk:447,crit:0.031,rate:7.2,cost:3200,con:600,rank:3,u:false},
+   {n:'屠神訣八重',d:'攻擊+509，暴擊+3.3%，修為/秒+8.2',atk:509,crit:0.033,rate:8.2,cost:6400,con:1200,rank:3,u:false},
+   {n:'屠神訣九重',d:'攻擊+571，暴擊+3.5%，修為/秒+9.2',atk:571,crit:0.035,rate:9.2,cost:12800,con:2500,rank:3,u:false},
+   {n:'屠神訣第十重',d:'攻擊+633，暴擊+3.7%，修為/秒+10.2',atk:633,crit:0.037,rate:10.2,cost:25600,con:5000,rank:4,u:false},
+   {n:'混沌魔神訣一重',d:'攻擊+210，暴擊+2.2%，修為/秒+3.5',atk:210,crit:0.022,rate:3.5,cost:50,con:0,rank:4,u:false},
+   {n:'混沌魔神訣二重',d:'攻擊+385，暴擊+2.4%，修為/秒+6.5',atk:385,crit:0.024,rate:6.5,cost:100,con:10,rank:4,u:false},
+   {n:'混沌魔神訣三重',d:'攻擊+560，暴擊+2.6%，修為/秒+9.5',atk:560,crit:0.026,rate:9.5,cost:200,con:25,rank:4,u:false},
+   {n:'混沌魔神訣四重',d:'攻擊+735，暴擊+2.8%，修為/秒+12.5',atk:735,crit:0.028,rate:12.5,cost:400,con:60,rank:4,u:false},
+   {n:'混沌魔神訣五重',d:'攻擊+910，暴擊+3.0%，修為/秒+15.5',atk:910,crit:0.03,rate:15.5,cost:800,con:150,rank:4,u:false},
+   {n:'混沌魔神訣六重',d:'攻擊+1085，暴擊+3.2%，修為/秒+18.5',atk:1085,crit:0.032,rate:18.5,cost:1600,con:300,rank:4,u:false},
+   {n:'混沌魔神訣七重',d:'攻擊+1260，暴擊+3.4%，修為/秒+21.5',atk:1260,crit:0.034,rate:21.5,cost:3200,con:600,rank:4,u:false},
+   {n:'混沌魔神訣八重',d:'攻擊+1435，暴擊+3.6%，修為/秒+24.5',atk:1435,crit:0.036,rate:24.5,cost:6400,con:1200,rank:4,u:false},
+   {n:'混沌魔神訣九重',d:'攻擊+1610，暴擊+3.8%，修為/秒+27.5',atk:1610,crit:0.038,rate:27.5,cost:12800,con:2500,rank:4,u:false},
+   {n:'混沌魔神訣第十重',d:'攻擊+1785，暴擊+4.0%，修為/秒+30.5',atk:1785,crit:0.04,rate:30.5,cost:25600,con:5000,rank:5,u:false},
   ],
   campEvs:[
    {t:'煉魔課，攻擊+8%臨時，修為+{e}',e:3,tb:'atk',tv:.08,td:10,bad:false,type:'daily'},
@@ -876,7 +1060,7 @@ const SECTS=[
   ]},
 
  {id:'sm',name:'散修',icon:'🌙',desc:'獨行修士',color:'var(--ink2)',bg:'var(--paper2)',bc:'var(--ink3)',
-  bonus:{atk:1.05,def:1.05,spd:1.05,crit:.10,rate:1.15},iAtk:10,iDef:8,iSpd:10,iHp:90,bgLbl:'獨修靜悟',lifeBonus:7,
+  bonus:{atk:1.05,def:1.05,spd:1.05,crit:.10,rate:1.15},iAtk:10,iDef:8,iSpd:10,iHp:120,bgLbl:'獨修靜悟',lifeBonus:7,
   rankNames:['無名散修','江湖遊俠','一方散仙','名動一方','威震一域','天下聞名'],
   rankPerks:['無加成','全屬性+3%','全屬性+6%，靈石+5%','全屬性+10%，聲望加成+10%','全屬性+16%，修為/秒+20%','全屬性+20%，所有加成+15%'],
   bSkills:[
@@ -887,11 +1071,56 @@ const SECTS=[
    {n:'逍遙遊',t:'aux',d:'身如浮雲，速度+40%，閃避+10%（12秒）',cd:22,cur:0,prob:.04,tbS:.40,tbD:12},
   ],
   skills:[
-   {n:'萬法自然訣',d:'均衡提升，修為/秒+1.5，攻擊+10，速度+5',rate:1.5,atk:10,spd:5,cost:0,con:0,u:true},
-   {n:'天地玄黃訣',d:'修為/秒+5，攻擊+36，速度+16，防禦+12',rate:5,atk:36,spd:16,def:12,cost:100,con:30,u:false},
-   {n:'混沌歸元訣',d:'修為/秒+16，攻擊+120，速度+50，防禦+40',rate:16,atk:120,spd:50,def:40,cost:500,con:150,u:false},
-   {n:'太初無極訣',d:'修為/秒+55，攻擊+480，速度+170，防禦+160',rate:55,atk:480,spd:170,def:160,cost:3000,con:600,u:false},
-   {n:'道法自然訣',d:'修為/秒+220，攻擊+2200，速度+700，防禦+700',rate:220,atk:2200,spd:700,def:700,cost:22000,con:2500,u:false},
+   {n:'萬法初訣一重',d:'攻擊+2，防禦+1，速度+1，修為/秒+0.2',atk:2,def:1,spd:1,rate:0.2,cost:50,con:0,rank:0,u:true},
+   {n:'萬法初訣二重',d:'攻擊+4，防禦+2，速度+2，修為/秒+0.26',atk:4,def:2,spd:2,rate:0.26,cost:100,con:10,rank:0,u:false},
+   {n:'萬法初訣三重',d:'攻擊+6，防禦+3，速度+3，修為/秒+0.32',atk:6,def:3,spd:3,rate:0.32,cost:200,con:25,rank:0,u:false},
+   {n:'萬法初訣四重',d:'攻擊+8，防禦+4，速度+4，修為/秒+0.38',atk:8,def:4,spd:4,rate:0.38,cost:400,con:60,rank:0,u:false},
+   {n:'萬法初訣五重',d:'攻擊+10，防禦+5，速度+5，修為/秒+0.44',atk:10,def:5,spd:5,rate:0.44,cost:800,con:150,rank:0,u:false},
+   {n:'萬法初訣六重',d:'攻擊+12，防禦+6，速度+6，修為/秒+0.5',atk:12,def:6,spd:6,rate:0.5,cost:1600,con:300,rank:0,u:false},
+   {n:'萬法初訣七重',d:'攻擊+14，防禦+7，速度+7，修為/秒+0.56',atk:14,def:7,spd:7,rate:0.56,cost:3200,con:600,rank:0,u:false},
+   {n:'萬法初訣八重',d:'攻擊+16，防禦+8，速度+8，修為/秒+0.62',atk:16,def:8,spd:8,rate:0.62,cost:6400,con:1200,rank:0,u:false},
+   {n:'萬法初訣九重',d:'攻擊+18，防禦+9，速度+9，修為/秒+0.68',atk:18,def:9,spd:9,rate:0.68,cost:12800,con:2500,rank:0,u:false},
+   {n:'萬法初訣第十重',d:'攻擊+20，防禦+10，速度+10，修為/秒+0.74',atk:20,def:10,spd:10,rate:0.74,cost:25600,con:5000,rank:1,u:false},
+   {n:'天地訣一重',d:'攻擊+6，防禦+3，速度+3，修為/秒+0.6',atk:6,def:3,spd:3,rate:0.6,cost:50,con:0,rank:1,u:false},
+   {n:'天地訣二重',d:'攻擊+11，防禦+5，速度+5，修為/秒+0.8',atk:11,def:5,spd:5,rate:0.8,cost:100,con:10,rank:1,u:false},
+   {n:'天地訣三重',d:'攻擊+16，防禦+7，速度+7，修為/秒+1.0',atk:16,def:7,spd:7,rate:1.0,cost:200,con:25,rank:1,u:false},
+   {n:'天地訣四重',d:'攻擊+21，防禦+9，速度+9，修為/秒+1.2',atk:21,def:9,spd:9,rate:1.2,cost:400,con:60,rank:1,u:false},
+   {n:'天地訣五重',d:'攻擊+26，防禦+11，速度+11，修為/秒+1.4',atk:26,def:11,spd:11,rate:1.4,cost:800,con:150,rank:1,u:false},
+   {n:'天地訣六重',d:'攻擊+31，防禦+13，速度+13，修為/秒+1.6',atk:31,def:13,spd:13,rate:1.6,cost:1600,con:300,rank:1,u:false},
+   {n:'天地訣七重',d:'攻擊+36，防禦+15，速度+15，修為/秒+1.8',atk:36,def:15,spd:15,rate:1.8,cost:3200,con:600,rank:1,u:false},
+   {n:'天地訣八重',d:'攻擊+41，防禦+17，速度+17，修為/秒+2.0',atk:41,def:17,spd:17,rate:2.0,cost:6400,con:1200,rank:1,u:false},
+   {n:'天地訣九重',d:'攻擊+46，防禦+19，速度+19，修為/秒+2.2',atk:46,def:19,spd:19,rate:2.2,cost:12800,con:2500,rank:1,u:false},
+   {n:'天地訣第十重',d:'攻擊+51，防禦+21，速度+21，修為/秒+2.4',atk:51,def:21,spd:21,rate:2.4,cost:25600,con:5000,rank:2,u:false},
+   {n:'混沌歸元訣一重',d:'攻擊+16，防禦+8，速度+8，修為/秒+1.8',atk:16,def:8,spd:8,rate:1.8,cost:50,con:0,rank:2,u:false},
+   {n:'混沌歸元訣二重',d:'攻擊+30，防禦+15，速度+15，修為/秒+2.4',atk:30,def:15,spd:15,rate:2.4,cost:100,con:10,rank:2,u:false},
+   {n:'混沌歸元訣三重',d:'攻擊+44，防禦+22，速度+22，修為/秒+3.0',atk:44,def:22,spd:22,rate:3.0,cost:200,con:25,rank:2,u:false},
+   {n:'混沌歸元訣四重',d:'攻擊+58，防禦+29，速度+29，修為/秒+3.6',atk:58,def:29,spd:29,rate:3.6,cost:400,con:60,rank:2,u:false},
+   {n:'混沌歸元訣五重',d:'攻擊+72，防禦+36，速度+36，修為/秒+4.2',atk:72,def:36,spd:36,rate:4.2,cost:800,con:150,rank:2,u:false},
+   {n:'混沌歸元訣六重',d:'攻擊+86，防禦+43，速度+43，修為/秒+4.8',atk:86,def:43,spd:43,rate:4.8,cost:1600,con:300,rank:2,u:false},
+   {n:'混沌歸元訣七重',d:'攻擊+100，防禦+50，速度+50，修為/秒+5.4',atk:100,def:50,spd:50,rate:5.4,cost:3200,con:600,rank:2,u:false},
+   {n:'混沌歸元訣八重',d:'攻擊+114，防禦+57，速度+57，修為/秒+6.0',atk:114,def:57,spd:57,rate:6.0,cost:6400,con:1200,rank:2,u:false},
+   {n:'混沌歸元訣九重',d:'攻擊+128，防禦+64，速度+64，修為/秒+6.6',atk:128,def:64,spd:64,rate:6.6,cost:12800,con:2500,rank:2,u:false},
+   {n:'混沌歸元訣第十重',d:'攻擊+142，防禦+71，速度+71，修為/秒+7.2',atk:142,def:71,spd:71,rate:7.2,cost:25600,con:5000,rank:3,u:false},
+   {n:'太初訣一重',d:'攻擊+45，防禦+22，速度+22，修為/秒+5.0',atk:45,def:22,spd:22,rate:5.0,cost:50,con:0,rank:3,u:false},
+   {n:'太初訣二重',d:'攻擊+83，防禦+41，速度+41，修為/秒+6.8',atk:83,def:41,spd:41,rate:6.8,cost:100,con:10,rank:3,u:false},
+   {n:'太初訣三重',d:'攻擊+121，防禦+60，速度+60，修為/秒+8.6',atk:121,def:60,spd:60,rate:8.6,cost:200,con:25,rank:3,u:false},
+   {n:'太初訣四重',d:'攻擊+159，防禦+79，速度+79，修為/秒+10.4',atk:159,def:79,spd:79,rate:10.4,cost:400,con:60,rank:3,u:false},
+   {n:'太初訣五重',d:'攻擊+197，防禦+98，速度+98，修為/秒+12.2',atk:197,def:98,spd:98,rate:12.2,cost:800,con:150,rank:3,u:false},
+   {n:'太初訣六重',d:'攻擊+235，防禦+117，速度+117，修為/秒+14.0',atk:235,def:117,spd:117,rate:14.0,cost:1600,con:300,rank:3,u:false},
+   {n:'太初訣七重',d:'攻擊+273，防禦+136，速度+136，修為/秒+15.8',atk:273,def:136,spd:136,rate:15.8,cost:3200,con:600,rank:3,u:false},
+   {n:'太初訣八重',d:'攻擊+311，防禦+155，速度+155，修為/秒+17.6',atk:311,def:155,spd:155,rate:17.6,cost:6400,con:1200,rank:3,u:false},
+   {n:'太初訣九重',d:'攻擊+349，防禦+174，速度+174，修為/秒+19.4',atk:349,def:174,spd:174,rate:19.4,cost:12800,con:2500,rank:3,u:false},
+   {n:'太初訣第十重',d:'攻擊+387，防禦+193，速度+193，修為/秒+21.2',atk:387,def:193,spd:193,rate:21.2,cost:25600,con:5000,rank:4,u:false},
+   {n:'道法自然訣一重',d:'攻擊+125，防禦+62，速度+62，修為/秒+14',atk:125,def:62,spd:62,rate:14,cost:50,con:0,rank:4,u:false},
+   {n:'道法自然訣二重',d:'攻擊+230，防禦+114，速度+114，修為/秒+19',atk:230,def:114,spd:114,rate:19,cost:100,con:10,rank:4,u:false},
+   {n:'道法自然訣三重',d:'攻擊+335，防禦+166，速度+166，修為/秒+24',atk:335,def:166,spd:166,rate:24,cost:200,con:25,rank:4,u:false},
+   {n:'道法自然訣四重',d:'攻擊+440，防禦+218，速度+218，修為/秒+29',atk:440,def:218,spd:218,rate:29,cost:400,con:60,rank:4,u:false},
+   {n:'道法自然訣五重',d:'攻擊+545，防禦+270，速度+270，修為/秒+34',atk:545,def:270,spd:270,rate:34,cost:800,con:150,rank:4,u:false},
+   {n:'道法自然訣六重',d:'攻擊+650，防禦+322，速度+322，修為/秒+39',atk:650,def:322,spd:322,rate:39,cost:1600,con:300,rank:4,u:false},
+   {n:'道法自然訣七重',d:'攻擊+755，防禦+374，速度+374，修為/秒+44',atk:755,def:374,spd:374,rate:44,cost:3200,con:600,rank:4,u:false},
+   {n:'道法自然訣八重',d:'攻擊+860，防禦+426，速度+426，修為/秒+49',atk:860,def:426,spd:426,rate:49,cost:6400,con:1200,rank:4,u:false},
+   {n:'道法自然訣九重',d:'攻擊+965，防禦+478，速度+478，修為/秒+54',atk:965,def:478,spd:478,rate:54,cost:12800,con:2500,rank:4,u:false},
+   {n:'道法自然訣第十重',d:'攻擊+1070，防禦+530，速度+530，修為/秒+59',atk:1070,def:530,spd:530,rate:59,cost:25600,con:5000,rank:5,u:false},
   ],
   campEvs:[
    {t:'獨自打坐，天地靈氣自然流入，修為+{e}',e:4,bad:false,type:'daily'},
@@ -984,10 +1213,10 @@ const MINGLING={
 
 const ABILITIES=[
  {n:'天眼神目',d:'暴擊率+7%',crit:.07,cost:80,con:30,u:false},{n:'縮地成寸',d:'速度+12',spd:12,cost:150,con:60,u:false},
- {n:'金剛護體',d:'防禦+15',def:15,cost:200,con:80,u:false},{n:'不死神軀',d:'HP+500',hp:500,cost:400,con:150,u:false},
+ {n:'金剛護體',d:'防禦+15',def:15,cost:200,con:80,u:false},{n:'不死神軀',d:'HP+500',hp:500,cost:400,con:25,u:false},
  {n:'輪迴洞察',d:'暴擊+13%',crit:.13,cost:1500,con:500,u:false},{n:'天道護體',d:'防禦+65，HP+2000',def:65,hp:2000,cost:5000,con:1500,u:false},
  {n:'星辰步法',d:'速度+50，暴擊+10%',spd:50,crit:.10,cost:15000,con:4000,u:false},
- {n:'混沌元神',d:'修為/秒+7，攻擊+160，HP+4000',rate:7,atk:160,hp:4000,cost:50000,con:12000,u:false},
+ {n:'混沌元神',d:'修為/秒+7，攻擊+160，HP+4000',rate:7,atk:160,hp:4000,cost:50000,con:1200,u:false},
 ];
 const EQUIP_SLOTS=['武器','頭盔','胸甲','護腕','靴子','法寶'];
 const EG=['白','綠','藍','紫','橙','紅'];
@@ -1032,8 +1261,17 @@ function bdStatAt(bd,st,key){
 }
 
 function cR(){if(!G.started)return 0;const s=gS();let r=s.bonus.rate+G.permRate;G.skills.forEach(sk=>{if(sk.u&&sk.rate)r+=sk.rate;});G.equip.forEach(e=>{if(e&&e.rate)r+=e.rate;});G.abilities.forEach(a=>{if(a.u&&a.rate)r+=a.rate;});REALMS.slice(0,G.ri+1).forEach(rv=>{r+=rv.rate;});if(G.tempBuffs.rate)r+=G.tempBuffs.rate.val;const bd=gB();if(bd)r+=bdStatAt(bd,G.bStage,'rate');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.rate){const di=dRI(d);r*=(1+d.rate*(1+DAO_RL[di].b));}});const rm=rM();r*=rm.rate;if(rm.all)r*=(1+rm.all);
-const fd=gD();if(fd&&fd.aff>=80)r*=1.5;
-if(fd&&fd.sp==='cult'&&fd.aff>=80)r*=1.3;
+const fd=gD();
+if(fd&&fd.aff>=30){
+  // 跟隨基礎加成：修為/秒+20%
+  r*=1.2;
+  // 月瑤專屬：修為/秒×1.5（疊加）
+  if(fd.sp==='cult')r*=1.5;
+  // 好感≥80額外加成
+  if(fd.aff>=80){
+    r*=1.15;// 所有道侶好感滿額外+15%
+  }
+}
 
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.rate)r+=ml.perLv.rate*G.mfl.lv;
 if(G.sid==='th'&&ml)r*=(1+Math.min(.5,Math.floor(cR()*.001)*.01));}
@@ -1059,9 +1297,9 @@ if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.spd)sp+=ml.perLv.spd*G.
 function cC(){if(!G.started)return 0;const s=gS();let c=s.bonus.crit+G.permCrit;G.skills.forEach(sk=>{if(sk.u&&sk.crit)c+=sk.crit;});G.abilities.forEach(b=>{if(b.u&&b.crit)c+=b.crit;});if(G.tempBuffs.crit)c+=G.tempBuffs.crit.val;const bd=gB();if(bd)c+=bdStatAt(bd,G.bStage,'crit');
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.crit)c+=ml.perLv.crit*G.mfl.lv;}
 const fd=gD();if(fd&&fd.sp==='ice'&&fd.aff>=80)c+=.05;return Math.min(.88,c);}
-function cMH(){if(!G.started)return 100;const s=gS();let h=s.iHp*1.5+G.permHp;G.skills.forEach(sk=>{if(sk.u&&sk.hp)h+=sk.hp;});G.abilities.forEach(b=>{if(b.u&&b.hp)h+=b.hp;});G.equip.forEach(e=>{if(e&&e.hp)h+=e.hp;});REALMS.slice(0,G.ri+1).forEach(rv=>{h+=rv.hp;});const bd=gB();if(bd)h+=bdStatAt(bd,G.bStage,'hp');
+function cMH(){if(!G.started)return 100;const s=gS();let h=s.iHp*3.0+G.permHp;G.skills.forEach(sk=>{if(sk.u&&sk.hp)h+=sk.hp;});G.abilities.forEach(b=>{if(b.u&&b.hp)h+=b.hp;});G.equip.forEach(e=>{if(e&&e.hp)h+=e.hp;});REALMS.slice(0,G.ri+1).forEach(rv=>{h+=rv.hp;});const bd=gB();if(bd)h+=bdStatAt(bd,G.bStage,'hp');
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.hp)h+=ml.perLv.hp*G.mfl.lv;}const rm=rM();if(rm.all)h*=(1+rm.all);return Math.floor(h);}
-function cDodge(){const bd=gB();let d=bd?bdStatAt(bd,G.bStage,'dodge'):0;const fd=gD();if(fd&&fd.sp==='ice'&&fd.aff>=80)d+=.05;return d;}
+function cDodge(){const bd=gB();let d=bd?bdStatAt(bd,G.bStage,'dodge'):0;const fd=gD();if(fd&&fd.sp==='ice'&&fd.aff>=80)d+=.05;if(G.tempBuffs.dodge&&Date.now()<G.tempBuffs.dodge.end)d+=G.tempBuffs.dodge.val;return d;}
 function cLeech(){const bd=gB();return bd?bdStatAt(bd,G.bStage,'leech'):0;}
 function cP(){return Math.floor(cA()*2.5+cD()*2+cS()+cMH()*.3+cR()*30);}
 function dRI(d){for(let i=DAO_RL.length-1;i>=0;i--)if(d.ri>=DAO_RL[i].req)return i;return 0;}
@@ -1149,7 +1387,7 @@ info.textContent=`每日${BG_MAX}次 · 修為/秒×2~3倍持續1小時 · 已�
 function rSSt(){const el=document.getElementById('skill-status');if(!el||!G.started)return;el.innerHTML='';const tc={atk:'var(--cr2)',def:'var(--jade)',aux:'var(--sky2)'};const tl={atk:'攻擊',def:'防禦',aux:'輔助'};gS().bSkills.forEach(sk=>{const eff=Math.min(.8,sk.prob+(G.ri*.006));const d=document.createElement('div');d.className='row';d.innerHTML=`<div><div class="rvt">${sk.n} <span class="pill" style="background:${tc[sk.t]}18;color:${tc[sk.t]};">${tl[sk.t]}</span>${sk.cur>0?` <span class="pill pp">CD${sk.cur}s</span>`:''}</div><div class="rlt">${sk.d} · 觸發率${Math.round(eff*100)}%</div></div>`;el.appendChild(d);});}
 
 function doBG(){if(!G.started)return;const cdLeft=Math.max(0,G.bgCdEnd-nowSec());if(G.bgToday>=BG_MAX||cdLeft>0)return;G.bgToday++;G.bgCdEnd=nowSec()+BG_CD;let mult=R(2,3);
-const fd=gD();if(fd&&fd.sp==='cult'&&fd.aff>=80)mult+=.5;
+const fd=gD();if(fd&&fd.sp==='cult'&&fd.aff>=30)mult+=1.0;
 
 G.bgBuff={mult,end:nowSec()+BG_CD};
 G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.15));
@@ -1218,7 +1456,17 @@ function doBreak(){
   updateUI();rBGA();
 }
 function checkBreak(){/* 突破需手動點擊按鈕，不自動觸發 */}
-function doRefine(){if(!G.started||G.herb<5)return;G.herb-=5;const roll=Math.random();if(roll<.55){const g=Math.floor(cR()*70+60);G.exp+=g;G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.3));LOG(`回元丹成功！修為+${fmt(g)}`,'gd');}else if(roll<.80){LOG('丹爐爆炸！煉丹失敗','dk');}else if(roll<.93){const g=Math.floor(cR()*140+150);G.exp+=g;G.bHp=cMH();LOG(`★ 上品靈丹！修為+${fmt(g)}，氣血全復！`,'go');}else{const g=Math.floor(cR()*300+380);G.exp+=g;G.bHp=cMH();G.stone+=60;LOG(`★★ 極品仙丹！修為+${fmt(g)}，靈石+60！`,'sp');}checkBreak();updateUI();}
+function doRefine(){if(!G.started||G.herb<5)return;G.herb-=5;
+  // 碧蘿跟隨：煉丹修為大增（藥草靈氣共鳴）
+  const fdR=gD();
+  const biluo_bonus=fdR&&fdR.sp==='heal'&&fdR.aff>=30;const roll=Math.random();
+  let elixirExp=0;
+  if(roll<.55){elixirExp=Math.floor(cR()*70+60);G.exp+=elixirExp;G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.3));LOG(`回元丹成功！修為+${fmt(elixirExp)}`,'gd');}
+  else if(roll<.80){LOG('丹爐爆炸！煉丹失敗','dk');}
+  else if(roll<.93){elixirExp=Math.floor(cR()*140+150);G.exp+=elixirExp;G.bHp=cMH();LOG(`★ 上品靈丹！修為+${fmt(elixirExp)}，氣血全復！`,'go');}
+  else{elixirExp=Math.floor(cR()*300+380);G.exp+=elixirExp;G.bHp=cMH();G.stone+=60;LOG(`★★ 極品仙丹！修為+${fmt(elixirExp)}，靈石+60！`,'sp');}
+  // 碧蘿跟隨：煉丹額外獲得50%修為
+  if(biluo_bonus&&elixirExp>0){const bonus=Math.floor(elixirExp*.5);G.exp+=bonus;LOG(`🌿 碧蘿草木靈氣加持，額外修為+${fmt(bonus)}！`,'dao');}checkBreak();updateUI();}
 
 function appEv(ev){const e=ev.e||0,s=ev.s||0,h=ev.h||0,f=ev.f||0,life=ev.life||0,r=ev.r||0,c=ev.c||0,hp=ev.hp||0;
 const _em=e>0?Math.floor(e*(1+G.ri*0.12)):e;G.exp+=_em;if(ev.expLoss)G.exp=Math.max(0,G.exp-Math.floor(G.exp*ev.expLoss));G.stone=Math.max(0,G.stone+s);if(ev.stoneLoss)G.stone=Math.max(0,G.stone-ev.stoneLoss);G.herb+=h;if(ev.herbLoss)G.herb=Math.max(0,G.herb-ev.herbLoss);G.fame+=f;
@@ -1727,18 +1975,27 @@ if(G.sid==='xm'){
   }
 }
 function applyDaoFx(dmg){
-  const fd=gD();if(!fd||fd.aff<80||!G.zone.active)return;const m=G.zone.mon;
+  const fd=gD();if(!fd||!fd.met||!G.zone.active)return;const m=G.zone.mon;
 
+  // 基礎協助攻擊（跟隨就有普攻）
   const da=daoAtk(fd);
   if(da>0&&m){const d2=Math.max(1,Math.floor(da*0.8+R(-1,2)));m.hp-=d2;bLog(`💑${fd.n} 協助攻擊【${m.n}】，造成 ${fmt(d2)} 傷害`,'dao');}
 
   if(G.daoBurnTurns>0&&m){m.hp-=G.daoBurnDmg;G.daoBurnTurns--;}
 
-  if(fd.sp==='ice'&&m){const fx=Math.floor(cA()*.18);m.hp-=fx;bLog(`❄ 雪靈兒冰封【${m.n}】，追加冰傷 ${fmt(fx)}`,'dao');}
-  else if(fd.sp==='fire'&&m){const fx=Math.floor(m.hpMax*.04);m.hp-=fx;bLog(`🔥 焰妃灼燒【${m.n}】，造成 ${fmt(fx)} 火傷`,'dao');}
-  else if(fd.sp==='heal'){const rh=Math.floor(cMH()*.07);G.bHp=Math.min(cMH(),G.bHp+rh);bLog(`🌿 碧蘿草木靈氣，恢復你 ${fmt(rh)} 氣血`,'dao');}
-  else if(fd.sp==='cult'){const re=Math.floor(cR()*1.0);G.exp+=re;}
+  // 特殊能力（好感≥50解鎖）
+  if(fd.aff>=50){
+    if(fd.sp==='ice'&&m){const fx=Math.floor(cA()*.40);m.hp-=fx;bLog(`❄ 雪靈兒冰封【${m.n}】，追加冰傷 ${fmt(fx)}`,'dao');}
+    else if(fd.sp==='fire'&&m){const fx=Math.floor(m.hpMax*.08);m.hp-=fx;bLog(`🔥 焰妃灼燒【${m.n}】，造成 ${fmt(fx)} 火傷`,'dao');}
+    else if(fd.sp==='heal'){
+      const rh=Math.floor(cMH()*.02);G.bHp=Math.min(cMH(),G.bHp+rh);
+      bLog(`🌿 碧蘿草木靈氣，恢復 ${fmt(rh)} 氣血`,'dao');
+      if(Math.random()<.10){G.herb++;bLog(`🌿 碧蘿採得靈草，藥材+1`,'dao');}
+    }
+    else if(fd.sp==='cult'){const re=Math.floor(cR()*3.0);G.exp+=re;}
+  }
 
+  // 道侶技能（跟隨就觸發）
   tryDaoSkills(fd,m);
   if(m&&m.hp<=0)onKill();
 }
@@ -1768,14 +2025,18 @@ function tryDaoSkills(fd,m){
 
     if(sk.t==='aux'){
       if(sk.tbR){G.tempBuffs.rate={val:sk.tbR*cR(),end:Date.now()+sk.tbD*1000};}
+      if(sk.tbS){G.tempBuffs.spd={val:sk.tbS,end:Date.now()+(sk.tbD||12)*1000};}
       if(sk.tbAtk){G.mAgAtk=(G.mAgAtk||0)+sk.tbAtk;setTimeout(()=>{G.mAgAtk=Math.max(0,G.mAgAtk-sk.tbAtk);},(sk.tbD||12)*1000);}
       if(sk.tbCrit){G.tempBuffs.crit={val:sk.tbCrit,end:Date.now()+(sk.tbD||12)*1000};}
-      if(sk.auxHeal){G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*sk.auxHeal));}
+      if(sk.tbDodge){G.tempBuffs.dodge={val:sk.tbDodge,end:Date.now()+(sk.tbD||10)*1000};}
+      const rh=sk.auxHeal?Math.floor(cMH()*sk.auxHeal):0;
+      if(rh>0)G.bHp=Math.min(cMH(),G.bHp+rh);
       let auxDesc=[];
-      if(sk.tbR)auxDesc.push(`修為/秒提升`);
-      if(sk.tbAtk)auxDesc.push(`攻擊+${Math.round(sk.tbAtk*100)}%`);
+      if(sk.tbR)auxDesc.push(`修為/秒+${Math.round(sk.tbR*100)}%（${sk.tbD}秒）`);
+      if(sk.tbAtk)auxDesc.push(`攻擊+${Math.round(sk.tbAtk*100)}%（${sk.tbD||12}秒）`);
       if(sk.tbCrit)auxDesc.push(`暴擊+${Math.round(sk.tbCrit*100)}%`);
-      if(sk.auxHeal)auxDesc.push(`恢復${Math.round(sk.auxHeal*100)}%氣血`);
+      if(sk.tbDodge)auxDesc.push(`閃避+${Math.round(sk.tbDodge*100)}%（${sk.tbD||10}秒）`);
+      if(rh>0)auxDesc.push(`恢復 ${fmt(rh)} 氣血`);
       bLog(`💑${fd.n} 發動【${sk.n}】：${auxDesc.join('、')}`,'dao');
     }
 
@@ -1802,7 +2063,7 @@ function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();
         LOG(`✦ 血路狂殺！攻擊永久+1%（當前+${Math.round(G._demonPermAtk*100)}%）`,'go');
       }
     }
-  }const rm=rM();G.exp+=m.exp*(1+rm.killExp);G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);
+  }const rm=rM();const fdK=gD();const yanfeiBonus=(fdK&&fdK.sp==='fire'&&fdK.aff>=30)?m.exp*.03:0;G.exp+=m.exp*(1+rm.killExp)+yanfeiBonus;if(yanfeiBonus>0)bLog(`🔥 焰妃殺敵修為加成 +${fmt(Math.floor(yanfeiBonus))}`,'dao');G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);
 const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)G.exp+=Math.floor(m.exp*.10);if(m.boss){bLog(`★Boss【${m.n}】！修為+${fmt(m.exp)} 石+${fmt(m.stone)}${m.fame?' 望+'+m.fame:''}${m.herb?' 藥+'+m.herb:''}`,'wi');tryDrop();if(Math.random()<.45)tryDrop();}else if(Math.random()<.08)tryDrop();G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.06));spawnM();checkBreak();if(G.curTab==='zone')updateBUI();updateUI();}
 function onDefeat(){G.bHp=Math.floor(cMH()*.2);bLog('力竭撤退...','lo');LOG(`在【${ZONES[G.zone.zi].n}】敗退`,'dk');exitZone();}
 function exitZone(){G.zone.active=false;document.getElementById('btl-wrap').style.display='none';rZones();updateUI();}
@@ -1882,8 +2143,77 @@ function followDao(i){const d=G.dao[i];if(!d.met||d.aff<30)return;if(G.daoFollow
 function unfollowDao(){const d=gD();if(d)LOG(`${d.n} 暫時分開...`,'pk');G.daoFollow=null;rDao();rUI2();updateUI();}
 function giftD(i){const d=G.dao[i];if(!d.met||G.stone<d.gC)return;G.stone-=d.gC;d.aff=Math.min(100,d.aff+d.gG);if(d.aff>=80)LOG(`★ ${d.n}締結道侶！`,'pk');else if(d.aff>=50)LOG(`${d.n}對你心生情愫...`,'pk');else LOG(`贈予${d.n}【${d.gN}】，好感+${d.gG}`);rDao();updateUI();}
 
-function rSkills(){const el=document.getElementById('skill-list');el.innerHTML='';G.skills.forEach((s,i)=>{const s2=gS();const can=!s.u&&G.stone>=s.cost&&G.con>=s.con;const d=document.createElement('div');d.className='skcard'+(s.u?' lu':'');d.innerHTML=`<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:5px;"><div style="flex:1;"><div class="skn">${s.n} ${s.u?`<span class="pill" style="background:${s2.bg};color:${s2.color};">已修習</span>`:''}</div><div class="skd">${s.d}</div><div style="margin-top:3px;">${s.rate?`<span class="tag" style="background:var(--jade4);color:var(--jade);">修為/秒+${s.rate}</span>`:''}${s.atk?`<span class="tag" style="background:var(--cr4);color:var(--cr2);">攻擊+${s.atk}</span>`:''}${s.def?`<span class="tag" style="background:var(--sky4);color:var(--sky2);">防禦+${s.def}</span>`:''}${s.hp?`<span class="tag" style="background:var(--cr4);color:var(--cr);">HP+${s.hp}</span>`:''}${s.crit?`<span class="tag" style="background:var(--gold4);color:var(--gold);">暴擊+${Math.round(s.crit*100)}%</span>`:''}${s.spd?`<span class="tag" style="background:#faeeda;color:#854F0B;">速度+${s.spd}</span>`:''}${!s.u?`<span class="tag" style="background:var(--paper2);color:var(--ink3);">需石${s.cost}+貢獻${s.con}</span>`:''}</div></div>${!s.u?`<button class="sb${can?' cg':''}" onclick="buyS(${i})" ${can?'':'disabled'}>修習</button>`:''}</div>`;el.appendChild(d);});const al=document.getElementById('abil-list');al.innerHTML='';G.abilities.forEach((a,i)=>{const can=!a.u&&G.stone>=a.cost&&G.con>=a.con;const d=document.createElement('div');d.className='row';d.innerHTML=`<div style="flex:1;"><div class="rvt">${a.n} ${a.u?'<span class="pill pg">已習得</span>':''}</div><div class="rlt">${a.d} · 需石${a.cost}+貢獻${a.con}</div></div>${!a.u?`<button class="sb${can?' cg':''}" onclick="buyA(${i})" ${can?'':'disabled'} style="margin-left:5px;">習得</button>`:''}`;al.appendChild(d);});}
-function buyS(i){const s=G.skills[i];if(s.u||G.stone<s.cost||G.con<s.con)return;G.stone-=s.cost;G.con-=s.con;s.u=true;LOG(`修習【${s.n}】！`,'sp');rSkills();updateUI();}
+function rSkills(){const el=document.getElementById('skill-list');el.innerHTML='';
+  const s2=gS();
+  // 按招式分組（每10重一招）
+  // 確保 skills 有50個（補全舊存檔）
+  const baseSkills=gS().skills;
+  while(G.skills.length<baseSkills.length){
+    const idx=G.skills.length;
+    G.skills.push({...baseSkills[idx],u:false});
+  }
+  const skillGroups=[];
+  for(let gi=0;gi<5;gi++){
+    const group=G.skills.slice(gi*10,(gi+1)*10);
+    if(group.length===10)skillGroups.push({skills:group,idx:gi});
+  }
+  skillGroups.forEach(({skills:grp,idx:gi})=>{
+    // 找當前重數（最後一個 u:true 的索引+1）
+    let curTier=0;
+    for(let t=0;t<10;t++){if(grp[t].u)curTier=t+1;}
+    const baseName=grp[0].n.replace(/[一二三四五六七八九第十重]+$/,'');
+    const maxed=curTier>=10;
+    const nextIdx=gi*10+curTier;
+    const next=curTier<10?grp[curTier]:null;
+    const can=next&&!next.u&&G.stone>=next.cost&&G.con>=next.con&&(next.rank===undefined||G.sect.rankIdx>=(next.rank||0));
+    const locked=next&&(next.rank||0)>G.sect.rankIdx;
+    // 顯示
+    const d=document.createElement('div');
+    d.className='skcard'+(curTier>0?' lu':'');
+    const tierBar=Array.from({length:10},(_,t)=>
+      `<div style="width:8%;height:6px;border-radius:2px;background:${t<curTier?s2.color:'var(--paper3)'}"></div>`
+    ).join('');
+    d.innerHTML=`
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+        <div style="flex:1;">
+          <div class="skn">${baseName} 
+            <span class="pill" style="background:${curTier>0?s2.bg:'var(--paper2)'};color:${curTier>0?s2.color:'var(--ink3)'};">
+              ${maxed?'大成圓滿':curTier>0?'第'+['一','二','三','四','五','六','七','八','九','十'][curTier-1]+'重':'未修習'}
+            </span>
+          </div>
+          <div style="display:flex;gap:2px;margin:4px 0;">${tierBar}</div>
+          ${next&&!maxed?`<div class="skd">下一重：${next.d}</div>
+          <div style="margin-top:2px;">
+            <span class="tag" style="background:var(--paper2);color:${G.stone>=next.cost?'var(--jade)':'var(--cr2)'};">石${next.cost}</span>
+            ${next.con>0?`<span class="tag" style="background:var(--paper2);color:${G.con>=next.con?'var(--jade)':'var(--cr2)'};">貢獻${next.con}</span>`:''}
+            ${(next.rank||0)>0?`<span class="tag" style="background:var(--paper2);color:${G.sect.rankIdx>=(next.rank||0)?'var(--jade)':'var(--cr2)'};">${s2.rankNames[next.rank||0]}</span>`:''}
+          </div>`:''}
+        </div>
+        ${maxed?'<span style="color:var(--gold);font-size:12px;">✦圓滿</span>':
+          `<button class="sb${can?' cg':''}" onclick="buyS(${nextIdx})" ${can?'':'disabled'}>
+            ${curTier===0?'修習':locked?'未解鎖':'升級'}
+          </button>`}
+      </div>`;
+    el.appendChild(d);
+  });const al=document.getElementById('abil-list');al.innerHTML='';G.abilities.forEach((a,i)=>{const can=!a.u&&G.stone>=a.cost&&G.con>=a.con;const d=document.createElement('div');d.className='row';d.innerHTML=`<div style="flex:1;"><div class="rvt">${a.n} ${a.u?'<span class="pill pg">已習得</span>':''}</div><div class="rlt">${a.d} · 需石${a.cost}+貢獻${a.con}</div></div>${!a.u?`<button class="sb${can?' cg':''}" onclick="buyA(${i})" ${can?'':'disabled'} style="margin-left:5px;">習得</button>`:''}`;al.appendChild(d);});}
+function buyS(i){
+  const s=G.skills[i];
+  if(s.u)return;
+  if(G.stone<s.cost){LOG('靈石不足','dk');return;}
+  if(G.con<s.con){LOG('貢獻不足','dk');return;}
+  if(s.rank>0&&G.sect.rankIdx<s.rank){
+    LOG(`需達到【${gS().rankNames[s.rank]}】才能修習`,'dk');return;
+  }
+  G.stone-=s.cost;G.con-=s.con;s.u=true;
+  if(s.rate)G.permRate+=s.rate;
+  if(s.atk)G.permAtk+=s.atk;
+  if(s.def)G.permDef+=s.def;
+  if(s.hp)G.permHp+=s.hp;
+  if(s.spd)G.permSpd+=s.spd;
+  if(s.crit)G.permCrit+=s.crit;
+  LOG(`✦ 修習【${s.n}】！`,'go');
+  rSkills();updateUI();
+}
 function buyA(i){const a=G.abilities[i];if(a.u||G.stone<a.cost||G.con<a.con)return;G.stone-=a.cost;G.con-=a.con;a.u=true;LOG(`習得神通【${a.n}】！`,'sp');rSkills();updateUI();}
 
 function gML(){return G.sid?MINGLING[G.sid]:null;}
@@ -2400,6 +2730,96 @@ async function loadGame(){
   } catch(e){ console.warn('讀檔失敗', e); return false; }
 }
 
+async function exportSave(){
+  if(!G.started){LOG('尚未開始遊戲','dk');return;}
+  // 只存關鍵欄位，大幅壓縮
+  const mini={
+    v:1,started:G.started,sid:G.sid,bodyId:G.bodyId,playerName:G.playerName,
+    ri:G.ri,exp:G.exp,stone:G.stone,herb:G.herb,fame:G.fame,con:G.con,tick:G.tick,
+    bHp:G.bHp,bStage:G.bStage,kills:G.kills,
+    permAtk:G.permAtk,permDef:G.permDef,permRate:G.permRate,permSpd:G.permSpd,permCrit:G.permCrit,permHp:G.permHp,
+    mfl:{lv:G.mfl.lv,killBuff:G.mfl.killBuff},
+    skills:G.skills.map(s=>({u:s.u})),
+    abilities:G.abilities.map(a=>({u:a.u})),
+    equip:G.equip.map(e=>e?{slot:e.slot,name:e.name,grade:e.grade,atk:e.atk,def:e.def,spd:e.spd,rate:e.rate,hp:e.hp}:null),
+    dao:G.dao.map(d=>({id:d.id,met:d.met,aff:d.aff,ri:d.ri,_lastRiIdx:d._lastRiIdx||0})),
+    daoFollow:G.daoFollow,
+    sect:{rankIdx:G.sect.rankIdx},
+    brkFailCount:G.brkFailCount,brkCdEnd:G.brkCdEnd,
+    _demonKills:G._demonKills||0,_demonPermAtk:G._demonPermAtk||0,
+    daily:G.daily,bgToday:G.bgToday,
+    _ts:Date.now()
+  };
+  const raw=JSON.stringify(mini);
+  LOG('存檔大小：'+raw.length+'字元','gd');
+  try{
+    await navigator.clipboard.writeText(raw);
+    LOG('✦ 存檔已複製到剪貼簿！貼到備忘錄保存','go');
+    return;
+  }catch(e){}
+  const ta=document.createElement('textarea');
+  ta.value=raw;
+  ta.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:200px;z-index:9999;font-size:10px;background:var(--paper);border:1px solid var(--gold);padding:6px;';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{document.execCommand('copy');LOG('✦ 已複製！','go');}catch(e){LOG('請手動全選複製','dk');}
+  setTimeout(()=>ta.remove(),8000);
+}
+
+function importSave(input){}
+
+function showImportDialog(){
+  document.getElementById('import-text').value='';
+  document.getElementById('import-dialog').style.display='flex';
+}
+
+async function doImportSave(){
+  try{
+    const raw=document.getElementById('import-text').value.trim();
+    if(!raw){LOG('請貼上存檔內容','dk');return;}
+    const sv=JSON.parse(raw);
+    if(!sv.started){LOG('無效的存檔檔案','dk');return;}
+    // 精簡格式直接套用到 G
+    Object.assign(G,sv);
+    // 補全缺少的欄位
+    if(!G.mfl)G.mfl={lv:0,killBuff:0,activeCur:0,defBuff:0,rateBuff:1};
+    G.mfl.activeCur=0;G.mfl.defBuff=0;G.mfl.rateBuff=1;
+    if(!G.tempBuffs)G.tempBuffs={};
+    G.mAgAtk=0;G.mAgDef=0;
+    G.zone={active:false,zi:-1,at:0,mon:null,isBoss:false};
+    if(!G.camp)G.camp={active:false,log:[],at:0};else G.camp.active=false;
+    if(!G.trav)G.trav={active:false,log:[],at:0};else G.trav.active=false;
+    G.daoShieldBuff=0;G.daoBurnTurns=0;G.daoSkCDs={};
+    G.brkWeak=false;G.brkWeakEnd=0;
+    if(!G.bgBuff)G.bgBuff=null;
+    if(!G.stask)G.stask={cl:[false,false],resetAt:0};
+    if(!G.evItems)G.evItems=[];
+    if(!G.bag)G.bag=[];
+    if(!G.bagFilter&&G.bagFilter!==0)G.bagFilter=-1;
+    // 補全 skills 和 abilities
+    const sBase=gS();
+    G.skills=sBase.skills.map((sk,i)=>({...sk,u:sv.skills?.[i]?.u||false}));
+    G.abilities=ABILITIES.map((a,i)=>({...a,u:sv.abilities?.[i]?.u||false}));
+    // 補全 dao
+    G.dao=G.dao.map((d,i)=>{
+      const base=DAO_DATA[i];if(!base)return d;
+      return {...base,...d,skills:base.skills?base.skills.map(s=>({...s})):[]};
+    });
+    // 存入儲存層
+    const fullRaw=JSON.stringify({...G,_ts:Date.now()});
+    try{localStorage.setItem(SAVE_KEY,fullRaw);}catch(ex){}
+    await idbSave(SAVE_KEY,fullRaw);
+    document.getElementById('import-dialog').style.display='none';
+    // 顯示遊戲
+    document.getElementById('pane-init').style.display='none';
+    document.getElementById('pane-main').style.display='';
+    document.getElementById('main-nav').style.display='flex';
+    T(G.curTab||'main');
+    rUI2();updateUI();
+    LOG('✦ 存檔載入完成！歡迎回來，'+G.playerName+'！','sp');
+  }catch(ex){LOG('匯入失敗：'+ex.message,'dk');}
+}
+
 function deleteSave(){
   if(!confirm('確定要刪除存檔？此操作無法復原！')) return;
   try{localStorage.removeItem(SAVE_KEY);}catch(e){}
@@ -2452,51 +2872,21 @@ async function showSaveInfo(){
   }
 })();
 
-let _deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  _deferredPrompt = e;
+function installPWA(){}
 
-  const btn = document.getElementById('pwa-install-btn');
-  if(btn) btn.style.display = 'flex';
-});
-window.addEventListener('appinstalled', () => {
-  const btn = document.getElementById('pwa-install-btn');
-  if(btn) btn.style.display = 'none';
-  _deferredPrompt = null;
-});
-function installPWA(){
-  if(_deferredPrompt){
-    _deferredPrompt.prompt();
-    _deferredPrompt.userChoice.then(()=>{ _deferredPrompt=null; });
-  }
-}
-
-if('serviceWorker' in navigator){
-  const swCode = `
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open('xianxia-v1').then(cache =>
-      cache.addAll([location.pathname])
-    )
-  );
-});
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
-  );
-});
-`;
-  const blob = new Blob([swCode], {type:'application/javascript'});
-  const swUrl = URL.createObjectURL(blob);
-  navigator.serviceWorker.register(swUrl).catch(()=>{});
-}
+// Service Worker disabled for local file mode
 </script>
-<!-- PWA 安裝按鈕（Android Chrome 自動顯示，iOS 請手動加入主畫面） -->
-<div id="pwa-install-btn" style="display:none;position:fixed;bottom:16px;right:12px;z-index:9999;">
-  <button onclick="installPWA()" style="background:linear-gradient(135deg,#c89020,#8a6010);color:#fff;border:none;border-radius:20px;padding:10px 18px;font-size:13px;font-family:'Noto Serif SC',serif;font-weight:700;box-shadow:0 3px 12px rgba(0,0,0,.4);cursor:pointer;display:flex;align-items:center;gap:6px;">
-    ☯ 安裝到手機
-  </button>
+
+<div id="import-dialog" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:var(--paper);border-radius:var(--r2);padding:16px;margin:16px;width:calc(100%-32px);max-width:400px;">
+    <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:8px;">📥 匯入存檔</div>
+    <div style="font-size:11px;color:var(--ink3);margin-bottom:8px;">將匯出的存檔內容貼上到下方</div>
+    <textarea id="import-text" style="width:100%;height:120px;background:var(--paper2);border:1px solid var(--paper3);border-radius:var(--r);color:var(--ink);font-size:11px;padding:6px;box-sizing:border-box;font-family:monospace;" placeholder="貼上存檔JSON內容..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button onclick="doImportSave();" style="flex:1;padding:10px;background:linear-gradient(135deg,#c89020,#8a6010);color:#fff;border:none;border-radius:var(--r);font-family:'Noto Serif SC',serif;font-size:14px;cursor:pointer;">確認匯入</button>
+      <button onclick="document.getElementById('import-dialog').style.display='none';" style="flex:1;padding:10px;background:var(--paper2);color:var(--ink);border:1px solid var(--paper3);border-radius:var(--r);font-family:'Noto Serif SC',serif;font-size:14px;cursor:pointer;">取消</button>
+    </div>
+  </div>
 </div>
 </body>
 </html>
