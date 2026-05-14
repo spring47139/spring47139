@@ -234,7 +234,7 @@ document.getElementById('manifest-link').href = manifestUrl;
     <div class="r1"><div class="rv" id="r-st">0</div><div class="rl">靈石</div></div>
     <div class="r1"><div class="rv" id="r-hb">0</div><div class="rl">藥材</div></div>
     <div class="r1"><div class="rv" id="r-fm">0</div><div class="rl">聲望</div></div>
-    <div class="r1"><div class="rv" id="r-lf">0</div><div class="rl">年紀</div></div>
+    <div class="r1"><div class="rv" id="r-lf">0</div><div class="rl">修煉</div></div>
     <div class="r1"><div class="rv" id="r-cn">0</div><div class="rl">貢獻</div></div>
   </div>
   <div class="rb"><div class="rbv" id="r-rt">0</div><div class="rbl">修為/秒</div></div>
@@ -342,6 +342,7 @@ document.getElementById('manifest-link').href = manifestUrl;
   <div class="card"><div class="ct">每日任務</div><div id="daily-tasks"></div></div>
   <div class="card"><div class="ct">宗門任務</div><div id="sect-tasks"></div></div>
   <div class="card"><div class="ct">宗門加成特權</div><div id="sect-perks"></div></div>
+  <div class="card"><div class="ct">聲望兌換</div><div id="fame-shop"></div></div>
 </div>
 
 <div id="pane-trav" style="display:none;">
@@ -476,30 +477,83 @@ const BODIES=[
 
 /* ── 境界（合體大乘後加仙道境界，參考遮天完美世界）── */
 const REALMS=[
- {n:'煉氣一層',ti:'凡人',req:300,hp:0,atk:0,def:0,rate:0,life:0},
- {n:'煉氣三層',ti:'凡人',req:1000,hp:15,atk:2,def:2,rate:.2,life:5},
- {n:'煉氣五層',ti:'凡人',req:2800,hp:30,atk:4,def:4,rate:.4,life:8},
- {n:'煉氣七層',ti:'凡人',req:7000,hp:50,atk:7,def:6,rate:.7,life:12},
- {n:'煉氣九層',ti:'凡人',req:16000,hp:70,atk:11,def:9,rate:1.1,life:16},
- {n:'築基初期',ti:'築基',req:36000,hp:160,atk:28,def:18,rate:3,life:50},
- {n:'築基中期',ti:'築基',req:80000,hp:300,atk:55,def:35,rate:7,life:100},
- {n:'築基後期',ti:'築基',req:170000,hp:550,atk:100,def:65,rate:15,life:180},
- {n:'築基圓滿',ti:'築基',req:360000,hp:900,atk:170,def:110,rate:28,life:280},
- {n:'金丹初期',ti:'金丹',req:760000,hp:2200,atk:420,def:240,rate:60,life:700},
- {n:'金丹中期',ti:'金丹',req:1600000,hp:4500,atk:850,def:480,rate:140,life:1400},
- {n:'金丹後期',ti:'金丹',req:3400000,hp:9000,atk:1700,def:960,rate:320,life:2800},
- {n:'金丹圓滿',ti:'金丹',req:7200000,hp:18000,atk:3500,def:1900,rate:700,life:5600},
- {n:'元嬰初期',ti:'元嬰',req:15e6,hp:40000,atk:8000,def:4200,rate:1600,life:12000},
- {n:'元嬰中期',ti:'元嬰',req:32e6,hp:90000,atk:18000,def:9000,rate:3600,life:26000},
- {n:'元嬰後期',ti:'元嬰',req:70e6,hp:200000,atk:40000,def:20000,rate:8000,life:55000},
- {n:'元嬰圓滿',ti:'元嬰',req:150e6,hp:450000,atk:90000,def:45000,rate:18000,life:120000},
- {n:'化神初期',ti:'化神',req:320e6,hp:1100000,atk:220000,def:110000,rate:45000,life:280000},
- {n:'化神中期',ti:'化神',req:700e6,hp:2800000,atk:550000,def:275000,rate:110000,life:620000},
- {n:'化神圓滿',ti:'化神',req:1600e6,hp:7e6,atk:1400000,def:700000,rate:280000,life:1400000},
- {n:'合體初期',ti:'合體',req:3500e6,hp:20e6,atk:4e6,def:2e6,rate:800000,life:5e6},
- {n:'合體圓滿',ti:'合體',req:8000e6,hp:50e6,atk:10e6,def:5e6,rate:2e6,life:12e6},
- {n:'大乘初期',ti:'大乘',req:18000e6,hp:130e6,atk:25e6,def:12e6,rate:5e6,life:30e6},
- {n:'大乘圓滿',ti:'大乘',req:40000e6,hp:320e6,atk:60e6,def:30e6,rate:12e6,life:80e6},
+ // 煉氣（凡人）10層
+ {n:'煉氣一層',ti:'凡人',req:200,hp:0,atk:0,def:0,rate:0},
+ {n:'煉氣二層',ti:'凡人',req:500,hp:5,atk:1,def:1,rate:.07},
+ {n:'煉氣三層',ti:'凡人',req:1000,hp:10,atk:2,def:2,rate:.13},
+ {n:'煉氣四層',ti:'凡人',req:1800,hp:16,atk:3,def:3,rate:.20},
+ {n:'煉氣五層',ti:'凡人',req:3000,hp:24,atk:4,def:4,rate:.30},
+ {n:'煉氣六層',ti:'凡人',req:5000,hp:34,atk:6,def:5,rate:.42},
+ {n:'煉氣七層',ti:'凡人',req:8000,hp:46,atk:8,def:7,rate:.57},
+ {n:'煉氣八層',ti:'凡人',req:12000,hp:60,atk:10,def:9,rate:.75},
+ {n:'煉氣九層',ti:'凡人',req:17000,hp:70,atk:13,def:11,rate:.95},
+ {n:'煉氣圓滿',ti:'凡人',req:24000,hp:82,atk:16,def:13,rate:1.2},
+ // 築基 10層
+ {n:'築基一層',ti:'築基',req:38000,hp:150,atk:26,def:16,rate:2.5},
+ {n:'築基二層',ti:'築基',req:58000,hp:200,atk:38,def:23,rate:3.8},
+ {n:'築基三層',ti:'築基',req:85000,hp:260,atk:52,def:32,rate:5.5},
+ {n:'築基四層',ti:'築基',req:125000,hp:330,atk:70,def:43,rate:7.8},
+ {n:'築基五層',ti:'築基',req:180000,hp:420,atk:92,def:57,rate:11},
+ {n:'築基六層',ti:'築基',req:260000,hp:530,atk:118,def:73,rate:15},
+ {n:'築基七層',ti:'築基',req:370000,hp:660,atk:148,def:92,rate:20},
+ {n:'築基八層',ti:'築基',req:520000,hp:820,atk:185,def:115,rate:27},
+ {n:'築基九層',ti:'築基',req:720000,hp:1000,atk:230,def:142,rate:35},
+ {n:'築基圓滿',ti:'築基',req:1000000,hp:1200,atk:280,def:175,rate:45},
+ // 金丹 10層
+ {n:'金丹一層',ti:'金丹',req:1600000,hp:2000,atk:380,def:210,rate:58},
+ {n:'金丹二層',ti:'金丹',req:2400000,hp:2800,atk:520,def:290,rate:80},
+ {n:'金丹三層',ti:'金丹',req:3600000,hp:3800,atk:700,def:390,rate:110},
+ {n:'金丹四層',ti:'金丹',req:5200000,hp:5000,atk:930,def:515,rate:148},
+ {n:'金丹五層',ti:'金丹',req:7500000,hp:6600,atk:1220,def:675,rate:195},
+ {n:'金丹六層',ti:'金丹',req:11000000,hp:8500,atk:1580,def:870,rate:255},
+ {n:'金丹七層',ti:'金丹',req:16000000,hp:11000,atk:2050,def:1130,rate:330},
+ {n:'金丹八層',ti:'金丹',req:23000000,hp:14000,atk:2650,def:1460,rate:425},
+ {n:'金丹九層',ti:'金丹',req:33000000,hp:18000,atk:3400,def:1870,rate:545},
+ {n:'金丹圓滿',ti:'金丹',req:47000000,hp:23000,atk:4300,def:2380,rate:700},
+ // 元嬰 10層
+ {n:'元嬰一層',ti:'元嬰',req:70e6,hp:35000,atk:6500,def:3500,rate:1050},
+ {n:'元嬰二層',ti:'元嬰',req:100e6,hp:50000,atk:9000,def:4800,rate:1450},
+ {n:'元嬰三層',ti:'元嬰',req:145e6,hp:70000,atk:12500,def:6600,rate:2000},
+ {n:'元嬰四層',ti:'元嬰',req:210e6,hp:95000,atk:17000,def:9000,rate:2700},
+ {n:'元嬰五層',ti:'元嬰',req:300e6,hp:130000,atk:23000,def:12000,rate:3700},
+ {n:'元嬰六層',ti:'元嬰',req:430e6,hp:175000,atk:31000,def:16500,rate:5000},
+ {n:'元嬰七層',ti:'元嬰',req:620e6,hp:235000,atk:42000,def:22000,rate:6800},
+ {n:'元嬰八層',ti:'元嬰',req:890e6,hp:315000,atk:57000,def:30000,rate:9200},
+ {n:'元嬰九層',ti:'元嬰',req:1280e6,hp:420000,atk:77000,def:40000,rate:12500},
+ {n:'元嬰圓滿',ti:'元嬰',req:1850e6,hp:560000,atk:103000,def:54000,rate:17000},
+ // 化神 10層
+ {n:'化神一層',ti:'化神',req:2800e6,hp:850000,atk:160000,def:80000,rate:26000},
+ {n:'化神二層',ti:'化神',req:4200e6,hp:1200000,atk:220000,def:110000,rate:38000},
+ {n:'化神三層',ti:'化神',req:6300e6,hp:1700000,atk:310000,def:155000,rate:55000},
+ {n:'化神四層',ti:'化神',req:9500e6,hp:2400000,atk:430000,def:215000,rate:80000},
+ {n:'化神五層',ti:'化神',req:14000e6,hp:3400000,atk:600000,def:300000,rate:115000},
+ {n:'化神六層',ti:'化神',req:21000e6,hp:4800000,atk:840000,def:420000,rate:165000},
+ {n:'化神七層',ti:'化神',req:32000e6,hp:6700000,atk:1170000,def:585000,rate:235000},
+ {n:'化神八層',ti:'化神',req:48000e6,hp:9300000,atk:1630000,def:815000,rate:335000},
+ {n:'化神九層',ti:'化神',req:72000e6,hp:13000000,atk:2270000,def:1135000,rate:480000},
+ {n:'化神圓滿',ti:'化神',req:108000e6,hp:18000000,atk:3160000,def:1580000,rate:680000},
+ // 合體 10層
+ {n:'合體一層',ti:'合體',req:170000e6,hp:28e6,atk:5e6,def:2.5e6,rate:1100000},
+ {n:'合體二層',ti:'合體',req:260000e6,hp:40e6,atk:7e6,def:3.5e6,rate:1600000},
+ {n:'合體三層',ti:'合體',req:400000e6,hp:57e6,atk:10e6,def:5e6,rate:2300000},
+ {n:'合體四層',ti:'合體',req:610000e6,hp:80e6,atk:14e6,def:7e6,rate:3300000},
+ {n:'合體五層',ti:'合體',req:940000e6,hp:113e6,atk:20e6,def:10e6,rate:4800000},
+ {n:'合體六層',ti:'合體',req:1450000e6,hp:158e6,atk:28e6,def:14e6,rate:6900000},
+ {n:'合體七層',ti:'合體',req:2200000e6,hp:220e6,atk:39e6,def:19.5e6,rate:9900000},
+ {n:'合體八層',ti:'合體',req:3400000e6,hp:310e6,atk:55e6,def:27.5e6,rate:14200000},
+ {n:'合體九層',ti:'合體',req:5200000e6,hp:435e6,atk:77e6,def:38.5e6,rate:20400000},
+ {n:'合體圓滿',ti:'合體',req:8000000e6,hp:610e6,atk:108e6,def:54e6,rate:29300000},
+ // 大乘 10層
+ {n:'大乘一層',ti:'大乘',req:13000000e6,hp:950e6,atk:170e6,def:85e6,rate:46e6},
+ {n:'大乘二層',ti:'大乘',req:20000000e6,hp:1.4e9,atk:240e6,def:120e6,rate:68e6},
+ {n:'大乘三層',ti:'大乘',req:31000000e6,hp:2e9,atk:340e6,def:170e6,rate:100e6},
+ {n:'大乘四層',ti:'大乘',req:48000000e6,hp:2.8e9,atk:480e6,def:240e6,rate:148e6},
+ {n:'大乘五層',ti:'大乘',req:74000000e6,hp:3.9e9,atk:670e6,def:335e6,rate:218e6},
+ {n:'大乘六層',ti:'大乘',req:114000000e6,hp:5.5e9,atk:940e6,def:470e6,rate:320e6},
+ {n:'大乘七層',ti:'大乘',req:175000000e6,hp:7.7e9,atk:1.3e9,def:660e6,rate:470e6},
+ {n:'大乘八層',ti:'大乘',req:270000000e6,hp:10.8e9,atk:1.85e9,def:925e6,rate:690e6},
+ {n:'大乘九層',ti:'大乘',req:415000000e6,hp:15.1e9,atk:2.6e9,def:1.3e9,rate:1010e6},
+ {n:'大乘圓滿',ti:'大乘',req:640000000e6,hp:21e9,atk:3.6e9,def:1.8e9,rate:1480e6},
  // 仙道境界（遮天/完美世界風格）
  {n:'仙台顯現',ti:'仙道',req:90000e6,hp:800e6,atk:150e6,def:75e6,rate:30e6,life:200000},
  {n:'仙台四輪明',ti:'仙道',req:200000e6,hp:2e9,atk:380e6,def:190e6,rate:75e6,life:500000},
@@ -647,6 +701,11 @@ const SECTS=[
    {t:'翻閱古典，修為+{e}',e:4,bad:false,type:'daily'},
    {t:'【機緣】對玄冥宗大勝，聲望+{f}，靈石+{s}',f:3,s:3,bad:false,type:'rival'},
    {t:'【危機】遭魔煞堂暗算，靈石損{s}，氣血略損',stoneLoss:4,hpDmg:.05,bad:true,type:'rival'},
+   {t:'完成師門護衛任務，貢獻+{c}，靈石+{s}',c:15,s:3,bad:false,type:'task'},
+   {t:'協助長老整理藏劍閣，貢獻+{c}',c:10,bad:false,type:'daily'},
+   {t:'【競賽】劍道大比武表現出色，貢獻+{c}，聲望+{f}',c:20,f:2,bad:false,type:'event'},
+   {t:'參與宗門守衛輪班，貢獻+{c}',c:8,bad:false,type:'daily'},
+   {t:'協助師兄修繕宗門陣法，貢獻+{c}，靈石+{s}',c:25,s:4,bad:false,type:'task'},
   ],
   travEvs:[
    {t:'劍意頓悟，修為+{e}，暴擊+4%臨時',e:5,tb:'crit',tv:.04,td:18,bad:false},
@@ -689,6 +748,11 @@ const SECTS=[
    {t:'老祖指點，修為+{e}，修為/秒+8%臨時',tb:'rate',tv:.08,td:12,e:3,bad:false,type:'daily'},
    {t:'【機緣】對青雲宗大勝，聲望+{f}',f:3,bad:false,type:'rival'},
    {t:'【危機】遭魔煞堂侵蝕，HP略損',hpDmg:.06,bad:true,type:'rival'},
+   {t:'淬體訓練帶領師弟，貢獻+{c}',c:12,bad:false,type:'daily'},
+   {t:'完成宗門體修考核，貢獻+{c}，靈石+{s}',c:18,s:4,bad:false,type:'task'},
+   {t:'【競賽】體道比試名列前茅，貢獻+{c}，聲望+{f}',c:22,f:2,bad:false,type:'event'},
+   {t:'協助修繕宗門防禦陣法，貢獻+{c}',c:15,bad:false,type:'daily'},
+   {t:'完成宗主交付的秘密任務，貢獻+{c}，靈石+{s}',c:30,s:5,bad:false,type:'task'},
   ],
   travEvs:[
    {t:'肉身突破，HP永久+{hp}，修為+{e}',hp:8,permHp:true,e:3,bad:false},
@@ -728,6 +792,11 @@ const SECTS=[
    {t:'師門論道，修為+{e}',e:4,bad:false,type:'daily'},
    {t:'師兄感悟，修為/秒+10%臨時，修為+{e}',tb:'rate',tv:.1,td:12,e:2,bad:false,type:'daily'},
    {t:'【機緣】以水法化解青雲宗攻擊，聲望+{f}',f:3,bad:false,type:'rival'},
+   {t:'協助採集靈水資源，貢獻+{c}，藥材+{h}',c:12,h:1,bad:false,type:'task'},
+   {t:'完成閣主佈置的水法課業，貢獻+{c}',c:15,bad:false,type:'daily'},
+   {t:'【競賽】修煉速率排名第一，貢獻+{c}，聲望+{f}',c:20,f:2,bad:false,type:'event'},
+   {t:'協助師妹研究水靈陣法，貢獻+{c}，靈石+{s}',c:18,s:3,bad:false,type:'task'},
+   {t:'在水靈祭儀中表現優秀，貢獻+{c}，聲望+{f}',c:25,f:1,bad:false,type:'event'},
   ],
   travEvs:[
    {t:'靈水灌頂，修為+{e}，修為/秒臨時+2',e:4,tb:'rate',tv:2,td:15,bad:false},
@@ -766,6 +835,11 @@ const SECTS=[
    {t:'掠奪散修，靈石+{s}（聲望略損）',s:5,f:-1,bad:false,type:'task'},
    {t:'吞噬煞氣，修為+{e}',e:5,bad:false,type:'daily'},
    {t:'【機緣】壓制青雲宗，聲望+{f}，靈石+{s}',f:3,s:3,bad:false,type:'rival'},
+   {t:'完成堂主交付的殺戮任務，貢獻+{c}，靈石+{s}',c:20,s:5,bad:false,type:'task'},
+   {t:'在魔道訓練中表現凶悍，貢獻+{c}',c:12,bad:false,type:'daily'},
+   {t:'【競賽】殺戮效率排名前列，貢獻+{c}，聲望+{f}',c:25,f:2,bad:false,type:'event'},
+   {t:'協助長老鎮壓叛逆弟子，貢獻+{c}，靈石+{s}',c:18,s:4,bad:false,type:'task'},
+   {t:'參與血月祭儀，貢獻+{c}',c:15,bad:false,type:'daily'},
   ],
   travEvs:[
    {t:'殺意凝聚，攻擊+10%臨時，修為+{e}',e:3,tb:'atk',tv:.1,td:12,bad:false},
@@ -775,10 +849,64 @@ const SECTS=[
    {t:'【危機】業障爆發，修為損8%',expLoss:.08,bad:true},
    {t:'血月當空，修為大增+{e}，攻擊+30%臨時',e:11,tb:'atk',tv:.3,td:10,bad:false},
   ]},
+ // 散修：不入宗門，自由遊歷
+ {id:'sm',name:'散修',icon:'🌙',desc:'獨行修士',color:'var(--ink2)',bg:'var(--paper2)',bc:'var(--ink3)',
+  bonus:{atk:1.05,def:1.05,spd:1.05,crit:.10,rate:1.15},iAtk:10,iDef:8,iSpd:10,iHp:90,bgLbl:'獨修靜悟',lifeBonus:7,
+  rankNames:['無名散修','江湖遊俠','一方散仙','名動一方','威震一域','天下聞名'],
+  rankPerks:['無加成','全屬性+3%','全屬性+6%，靈石+5%','全屬性+10%，聲望加成+10%','全屬性+16%，修為/秒+20%','全屬性+20%，所有加成+15%'],
+  bSkills:[
+   {n:'乾坤一指',t:'atk',d:'萬法歸一，200%傷害，無視15%防禦',mult:2.0,cd:9,cur:0,prob:.08,ignoreDef:.15},
+   {n:'混元破',t:'atk',d:'散修無拘，280%傷害',mult:2.8,cd:18,cur:0,prob:.04},
+   {n:'虛無護體',t:'def',d:'以意御氣，防禦+45%（9秒），恢復HP10%',cd:16,cur:0,prob:.06,selfDef:.45,dur:9,heal:.10},
+   {n:'天地感悟',t:'aux',d:'天地靈氣共鳴，修為/秒+25%（15秒）',cd:20,cur:0,prob:.05,tbR:.25,tbD:15},
+   {n:'逍遙遊',t:'aux',d:'身如浮雲，速度+40%，閃避+10%（12秒）',cd:22,cur:0,prob:.04,tbS:.40,tbD:12},
+  ],
+  skills:[
+   {n:'萬法自然訣',d:'均衡提升，修為/秒+1.5，攻擊+10，速度+5',rate:1.5,atk:10,spd:5,cost:0,con:0,u:true},
+   {n:'天地玄黃訣',d:'修為/秒+5，攻擊+36，速度+16，防禦+12',rate:5,atk:36,spd:16,def:12,cost:100,con:30,u:false},
+   {n:'混沌歸元訣',d:'修為/秒+16，攻擊+120，速度+50，防禦+40',rate:16,atk:120,spd:50,def:40,cost:500,con:150,u:false},
+   {n:'太初無極訣',d:'修為/秒+55，攻擊+480，速度+170，防禦+160',rate:55,atk:480,spd:170,def:160,cost:3000,con:600,u:false},
+   {n:'道法自然訣',d:'修為/秒+220，攻擊+2200，速度+700，防禦+700',rate:220,atk:2200,spd:700,def:700,cost:22000,con:2500,u:false},
+  ],
+  campEvs:[
+   {t:'獨自打坐，天地靈氣自然流入，修為+{e}',e:4,bad:false,type:'daily'},
+   {t:'遊歷市集，以眼力淘得靈石+{s}',s:5,bad:false,type:'task'},
+   {t:'【奇遇】路遇高人，傳授一招，修為+{e}，聲望+{f}',e:5,f:2,bad:false,type:'bonus'},
+   {t:'【危機】遭宗門弟子排擠，損失靈石{s}',stoneLoss:4,bad:true,type:'bad'},
+   {t:'【危機】獨行山野，遭妖獸突襲，氣血略損',hpDmg:.08,bad:true,type:'bad'},
+   {t:'【奇遇】無意中悟得天地之道，修為/秒永久+{r}',pr:true,r:.12,bad:false,type:'bonus'},
+   {t:'以散修之身勝過宗門弟子，聲望+{f}，修為+{e}',f:3,e:4,bad:false,type:'event'},
+   {t:'市集交易，巧得靈石+{s}，藥材+{h}',s:4,h:1,bad:false,type:'task'},
+   {t:'獨悟天地陰陽，修為+{e}，修為/秒+12%臨時',e:3,tb:'rate',tv:.12,td:12,bad:false,type:'daily'},
+   {t:'【危機】宗門打壓，靈石損{s}，聲望略損',stoneLoss:5,f:-1,bad:true,type:'bad'},
+   {t:'結識志同道合的散修，互相切磋，修為+{e}，聲望+{f}',e:4,f:2,bad:false,type:'event'},
+   {t:'以一己之力護衛村民，聲望大增+{f}，靈石+{s}',f:5,s:4,bad:false,type:'event'},
+  ],
+  travEvs:[
+   {t:'荒野獨修，天地靈氣自然滋養，修為+{e}',e:6,bad:false},
+   {t:'【危機】遭多名宗門弟子圍攻，氣血大損',hpDmg:.22,bad:true},
+   {t:'【奇遇】發現無人知曉的靈脈，修為/秒永久+{r}，修為+{e}',pr:true,r:.18,e:4,bad:false},
+   {t:'路遇被宗門欺壓的散修，出手相助，聲望+{f}，修為+{e}',f:4,e:4,bad:false},
+   {t:'【危機】踏入禁地，險象環生，靈石損{s}，氣血略損',stoneLoss:6,hpDmg:.10,bad:true},
+   {t:'天地交鳴，萬法頓悟，修為大增+{e}',e:12,bad:false},
+   {t:'遊歷四方，見識廣博，修為+{e}，攻擊永久+{a}',e:5,a:2,permAtk:true,bad:false},
+   {t:'【奇遇】古人遺蹟感悟，全屬性微升',permAtk:true,a:1,permDef2:true,d:1,permHp:true,hp:5,bad:false},
+  ]},
 ];
 
 /* ── 本命法寶（每門派獨一，10級升階）── */
 const MINGLING={
+ sm:{name:'虛無天鑑',icon:'🌙',color:'var(--ink2)',
+  desc:'以天地為師，萬法歸一，均衡提升所有屬性',
+  perLv:{atk:30,def:22,hp:800,rate:1.8,crit:.012},
+  passive:{n:'天地感應',d:'每10秒自動恢復HP2%，修為/秒根據聲望額外加成'},
+  active:{n:'混沌歸元',d:'釋放天地之力，攻擊×500%+防禦×300%傷害，同時恢復HP20%',multAtk:5.0,multDef:3.0,heal:.20,cd:30,cur:0},
+  costs:[
+   {stone:500,exp:5000},{stone:2000,exp:25000},{stone:8000,exp:100000},
+   {stone:30000,exp:400000},{stone:100000,exp:1500000},
+   {stone:350000,exp:6000000},{stone:1200000,exp:25000000},
+   {stone:4500000,exp:100000000},{stone:18000000,exp:450000000},{stone:80000000,exp:2000000000},
+  ]},
  qy:{name:'青雲天劍',icon:'⚡',color:'var(--sky2)',
   desc:'凝聚天地劍意，攻擊與暴擊隨等級大幅提升',
   // 每級加成
@@ -884,13 +1012,15 @@ if(fd&&fd.sp==='cult'&&fd.aff>=80)r*=1.3;
 // 本命法寶修為/秒加成
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.rate)r+=ml.perLv.rate*G.mfl.lv;// 天河靈器被動
 if(G.sid==='th'&&ml)r*=(1+Math.min(.5,Math.floor(cR()*.001)*.01));}// 本命法寶修為/秒buff
-if(G.mfl.rateBuff)r*=G.mfl.rateBuff;// 渡劫虛弱削弱修為/秒
+if(G.mfl.rateBuff)r*=G.mfl.rateBuff;// 聲望加成修為/秒（每100聲望+0.2%，上限30%）
+if(G.fame>0)r*=(1+Math.min(.30,Math.floor(G.fame/100)*.002));// 渡劫虛弱削弱修為/秒
 if(G.brkWeak&&nowSec()<G.brkWeakEnd)r*=.70;// 閉關加速buff
 if(G.bgBuff&&nowSec()<G.bgBuff.end)r*=G.bgBuff.mult;
 return Math.max(.1,parseFloat(r.toFixed(2)));}
 function cA(){if(!G.started)return 0;const s=gS();let a=s.iAtk*s.bonus.atk+G.permAtk;G.skills.forEach(sk=>{if(sk.u&&sk.atk)a+=sk.atk;});G.abilities.forEach(b=>{if(b.u&&b.atk)a+=b.atk;});G.equip.forEach(e=>{if(e&&e.atk)a+=e.atk;});REALMS.slice(0,G.ri+1).forEach(rv=>{a+=rv.atk;});if(G.tempBuffs.atk)a*=(1+G.tempBuffs.atk.val);if(G.mAgAtk)a*=(1+G.mAgAtk);const bd=gB();if(bd)a+=bdStatAt(bd,G.bStage,'atk');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.atk){const di=dRI(d);a=Math.floor(a*(1+d.atk*(1+DAO_RL[di].b)));}});// 本命法寶攻擊加成
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.atk)a+=ml.perLv.atk*G.mfl.lv;}const rm=rM();a*=rm.atk;if(rm.all)a*=(1+rm.all);// 焰妃跟隨攻擊+15%
-const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)a*=1.15;// 渡劫虛弱削弱攻擊
+const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)a*=1.15;// 聲望加成攻擊（每200聲望+0.1%，上限15%）
+if(G.fame>0)a*=(1+Math.min(.15,Math.floor(G.fame/200)*.001));// 渡劫虛弱削弱攻擊
 if(G.brkWeak&&nowSec()<G.brkWeakEnd)a*=.75;return Math.floor(a);}
 function cD(){if(!G.started)return 0;const s=gS();let d=s.iDef*s.bonus.def+G.permDef;G.skills.forEach(sk=>{if(sk.u&&sk.def)d+=sk.def;});G.abilities.forEach(b=>{if(b.u&&b.def)d+=b.def;});G.equip.forEach(e=>{if(e&&e.def)d+=e.def;});REALMS.slice(0,G.ri+1).forEach(rv=>{d+=rv.def;});if(G.tempBuffs.def)d*=(1+G.tempBuffs.def.val);if(G.mAgDef)d*=(1+G.mAgDef);const bd=gB();if(bd)d+=bdStatAt(bd,G.bStage,'def');// 本命法寶防禦加成
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.def)d+=ml.perLv.def*G.mfl.lv;}// 本命法寶激活防禦buff
@@ -1056,6 +1186,32 @@ const _em=e>0?Math.floor(e*(1+G.ri*0.12)):e;G.exp+=_em;if(ev.expLoss)G.exp=Math.
 G.con+=c;if(ev.pr)G.permRate+=r;if(ev.permAtk)G.permAtk+=ev.a||0;if(ev.permDef&&ev.permDef>1)G.permDef+=ev.permDef;if(ev.permDef2)G.permDef+=ev.d||0;if(ev.permHp)G.permHp+=hp;if(ev.permSpd)G.permSpd+=ev.spd||0;if(ev.permCrit)G.permCrit+=ev.permCrit;if(ev.hpDmg)G.bHp=Math.max(1,G.bHp-Math.floor(cMH()*ev.hpDmg));if(ev.heal)G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*ev.heal));if(ev.healFull)G.bHp=cMH();if(ev.tb&&ev.tv>0)G.tempBuffs[ev.tb]={val:ev.tv,end:Date.now()+ev.td*1000};else if(ev.tb&&ev.tv<0){G.tempBuffs[ev.tb]={val:ev.tv,end:Date.now()+ev.td*1000};}}
 function fmE(t,ev){return t.replace(/{e}/g,ev.e||0).replace(/{s}/g,ev.s||0).replace(/{h}/g,ev.h||0).replace(/{f}/g,ev.f||0).replace(/{r}/g,ev.r||0).replace(/{a}/g,ev.a||0).replace(/{life}/g,ev.life||0).replace(/{hp}/g,ev.hp||0).replace(/{d}/g,ev.d||0).replace(/{spd}/g,ev.spd||0).replace(/{c}/g,ev.c||0);}
 
+/* ── 門派輔助招式在掛機/歷練中觸發 ── */
+function trigAuxSkill(){
+  if(!G.started)return;
+  const sk=gS().bSkills;
+  sk.forEach(s=>{
+    if(s.t!=='aux')return;// 只觸發輔助類
+    // 使用獨立冷卻（用 s.offCur 記錄場外CD）
+    if(!s.offCur)s.offCur=0;
+    if(s.offCur>0){s.offCur--;return;}
+    if(Math.random()>s.prob*0.6)return;// 場外觸發率略低
+    s.offCur=s.cd*3;// 場外冷卻更長
+    // 套用效果
+    if(s.tbR){
+      G.tempBuffs.rate={val:s.tbR*cR(),end:Date.now()+s.tbD*1000};
+      LOG(`✦【${s.n}】發動，修為/秒提升${Math.round(s.tbR*100)}%（${s.tbD}秒）`,'sp');
+    }
+    if(s.tbS){
+      G.tempBuffs.spd={val:s.tbS,end:Date.now()+s.tbD*1000};
+    }
+    if(s.buffAtk){
+      G.mAgAtk=s.buffAtk;
+      setTimeout(()=>{G.mAgAtk=0;},(s.buffDur||12)*1000);
+    }
+  });
+}
+
 function trigSE(){const pool=gS().campEvs;if(!pool.length)return;const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.type==='bonus'?'var(--gold2)':ev.type==='rival'||ev.type==='event'?'var(--sky3)':'var(--jade3)';pushEv(ev.bad?'⚠ 宗門危機':'🏯 宗門動態',msg,color);addCLog(msg,color,G.camp.log,'camp-log');LOG('[宗門]'+msg,ev.bad?'dk':'gd');// 道侶跟隨觸發道侶專屬事件（20%機率）
 if(G.camp.active&&G.daoFollow&&Math.random()<.20)trigDaoEv();checkBreak();updateUI();if(G.curTab==='camp')rCamp();}
 
@@ -1070,6 +1226,23 @@ const TRIBULATION_EVTS=[
 ];
 
 function trigTE(){const pool=gS().travEvs;if(!pool.length)return;
+// 聲望≥500時有機率觸發高階奇遇
+if(G.fame>=500&&Math.random()<.08){
+  const fameEvts=[
+    {t:'聲名在外，高人主動傳授秘法，修為/秒永久微升',pr:true,r:.2,bad:false},
+    {t:'聲望引來珍貴靈材，靈石大增',s:20,bad:false},
+    {t:'修仙界傳頌你的名聲，道心大振，修為大增',e:15,bad:false},
+    {t:'聲名引來強敵挑戰，奮力反擊，氣血略損但聲望大增',hpDmg:.08,f:8,bad:false},
+    {t:'前輩聽聞你的事跡，贈予稀有藥材',h:5,bad:false},
+  ];
+  const ev=fameEvts[Math.floor(Math.random()*fameEvts.length)];
+  appEv(ev);
+  const msg=fmE(ev.t,ev);
+  pushEv('⭐ 聲望奇遇',msg,'var(--gold2)');
+  addCLog(msg,'var(--gold2)',G.trav.log,'trav-log');
+  LOG('[歷練]'+msg,'go');
+  updateUI();if(G.curTab==='trav')rTrav();return;
+}
 // 邂逅道侶
 const unmet=G.dao.filter(d=>!d.met);if(unmet.length>0&&Math.random()<.12){const avail=DAO_MEET.filter(m=>unmet.find(d=>d.id===m.id));if(avail.length){const tr=pk(avail);const dao=G.dao.find(d=>d.id===tr.id);if(dao){dao.met=true;dao.aff=10;}const msg=tr.t;pushEv('♡ 道侶邂逅',msg+'（好感度：10）','#f0a0c8');addCLog(msg,'#f0a0c8',G.trav.log,'trav-log');LOG(`✦ 與【${dao.n}】相遇！`,'pk');updateUI();if(G.curTab==='dao')rDao();return;}}
 // 渡劫輔助奇遇（15%機率，只有在渡劫冷卻中或有失敗記錄時才觸發）
@@ -1285,23 +1458,29 @@ function bLog(msg,cls=''){const b=document.getElementById('blog');const el=docum
 
 function autoFight(){if(!G.zone.active||!G.zone.mon)return;const m=G.zone.mon;if(cDodge()>0&&Math.random()<cDodge()){bLog(`${G.playerName}閃避！`,'wi');return;}const ic=Math.random()<cC();// 體修：攻擊以防禦值計算
 let dmg;let critMult=1.85;if(G.sid==='qy'&&G.mfl.lv>0)critMult=2.35;if(G.sid==='xm'){dmg=Math.max(1,Math.floor(cD()*0.9+R(-1,2)));if(ic)dmg=Math.floor(dmg*critMult);}else{dmg=Math.max(1,Math.floor(cA()-m.def+R(-2,2)));// 魔刀殺戮疊加攻擊
-if(G.sid==='ms'&&G.mfl.killBuff)dmg=Math.floor(dmg*(1+G.mfl.killBuff));if(ic)dmg=Math.floor(dmg*critMult);}m.hp-=dmg;const leech=cLeech();if(leech>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*leech));bLog(ic?`✦暴擊！${m.n}受${fmt(dmg)}`:`${m.n}受${fmt(dmg)}`,ic?'cr':'');applyDaoFx(dmg);if(m.hp<=0){onKill();return;}const md=Math.max(1,Math.floor(m.atk-cD()*.55+R(-2,2)));
-  // 道侶分擔傷害
+if(G.sid==='ms'&&G.mfl.killBuff)dmg=Math.floor(dmg*(1+G.mfl.killBuff));if(ic)dmg=Math.floor(dmg*critMult);}m.hp-=dmg;const leech=cLeech();if(leech>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*leech));if(ic){bLog(`✦ ${G.playerName} 暴擊【${m.n}】！造成 ${fmt(dmg)} 傷害`,'cr');}
+  else{bLog(`${G.playerName} 普通攻擊【${m.n}】，造成 ${fmt(dmg)} 傷害`);}
+  if(leech>0)bLog(`吸血回復 ${fmt(Math.floor(dmg*leech))} 氣血`,'wi');
+  applyDaoFx(dmg);if(m.hp<=0){onKill();return;}
+  const md=Math.max(1,Math.floor(m.atk-cD()*.55+R(-2,2)));
   const sh=daoShield();const pDmg=sh>0?Math.floor(md*(1-sh)):md;
-  if(sh>0){const dDmg=md-pDmg;bLog(`💑${gD().n}分擔${fmt(dDmg)}傷害`,'dao');}
-  G.bHp-=pDmg;bLog(`${m.n}反擊${fmt(pDmg)}`,'hi');if(G.bHp<=0)onDefeat();}
+  if(sh>0){const dDmg=md-pDmg;bLog(`💑${gD().n}為你分擔 ${fmt(dDmg)} 傷害`,'dao');}
+  G.bHp-=pDmg;
+  if(pDmg>cMH()*.3)bLog(`【${m.n}】重擊！你受到 ${fmt(pDmg)} 傷害`,'hi');
+  else bLog(`【${m.n}】反擊，你受到 ${fmt(pDmg)} 傷害`,'hi');
+  if(G.bHp<=0)onDefeat();}
 function applyDaoFx(dmg){
   const fd=gD();if(!fd||fd.aff<80||!G.zone.active)return;const m=G.zone.mon;
   // 基礎屬性攻擊
   const da=daoAtk(fd);
-  if(da>0&&m){const d2=Math.max(1,Math.floor(da*0.8+R(-1,2)));m.hp-=d2;}
+  if(da>0&&m){const d2=Math.max(1,Math.floor(da*0.8+R(-1,2)));m.hp-=d2;bLog(`💑${fd.n} 協助攻擊【${m.n}】，造成 ${fmt(d2)} 傷害`,'dao');}
   // 持續灼燒傷害
   if(G.daoBurnTurns>0&&m){m.hp-=G.daoBurnDmg;G.daoBurnTurns--;}
   // 特殊屬性效果
-  if(fd.sp==='ice'&&m){const fx=Math.floor(cA()*.18);m.hp-=fx;}
-  else if(fd.sp==='fire'&&m){const fx=Math.floor(m.hpMax*.04);m.hp-=fx;}
-  else if(fd.sp==='heal'){G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.07));}
-  else if(fd.sp==='cult'){G.exp+=cR()*1.0;}
+  if(fd.sp==='ice'&&m){const fx=Math.floor(cA()*.18);m.hp-=fx;bLog(`❄ 雪靈兒冰封【${m.n}】，追加冰傷 ${fmt(fx)}`,'dao');}
+  else if(fd.sp==='fire'&&m){const fx=Math.floor(m.hpMax*.04);m.hp-=fx;bLog(`🔥 焰妃灼燒【${m.n}】，造成 ${fmt(fx)} 火傷`,'dao');}
+  else if(fd.sp==='heal'){const rh=Math.floor(cMH()*.07);G.bHp=Math.min(cMH(),G.bHp+rh);bLog(`🌿 碧蘿草木靈氣，恢復你 ${fmt(rh)} 氣血`,'dao');}
+  else if(fd.sp==='cult'){const re=Math.floor(cR()*1.0);G.exp+=re;}
   // 道侶技能觸發
   tryDaoSkills(fd,m);
   if(m&&m.hp<=0)onKill();
@@ -1321,11 +1500,11 @@ function tryDaoSkills(fd,m){
       const da=daoAtk(fd);
       let d2=Math.floor(da*sk.mult);
       m.hp-=d2;
-      bLog(`💑${fd.n}【${sk.n}】${fmt(d2)}傷害`,'dao');
+      bLog(`💑${fd.n} 發動【${sk.n}】，對【${m.n}】造成 ${fmt(d2)} 傷害`,'dao');
       if(sk.debuffAtk)m.atk=Math.floor(m.atk*(1-sk.debuffAtk));
       if(sk.debuffDef)m.def=Math.floor(m.def*(1-sk.debuffDef));
       if(sk.debuffSpd)m.atk=Math.floor(m.atk*(1-sk.debuffSpd*.5));
-      if(sk.fireReflect&&m){const rd=Math.floor(m.atk*sk.fireReflect);m.hp-=rd;bLog(`💑${fd.n}【${sk.n}】反彈${fmt(rd)}`,'dao');}
+      if(sk.fireReflect&&m){const rd=Math.floor(m.atk*sk.fireReflect);m.hp-=rd;bLog(`💑${fd.n} 【${sk.n}】火焰壁壘，將 ${fmt(rd)} 傷害反彈回【${m.n}】`,'dao');}
       if(sk.burn){G.daoBurnDmg=Math.floor(da*0.3);G.daoBurnTurns=sk.burn;}
       if(m.hp<=0){onKill();return;}
     }
@@ -1335,19 +1514,24 @@ function tryDaoSkills(fd,m){
       if(sk.tbAtk){G.mAgAtk=(G.mAgAtk||0)+sk.tbAtk;setTimeout(()=>{G.mAgAtk=Math.max(0,G.mAgAtk-sk.tbAtk);},(sk.tbD||12)*1000);}
       if(sk.tbCrit){G.tempBuffs.crit={val:sk.tbCrit,end:Date.now()+(sk.tbD||12)*1000};}
       if(sk.auxHeal){G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*sk.auxHeal));}
-      bLog(`💑${fd.n}【${sk.n}】輔助效果生效`,'dao');
+      let auxDesc=[];
+      if(sk.tbR)auxDesc.push(`修為/秒提升`);
+      if(sk.tbAtk)auxDesc.push(`攻擊+${Math.round(sk.tbAtk*100)}%`);
+      if(sk.tbCrit)auxDesc.push(`暴擊+${Math.round(sk.tbCrit*100)}%`);
+      if(sk.auxHeal)auxDesc.push(`恢復${Math.round(sk.auxHeal*100)}%氣血`);
+      bLog(`💑${fd.n} 發動【${sk.n}】：${auxDesc.join('、')}`,'dao');
     }
     // 防禦技（提升分擔比例）
     if(sk.t==='def'&&sk.shieldBuff){
       G.daoShieldBuff=sk.shieldBuff;
       setTimeout(()=>{G.daoShieldBuff=0;},(sk.shieldDur||8)*1000);
-      bLog(`💑${fd.n}【${sk.n}】護盾激活（分擔${Math.round(sk.shieldBuff*100)}%）`,'dao');
+      bLog(`💑${fd.n} 發動【${sk.n}】，護盾激活！為你分擔 ${Math.round(sk.shieldBuff*100)}% 傷害`,'dao');
     }
   });
 }
 
 function trySk(){if(!G.zone.active)return;gS().bSkills.forEach(sk=>{if(sk.cur>0){sk.cur=Math.max(0,sk.cur-1);return;}const eff=Math.min(.8,sk.prob+(G.ri*.006));if(Math.random()<eff){sk.cur=sk.cd;const m=G.zone.mon;// 體修：防禦值計算傷害
-if(sk.defMult&&m){const dmg=Math.floor(cD()*sk.defMult);m.hp-=dmg;bLog(`★【${sk.n}】防禦轉攻 ${fmt(dmg)}傷害`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.defReflect&&m){const rd=Math.floor(cD()*sk.defReflect);m.hp-=rd;bLog(`★【${sk.n}】防禦反震 ${fmt(rd)}傷害`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.mult>0){let dmg=Math.floor(cA()*sk.mult);if(sk.leech&&dmg>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*sk.leech));if(sk.lowHp){const pct=G.bHp/cMH();dmg=Math.floor(dmg*(1+.1+(.5*(1-pct))));}if(m){m.hp-=dmg;bLog(`★【${sk.n}】${fmt(dmg)}傷害`,'sk');if(sk.debuffSpd)m.atk=Math.floor(m.atk*.7);if(m.hp<=0){onKill();return;}}}if(sk.buffAtk){G.mAgAtk=sk.buffAtk;setTimeout(()=>{G.mAgAtk=0;},(sk.buffDur||12)*1000);}if(sk.selfDef){G.mAgDef=sk.selfDef;setTimeout(()=>{G.mAgDef=0;},(sk.dur||8)*1000);}if(sk.tbR){G.tempBuffs.rate={val:sk.tbR*cR(),end:Date.now()+sk.tbD*1000};}if(sk.tbS){G.tempBuffs.spd={val:sk.tbS,end:Date.now()+sk.tbD*1000};}if(sk.heal)G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*sk.heal));}});}
+if(sk.defMult&&m){const dmg=Math.floor(cD()*sk.defMult);m.hp-=dmg;bLog(`⚔ 【${sk.n}】以防禦之力轟出！對【${m.n}】造成 ${fmt(dmg)} 傷害`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.defReflect&&m){const rd=Math.floor(cD()*sk.defReflect);m.hp-=rd;bLog(`🛡 【${sk.n}】護盾反震！以防禦反彈 ${fmt(rd)} 傷害回【${m.n}】`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.mult>0){let dmg=Math.floor(cA()*sk.mult);if(sk.leech&&dmg>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*sk.leech));if(sk.lowHp){const pct=G.bHp/cMH();dmg=Math.floor(dmg*(1+.1+(.5*(1-pct))));}if(m){m.hp-=dmg;bLog(`⚔ 【${sk.n}】發動！對【${m.n}】造成 ${fmt(dmg)} 傷害`,'sk');if(sk.debuffSpd)m.atk=Math.floor(m.atk*.7);if(m.hp<=0){onKill();return;}}}if(sk.buffAtk){G.mAgAtk=sk.buffAtk;setTimeout(()=>{G.mAgAtk=0;},(sk.buffDur||12)*1000);bLog(`⚔ 【${sk.n}】發動！攻擊提升 ${Math.round(sk.buffAtk*100)}%（${sk.buffDur||12}秒）`,'sk');}if(sk.selfDef){G.mAgDef=sk.selfDef;setTimeout(()=>{G.mAgDef=0;},(sk.dur||8)*1000);}if(sk.tbR){G.tempBuffs.rate={val:sk.tbR*cR(),end:Date.now()+sk.tbD*1000};}if(sk.tbS){G.tempBuffs.spd={val:sk.tbS,end:Date.now()+sk.tbD*1000};}if(sk.heal){const rh=Math.floor(cMH()*sk.heal);G.bHp=Math.min(cMH(),G.bHp+rh);bLog(`💚 【${sk.n}】恢復 ${fmt(rh)} 氣血`,'wi');}}});}
 function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();const rm=rM();G.exp+=m.exp*(1+rm.killExp);G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);// 焰妃殺敵修為+10%
 const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)G.exp+=Math.floor(m.exp*.10);if(m.boss){bLog(`★Boss【${m.n}】！修為+${fmt(m.exp)} 石+${fmt(m.stone)}${m.fame?' 望+'+m.fame:''}${m.herb?' 藥+'+m.herb:''}`,'wi');tryDrop();if(Math.random()<.45)tryDrop();}else if(Math.random()<.08)tryDrop();G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.06));spawnM();checkBreak();if(G.curTab==='zone')updateBUI();updateUI();}
 function onDefeat(){G.bHp=Math.floor(cMH()*.2);bLog('力竭撤退...','lo');LOG(`在【${ZONES[G.zone.zi].n}】敗退`,'dk');exitZone();}
@@ -1359,15 +1543,65 @@ function startCamp(){if(G.zone.active||G.trav.active){alert('請先停止征戰�
 function stopCamp(){G.camp.active=false;document.getElementById('btn-cs').disabled=false;document.getElementById('btn-ce').disabled=true;LOG('停止宗門掛機','gd');rCamp();rZones();}
 function rCamp(){
  const cs=document.getElementById('camp-st');if(cs){if(G.camp.active){cs.innerHTML=`<div style="background:var(--jade4);border:1px solid var(--jade2);border-radius:var(--r);padding:7px 10px;"><div style="font-size:10px;font-weight:700;color:var(--jade);">🏯 宗門掛機進行中</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;">修為/秒 ×50% = ${(cR()*.5).toFixed(1)}</div></div>`;}else{cs.innerHTML=`<div style="font-size:9px;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;padding:5px 0;"></div>`;}}
- const ra=document.getElementById('rank-area');if(ra){const s=gS();const ri=G.sect.rankIdx;const nReq=SECT_REQ[Math.min(ri+1,5)];ra.innerHTML=`<div class="row"><span class="rlt">當前職位</span><span class="rvt" style="color:${s.color};">${s.rankNames[ri]}</span></div><div class="row"><span class="rlt">宗門貢獻</span><span class="rvt">${G.con}/${nReq}</span></div><div class="bg" style="height:5px;margin:5px 0;"><div class="bar" style="width:${Math.min(100,G.con/nReq*100)}%;height:5px;background:${s.color};"></div></div>${ri<5&&G.con>=nReq?`<button class="btn bg-btn" onclick="rankUp()">晉升 → ${s.rankNames[ri+1]}</button>`:''}<div class="row" style="margin-top:4px;"><span class="rlt">捐獻靈石換貢獻</span><span class="rvt"><button class="sb cj" onclick="donateSect()" ${G.stone>=50?'':'disabled'}>捐50石+貢獻40</button></span></div>`;}
+ const ra=document.getElementById('rank-area');
+  // 散修：以聲望代替宗門職位
+  if(G.sid==='sm'&&ra){
+    const smNames=['無名散修','江湖遊俠','一方散仙','名動一方','威震一域','天下聞名'];
+    const smReq=[0,100,400,1200,3500,8000];
+    let smRank=0;for(let i=smReq.length-1;i>=0;i--)if(G.fame>=smReq[i]){smRank=i;break;}
+    G.sect.rankIdx=smRank;
+    ra.innerHTML=`<div class="row"><span class="rlt">散修稱號</span><span class="rvt" style="color:var(--ink2);">${smNames[smRank]}</span></div><div class="row"><span class="rlt">聲望</span><span class="rvt">${Math.floor(G.fame)}／${smReq[Math.min(smRank+1,5)]}</span></div><div class="bg" style="height:5px;margin:4px 0;"><div class="bar" style="width:${Math.min(100,(G.fame-smReq[smRank])/(smReq[Math.min(smRank+1,5)]-smReq[smRank])*100)}%;height:5px;background:var(--ink2);"></div></div><div style="font-size:9px;color:var(--ink3);">散修不入宗門，以聲望彰顯地位</div>`;
+    rFameShop();return;
+  }if(ra){const s=gS();const ri=G.sect.rankIdx;const nReq=SECT_REQ[Math.min(ri+1,5)];const nFame=RANK_FAME_REQ[Math.min(ri+1,5)];const canRank=ri<5&&G.con>=nReq&&G.fame>=nFame;ra.innerHTML=`<div class="row"><span class="rlt">當前職位</span><span class="rvt" style="color:${s.color};">${s.rankNames[ri]}</span></div><div class="row"><span class="rlt">宗門貢獻</span><span class="rvt">${G.con}/${nReq}</span></div><div class="bg" style="height:5px;margin:4px 0;"><div class="bar" style="width:${Math.min(100,G.con/nReq*100)}%;height:5px;background:${s.color};"></div></div><div class="row"><span class="rlt">聲望要求</span><span class="rvt" style="color:${G.fame>=nFame?'var(--jade)':'var(--cr2)'}">${G.fame}/${nFame}</span></div>${canRank?`<button class="btn bg-btn" onclick="rankUp()">晉升 → ${s.rankNames[ri+1]}</button>`:ri<5?`<div style="font-size:9px;color:var(--ink3);margin-top:3px;font-family:'Noto Sans SC',sans-serif;">${G.con<nReq?'貢獻不足':'聲望不足'}，無法晉升</div>`:''}<div class="row" style="margin-top:4px;"><span class="rlt">捐獻靈石換貢獻</span><span class="rvt"><button class="sb cj" onclick="donateSect()" ${G.stone>=50?'':'disabled'}>捐50石+貢獻40</button></span></div>`;}
  const dt=document.getElementById('daily-tasks');if(dt){dt.innerHTML='';[{n:`閉關修煉 ${G.bgToday}/${BG_MAX}次`,done:G.bgToday>=BG_MAX,cl:G.daily.bgCl,cid:'bg'},{n:`擊殺妖獸 ${Math.min(G.daily.kills,15)}/15`,done:G.daily.kills>=15,cl:G.daily.kCl,cid:'k'},{n:`嘗試突破 ${Math.min(G.daily.brkUsed,1)}/1`,done:G.daily.brkUsed>=1,cl:G.daily.bCl,cid:'b'}].forEach(t=>{const d=document.createElement('div');d.className='row';d.innerHTML=`<div><div class="rvt">${t.n} <span class="pill ${t.cl?'pp':t.done?'pj':'pp'}">${t.cl?'已領':t.done?'完成':'未完'}</span></div><div class="rlt">獎勵：靈石+20 藥材+2</div></div><button class="sb${t.done&&!t.cl?' cj':''}" onclick="clmD('${t.cid}')" ${t.done&&!t.cl?'':'disabled'}>領取</button>`;dt.appendChild(d);});}
  const stEl=document.getElementById('sect-tasks');if(stEl){stEl.innerHTML='';[{n:'採集靈草',cur:G.herb,req:8,rw:{stone:12,con:18}},{n:'斬妖除魔',cur:G.daily.kills,req:18,rw:{stone:16,con:26}}].forEach((t,i)=>{const done=t.cur>=t.req;const cl=G.stask&&G.stask.cl&&G.stask.cl[i];const d=document.createElement('div');d.className='row';d.innerHTML=`<div><div class="rvt">${t.n} <span class="pill ${cl?'pp':done?'pj':'pp'}">${cl?'已領':Math.min(t.cur,t.req)+'/'+t.req}</span></div><div class="rlt">獎勵：${Object.entries(t.rw).map(([k,v])=>({stone:'靈石+',con:'貢獻+'}[k]+v)).join(' ')}</div></div><button class="sb${done&&!cl?' cj':''}" onclick="clmST(${i})" ${done&&!cl?'':'disabled'}>${cl?'已領':'領取'}</button>`;stEl.appendChild(d);});}
  const sp=document.getElementById('sect-perks');if(sp){sp.innerHTML='';const s=gS();s.rankPerks.forEach((p,i)=>{const d=document.createElement('div');d.className='row';d.innerHTML=`<span class="rlt">${s.rankNames[i]}</span><span class="rvt" style="${i===G.sect.rankIdx?'color:var(--jade);':''}">${p}${i===G.sect.rankIdx?' ✓':''}</span>`;sp.appendChild(d);});}
+ rFameShop();
 }
 function clmD(t){if(t==='bg'){if(G.bgToday<BG_MAX||G.daily.bgCl)return;G.stone+=20;G.herb+=2;G.daily.bgCl=true;}else if(t==='k'){if(G.daily.kills<15||G.daily.kCl)return;G.stone+=20;G.herb+=2;G.daily.kCl=true;}else if(t==='b'){if(G.daily.brkUsed<1||G.daily.bCl)return;G.stone+=20;G.herb+=2;G.daily.bCl=true;}LOG('完成每日任務！靈石+20 藥材+2','gd');updateUI();rCamp();}
 function clmST(i){if(!G.stask)G.stask={cl:[false,false],resetAt:0};if(G.stask.cl[i])return;const tasks=[{cur:G.herb,req:8,rw:{stone:12,con:18}},{cur:G.daily.kills,req:18,rw:{stone:16,con:26}}];const t=tasks[i];if(t.cur<t.req)return;G.stone+=t.rw.stone;G.con+=t.rw.con||0;G.stask.cl[i]=true;LOG('完成宗門任務！','gd');updateUI();rCamp();}
-function donateSect(){if(G.stone<50)return;G.stone-=50;G.con+=40;G.fame+=2;LOG('捐獻50靈石','gd');rCamp();updateUI();}
-function rankUp(){const ri=G.sect.rankIdx;if(ri>=5||G.con<SECT_REQ[ri+1])return;G.sect.rankIdx++;G.fame+=15;LOG(`晉升【${gS().rankNames[G.sect.rankIdx]}】！`,'sp');pushEv('★ 宗門晉升',`晉升至【${gS().rankNames[G.sect.rankIdx]}】！`,gS().color);rUI2();rCamp();updateUI();}
+function donateSect(){if(G.sid==='sm'){LOG('散修無宗門可捐獻','dk');return;}if(G.stone<50)return;G.stone-=50;G.con+=40;G.fame+=2;LOG('捐獻50靈石，貢獻+40','gd');rCamp();updateUI();}
+
+/* ── 聲望兌換商店 ── */
+const FAME_SHOP=[
+ {n:'靈石×100',desc:'聲望兌換靈石',cost:50,action:()=>{G.stone+=100;},icon:'💎'},
+ {n:'藥材×5',desc:'聲望兌換藥材',cost:30,action:()=>{G.herb+=5;},icon:'🌿'},
+ {n:'貢獻×50',desc:'聲望轉化貢獻',cost:80,action:()=>{G.con+=50;},icon:'📜'},
+ {n:'靈石×500',desc:'大量聲望換靈石',cost:200,action:()=>{G.stone+=500;},icon:'💎'},
+ {n:'藥材×20',desc:'大量聲望換藥材',cost:150,action:()=>{G.herb+=20;},icon:'🌿'},
+ {n:'貢獻×200',desc:'大量聲望換貢獻',cost:300,action:()=>{G.con+=200;},icon:'📜'},
+ {n:'渡劫冷卻-1小時',desc:'聲望加持，縮短渡劫冷卻',cost:500,action:()=>{G.brkCdEnd=Math.max(nowSec(),G.brkCdEnd-3600);},icon:'⚡'},
+ {n:'修為/秒+5%（1小時）',desc:'聲望激發潛能',cost:400,action:()=>{G.tempBuffs.rate={val:.05,end:Date.now()+3600000};},icon:'✨'},
+];
+
+function rFameShop(){
+  const el=document.getElementById('fame-shop');if(!el)return;
+  el.innerHTML='<div style="font-size:10px;color:var(--ink3);margin-bottom:6px;">當前聲望：<b style="color:var(--gold);">'+Math.floor(G.fame)+'</b></div>';
+  FAME_SHOP.forEach((item,i)=>{
+    const can=G.fame>=item.cost;
+    const d=document.createElement('div');
+    d.className='row';
+    d.innerHTML=`<div><div class="rvt">${item.icon} ${item.n}</div><div class="rlt">${item.desc}</div></div><button class="sb${can?' cg':''}" onclick="buyFame(${i})" ${can?'':'disabled'}>聲望-${item.cost}</button>`;
+    el.appendChild(d);
+  });
+}
+
+function buyFame(i){
+  const item=FAME_SHOP[i];
+  if(G.fame<item.cost){LOG('聲望不足','dk');return;}
+  G.fame-=item.cost;
+  item.action();
+  LOG(`✦ 聲望兌換【${item.n}】！剩餘聲望：${Math.floor(G.fame)}`,'go');
+  rFameShop();updateUI();
+}
+
+const RANK_FAME_REQ=[0,50,150,400,1000,3000];
+function rankUp(){
+  const ri=G.sect.rankIdx;
+  if(ri>=5)return;
+  if(G.con<SECT_REQ[ri+1]){LOG('貢獻不足，無法晉升','dk');return;}
+  if(G.fame<RANK_FAME_REQ[ri+1]){LOG(`聲望不足！需要 ${RANK_FAME_REQ[ri+1]} 聲望才能晉升`,'dk');return;}
+  G.sect.rankIdx++;G.fame+=15;LOG(`晉升【${gS().rankNames[G.sect.rankIdx]}】！`,'sp');pushEv('★ 宗門晉升',`晉升至【${gS().rankNames[G.sect.rankIdx]}】！`,gS().color);rUI2();rCamp();updateUI();}
 
 // 外出歷練
 function startTrav(){if(G.zone.active||G.camp.active){alert('請先停止征戰或宗門掛機！');return;}G.trav.active=true;G.trav.at=0;document.getElementById('btn-ts').disabled=true;document.getElementById('btn-te').disabled=false;LOG('開始外出歷練...','gd');pushEv('⛰ 外出歷練開始','每10~15秒觸發奇遇，有好有壞，修為正常獲得','var(--jade2)');rTrav();rZones();}
@@ -1403,7 +1637,7 @@ function tryMFL(){
   if(sk.mult)dmg+=Math.floor(cA()*sk.mult);
   if(sk.multAtk)dmg+=Math.floor(cA()*sk.multAtk);
   if(sk.multDef)dmg+=Math.floor(cD()*sk.multDef);
-  if(dmg>0&&m){m.hp-=dmg;bLog(`✦【${ml.name}】${sk.n} ${fmt(dmg)}傷害`,'go');if(sk.leech)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*sk.leech));}
+  if(dmg>0&&m){m.hp-=dmg;const leechHp=sk.leech?Math.floor(dmg*sk.leech):0;if(leechHp>0)G.bHp=Math.min(cMH(),G.bHp+leechHp);bLog(`✦ 本命法寶【${ml.name}】發動【${sk.n}】！對【${m.n}】造成 ${fmt(dmg)} 傷害${leechHp>0?' 吸血+'+fmt(leechHp):''}`);}
   if(sk.buffDef){G.mfl.defBuff=sk.buffDef;setTimeout(()=>{G.mfl.defBuff=0;},(sk.buffDur||15)*1000);bLog(`✦【${ml.name}】${sk.n}防禦大幅提升！`,'go');}
   if(sk.buffRate){G.mfl.rateBuff=sk.buffRate;setTimeout(()=>{G.mfl.rateBuff=1;},(sk.buffDur||20)*1000);bLog(`✦【${ml.name}】${sk.n}修為/秒暴增！`,'go');}
   // 魔刀殺戮被動：每殺敵+1%攻擊（killBuff疊加）
@@ -1593,7 +1827,7 @@ function rBody(){const bd=gB();if(!bd){document.getElementById('body-detail').te
 }
 function trainBody(){const bd=gB();if(!bd||G.bStage>=bd.maxSt)return;const cost=bd.cost[G.bStage];if(G.stone<cost)return;G.stone-=cost;G.bStage++;const ns=bd.stages[G.bStage-1];LOG(`✦ ${bd.name}突破至【${ns.n}】${ns.major?'（大境界！）':''}！`,'bo');if(ns.major)LOG(`★ 大境界突破！屬性大幅提升！`,'go');if(G.bStage===bd.maxSt)LOG(`★ ${bd.name}圓滿！天地同慶！`,'go');rBody();updateUI();pushEv('✦ 體質突破',`${bd.name}突破至【${ns.n}】${ns.major?'（大境界！效果大幅提升）':''}！`,bd.color);}
 
-function updateUI(){if(!G.started)return;const r=REALMS[G.ri];const mxHp=cMH();G.bHp=Math.min(G.bHp||mxHp,mxHp);document.getElementById('pr').textContent=r.n+' · '+r.ti;document.getElementById('r-st').textContent=fmt(G.stone);document.getElementById('r-hb').textContent=Math.floor(G.herb);document.getElementById('r-fm').textContent=Math.floor(G.fame);const _age=Math.floor(G.tick/365);document.getElementById('r-lf').textContent=_age+'歲';document.getElementById('r-cn').textContent=Math.floor(G.con);document.getElementById('r-rt').textContent=fmt(cR());document.getElementById('r-rt').style.color=gS().color;const pct=r.req===Infinity?100:Math.min(100,G.exp/r.req*100);document.getElementById('rlm-lb').textContent=r.n;document.getElementById('exp-pc').textContent=Math.floor(pct)+'%';document.getElementById('exp-bar').style.width=Math.min(100,pct)+'%';document.getElementById('exp-n').textContent=fmt(G.exp);document.getElementById('exp-r').textContent=r.req===Infinity?'∞':fmt(r.req);document.getElementById('s-atk').textContent=fmt(cA());document.getElementById('s-def').textContent=fmt(cD());document.getElementById('s-spd').textContent=cS();document.getElementById('s-crt').textContent=Math.round(cC()*100)+'%';document.getElementById('s-hp').textContent=fmt(Math.max(0,G.bHp));document.getElementById('s-mhp').textContent=fmt(mxHp);document.getElementById('s-pow').textContent=fmt(cP());document.getElementById('s-rat').textContent=fmt(cR());document.getElementById('hp-bar').style.width=Math.max(0,G.bHp/mxHp*100)+'%';document.getElementById('hp-lb').textContent=fmt(Math.max(0,G.bHp))+'/'+fmt(mxHp);const bb=document.getElementById('btn-brk');
+function updateUI(){if(!G.started)return;const r=REALMS[G.ri];const mxHp=cMH();G.bHp=Math.min(G.bHp||mxHp,mxHp);document.getElementById('pr').textContent=r.n+' · '+r.ti;document.getElementById('r-st').textContent=fmt(G.stone);document.getElementById('r-hb').textContent=Math.floor(G.herb);document.getElementById('r-fm').textContent=Math.floor(G.fame);const _age=Math.floor(G.tick/365);document.getElementById('r-lf').textContent=_age+'年';document.getElementById('r-cn').textContent=Math.floor(G.con);document.getElementById('r-rt').textContent=fmt(cR());document.getElementById('r-rt').style.color=gS().color;const pct=r.req===Infinity?100:Math.min(100,G.exp/r.req*100);document.getElementById('rlm-lb').textContent=r.n;document.getElementById('exp-pc').textContent=Math.floor(pct)+'%';document.getElementById('exp-bar').style.width=Math.min(100,pct)+'%';document.getElementById('exp-n').textContent=fmt(G.exp);document.getElementById('exp-r').textContent=r.req===Infinity?'∞':fmt(r.req);document.getElementById('s-atk').textContent=fmt(cA());document.getElementById('s-def').textContent=fmt(cD());document.getElementById('s-spd').textContent=cS();document.getElementById('s-crt').textContent=Math.round(cC()*100)+'%';document.getElementById('s-hp').textContent=fmt(Math.max(0,G.bHp));document.getElementById('s-mhp').textContent=fmt(mxHp);document.getElementById('s-pow').textContent=fmt(cP());document.getElementById('s-rat').textContent=fmt(cR());document.getElementById('hp-bar').style.width=Math.max(0,G.bHp/mxHp*100)+'%';document.getElementById('hp-lb').textContent=fmt(Math.max(0,G.bHp))+'/'+fmt(mxHp);const bb=document.getElementById('btn-brk');
 if(bb){
   bb.style.opacity=G.exp>=r.req?'1':'0.45';
   // 計算當前成功率顯示在動態
@@ -1631,7 +1865,9 @@ function rTianJiao(){
   TIANJIAO.forEach((tj,i)=>{
     const now=nowSec();
     const cdLeft=Math.max(0,tj.cdEnd-now);
-    const canFight=cdLeft===0&&G.started;
+    const fameReq=[0,100,300,800,2000][i]||0;
+    const fameLock=G.fame<fameReq;
+    const canFight=cdLeft===0&&G.started&&!fameLock;
     const cPow=cP();
     const winChance=Math.min(95,Math.max(5,Math.round(50*(cPow/(tj.pow+cPow))*2)));
     const rwd=tj.reward.type==='equip'?`${EG[tj.reward.grade]}品裝備`:tj.reward.type==='exp'?`修為×${tj.reward.mult}倍`:`修為×${tj.reward.expMult}倍+${EG[tj.reward.grade]}品裝備`;
@@ -1642,10 +1878,10 @@ function rTianJiao(){
       <div class="tj-name">${tj.name} <span class="pill pp">${tj.realm}</span></div>
       <div class="tj-desc">${tj.desc}</div>
       <div class="tj-desc" style="color:var(--cr3);">特技：${tj.special}</div>
-      <div class="tj-reward" style="color:var(--gold);">獎勵：${rwd} · 勝率估計 ${winChance}%</div>
+      <div class="tj-reward" style="color:var(--gold);">獎勵：${rwd} · 勝率估計 ${winChance}%${fameReq>0?' · 需聲望'+fameReq:''}</div>
       ${cdLeft>0?`<div style="font-size:8px;color:var(--ink3);margin-top:2px;">冷卻：${Math.floor(cdLeft/3600)}h${Math.floor((cdLeft%3600)/60)}m</div>`:''}
     </div>
-    <button class="sb${canFight?' cj':''}" onclick="fightTianJiao(${i})" ${canFight?'':'disabled'}>${cdLeft>0?'冷卻中':'挑戰'}</button>`;
+    <button class="sb${canFight?' cj':''}" onclick="fightTianJiao(${i})" ${canFight?'':'disabled'}>${cdLeft>0?'冷卻中':fameLock?'需聲望'+fameReq:'挑戰'}</button>`;
     el.appendChild(d);
   });
 }
@@ -1702,14 +1938,18 @@ setInterval(()=>{
   // 碧蘿跟隨恢復HP
   const fd=gD();if(fd&&fd.sp==='heal'&&fd.aff>=80)G.bHp=Math.min(cMH(),G.bHp+cMH()*.008);
   // 道侶境界成長（跟隨道侶成長更快）
-  G.dao.forEach(d=>{if(d.met){const fg=d.id===G.daoFollow?2:0.5;d.ri+=cR()*0.04*fg;if(d.aff<100)d.aff=Math.min(100,d.aff+.006);}});
+  G.dao.forEach(d=>{if(d.met){const fg=d.id===G.daoFollow?0.8:0.5;d.ri+=cR()*fg;if(d.aff<100)d.aff=Math.min(100,d.aff+.006);}});
   if(G.tick%10===0){const sg=Math.floor(G.ri*.5+.2);if(sg>0)G.stone+=sg;}
   // 碧蘿偶爾掉藥材
   if(fd&&fd.sp==='heal'&&fd.aff>=80&&G.tick%45===0&&Math.random()<.35)G.herb+=1;
   if(G.zone.active){G.zone.at++;if(G.zone.at>=2){G.zone.at=0;autoFight();tryMFL();if(G.zone.active)updateBUI();}gS().bSkills.forEach(sk=>{if(sk.cur>0)sk.cur=Math.max(0,sk.cur-1);});if(G.mfl.activeCur>0)G.mfl.activeCur=Math.max(0,G.mfl.activeCur-1);if(G.tick%20===0&&Math.random()<.15)trigDaoChat('zone');}
   // 事件間隔10~15秒（tick每秒，at每秒++）
-  if(G.camp.active){G.camp.at++;if(G.camp.at>=R(10,15)){G.camp.at=0;trigSE();if(Math.random()<.12)trigDaoChat('camp');}}
-  if(G.trav.active){G.trav.at++;if(G.trav.at>=R(10,15)){G.trav.at=0;trigTE();if(Math.random()<.12)trigDaoChat('trav');}}
+  if(G.camp.active){G.camp.at++;if(G.camp.at>=R(10,15)){G.camp.at=0;trigSE();if(Math.random()<.12)trigDaoChat('camp');}
+  // 門派輔助招式在宗門掛機中觸發
+  trigAuxSkill();}
+  if(G.trav.active){G.trav.at++;if(G.trav.at>=R(10,15)){G.trav.at=0;trigTE();if(Math.random()<.12)trigDaoChat('trav');}
+  // 門派輔助招式在歷練中觸發
+  trigAuxSkill();}
   if(!G.zone.active&&!G.camp.active&&!G.trav.active&&G.tick%90===0&&Math.random()<.25)trigSE();
   if(G.tick%40===0&&!G.zone.active){const m={qy:['劍意流轉，修為穩增。','心劍合一，仙途漸顯。'],xm:['肉身淬鍊，體魄日強。','以身護道，玄冥不滅。'],th:['靈水環繞，修為如潮。','天河靈感，自然流淌。'],ms:['殺氣盤旋，修為飛漲。','煞氣凝聚，道心磨礪。']};LOG(pk(m[G.sid]||m.qy));}
   checkBreak();updateUI();
