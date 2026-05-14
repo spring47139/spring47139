@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="data:application/json,{
   &quot;name&quot;: &quot;洪荒修仙錄&quot;,
@@ -202,31 +204,19 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 .tj-desc{font-size:13px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;}
 .tj-reward{font-size:13px;margin-top:3px;font-family:'Noto Sans SC',sans-serif;}
 </style>
-<link rel="manifest" id="manifest-link">
-<script>
-const manifestData = {
-  "name": "洪荒修仙錄",
-  "short_name": "修仙錄",
-  "description": "洪荒修仙放置遊戲",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#180c00",
-  "theme_color": "#180c00",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%23180c00'/><text x='256' y='340' text-anchor='middle' font-size='280' fill='%23d4a030'>☯</text></svg>",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-};
-const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
-const manifestUrl = URL.createObjectURL(blob);
-document.getElementById('manifest-link').href = manifestUrl;
-</script>
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%20%22%E6%B4%AA%E8%8D%92%E4%BF%AE%E4%BB%99%E9%8C%84%22%2C%20%22short_name%22%3A%20%22%E4%BF%AE%E4%BB%99%E9%8C%84%22%2C%20%22description%22%3A%20%22%E6%B4%AA%E8%8D%92%E4%BF%AE%E4%BB%99%E6%94%BE%E7%BD%AE%E9%81%8A%E6%88%B2%22%2C%20%22start_url%22%3A%20%22/spring47139/%22%2C%20%22scope%22%3A%20%22/spring47139/%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%23180c00%22%2C%20%22theme_color%22%3A%20%22%23180c00%22%2C%20%22orientation%22%3A%20%22portrait%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%2C%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%2780%27%20fill%3D%27%2523180c00%27/%3E%3Ctext%20x%3D%27256%27%20y%3D%27340%27%20text-anchor%3D%27middle%27%20font-size%3D%27280%27%20fill%3D%27%2523d4a030%27%3E%E2%98%AF%3C/text%3E%3C/svg%3E%22%2C%20%22sizes%22%3A%20%22512x512%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%20maskable%22%7D%5D%7D">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="修仙錄">
+<meta name="theme-color" content="#180c00">
 </head><body>
+<div id="loading-screen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#f5e6c8;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
+  <div style="font-size:28px;margin-bottom:10px;">☯</div>
+  <div style="font-family:'Noto Serif SC',serif;font-size:16px;color:#8a6010;">洪荒修仙錄</div>
+  <div style="font-family:'Noto Serif SC',serif;font-size:12px;color:#b08030;margin-top:6px;">載入中...</div>
+</div>
+<script>window.addEventListener('load',function(){document.getElementById('loading-screen').style.display='none';});</script>
 <div class="topbar">
   <div class="ava" id="main-ava"><svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="18" fill="#2d1405"/><text x="18" y="24" text-anchor="middle" font-size="15" fill="#d4a030">☯</text></svg></div>
   <div class="pi"><div class="pn" id="pn">—</div><div class="pr" id="pr">選擇門派開始</div><div class="ps" id="ps"></div></div>
@@ -411,12 +401,11 @@ const DSVG={
 xueling:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`,
 yanfei:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`,
 yueyao:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`,
-biluo:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`
+biluo:`<img src="data:image/jpeg;base64,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" style="width:100%;height:auto;display:block;object-fit:cover;"/>`
 };
 
 /* ── 體質（5大境界×5小重，共25重，大境界×5倍效果）── */
-// 架構：初期→初成→小成→大成→圓滿，每階4小重+1大成
-// 大境界標記 major:true，效果×5倍（相當於修為境界的大突破）
+
 const BODIES=[
  {id:'sun',name:'混元太陽體',icon:'☀',color:'var(--gold)',bg:'var(--gold4)',bc:'var(--gold2)',desc:'修煉太陽真火，攻擊暴增，暴擊加乘',
   stages:[
@@ -428,7 +417,7 @@ const BODIES=[
   ],
   perSt:{atk:8,crit:.013,rate:.15},majorMult:5,maxSt:25,
   cost:[200,400,700,1200,5000, 2000,3500,6000,10000,40000, 8000,14000,24000,40000,160000, 35000,60000,100000,170000,700000, 150000,260000,440000,750000,3000000],
-  // 特殊能力：大境界觸發（每5重大成）
+
   special:{
     5:'烈日灼傷：每次攻擊有20%機率追加攻擊×30%火焰傷害',
     10:'太陽護體：受到致命傷時有15%機率免疫一次，反傷攻擊×50%',
@@ -513,7 +502,7 @@ const BODIES=[
 
 /* ── 境界（合體大乘後加仙道境界，參考遮天完美世界）── */
 const REALMS=[
- // 煉氣（凡人）10層
+
  {n:'煉氣一層',ti:'凡人',req:200,hp:0,atk:0,def:0,rate:0},
  {n:'煉氣二層',ti:'凡人',req:500,hp:5,atk:1,def:1,rate:.07},
  {n:'煉氣三層',ti:'凡人',req:1000,hp:10,atk:2,def:2,rate:.13},
@@ -524,7 +513,7 @@ const REALMS=[
  {n:'煉氣八層',ti:'凡人',req:12000,hp:60,atk:10,def:9,rate:.75},
  {n:'煉氣九層',ti:'凡人',req:17000,hp:70,atk:13,def:11,rate:.95},
  {n:'煉氣圓滿',ti:'凡人',req:24000,hp:82,atk:16,def:13,rate:1.2},
- // 築基 10層
+
  {n:'築基一層',ti:'築基',req:38000,hp:150,atk:26,def:16,rate:2.5},
  {n:'築基二層',ti:'築基',req:58000,hp:200,atk:38,def:23,rate:3.8},
  {n:'築基三層',ti:'築基',req:85000,hp:260,atk:52,def:32,rate:5.5},
@@ -535,7 +524,7 @@ const REALMS=[
  {n:'築基八層',ti:'築基',req:520000,hp:820,atk:185,def:115,rate:27},
  {n:'築基九層',ti:'築基',req:720000,hp:1000,atk:230,def:142,rate:35},
  {n:'築基圓滿',ti:'築基',req:1000000,hp:1200,atk:280,def:175,rate:45},
- // 金丹 10層
+
  {n:'金丹一層',ti:'金丹',req:1600000,hp:2000,atk:380,def:210,rate:58},
  {n:'金丹二層',ti:'金丹',req:2400000,hp:2800,atk:520,def:290,rate:80},
  {n:'金丹三層',ti:'金丹',req:3600000,hp:3800,atk:700,def:390,rate:110},
@@ -546,7 +535,7 @@ const REALMS=[
  {n:'金丹八層',ti:'金丹',req:23000000,hp:14000,atk:2650,def:1460,rate:425},
  {n:'金丹九層',ti:'金丹',req:33000000,hp:18000,atk:3400,def:1870,rate:545},
  {n:'金丹圓滿',ti:'金丹',req:47000000,hp:23000,atk:4300,def:2380,rate:700},
- // 元嬰 10層
+
  {n:'元嬰一層',ti:'元嬰',req:70e6,hp:35000,atk:6500,def:3500,rate:1050},
  {n:'元嬰二層',ti:'元嬰',req:100e6,hp:50000,atk:9000,def:4800,rate:1450},
  {n:'元嬰三層',ti:'元嬰',req:145e6,hp:70000,atk:12500,def:6600,rate:2000},
@@ -557,7 +546,7 @@ const REALMS=[
  {n:'元嬰八層',ti:'元嬰',req:890e6,hp:315000,atk:57000,def:30000,rate:9200},
  {n:'元嬰九層',ti:'元嬰',req:1280e6,hp:420000,atk:77000,def:40000,rate:12500},
  {n:'元嬰圓滿',ti:'元嬰',req:1850e6,hp:560000,atk:103000,def:54000,rate:17000},
- // 化神 10層
+
  {n:'化神一層',ti:'化神',req:2800e6,hp:850000,atk:160000,def:80000,rate:26000},
  {n:'化神二層',ti:'化神',req:4200e6,hp:1200000,atk:220000,def:110000,rate:38000},
  {n:'化神三層',ti:'化神',req:6300e6,hp:1700000,atk:310000,def:155000,rate:55000},
@@ -568,7 +557,7 @@ const REALMS=[
  {n:'化神八層',ti:'化神',req:48000e6,hp:9300000,atk:1630000,def:815000,rate:335000},
  {n:'化神九層',ti:'化神',req:72000e6,hp:13000000,atk:2270000,def:1135000,rate:480000},
  {n:'化神圓滿',ti:'化神',req:108000e6,hp:18000000,atk:3160000,def:1580000,rate:680000},
- // 合體 10層
+
  {n:'合體一層',ti:'合體',req:170000e6,hp:28e6,atk:5e6,def:2.5e6,rate:1100000},
  {n:'合體二層',ti:'合體',req:260000e6,hp:40e6,atk:7e6,def:3.5e6,rate:1600000},
  {n:'合體三層',ti:'合體',req:400000e6,hp:57e6,atk:10e6,def:5e6,rate:2300000},
@@ -579,7 +568,7 @@ const REALMS=[
  {n:'合體八層',ti:'合體',req:3400000e6,hp:310e6,atk:55e6,def:27.5e6,rate:14200000},
  {n:'合體九層',ti:'合體',req:5200000e6,hp:435e6,atk:77e6,def:38.5e6,rate:20400000},
  {n:'合體圓滿',ti:'合體',req:8000000e6,hp:610e6,atk:108e6,def:54e6,rate:29300000},
- // 大乘 10層
+
  {n:'大乘一層',ti:'大乘',req:13000000e6,hp:950e6,atk:170e6,def:85e6,rate:46e6},
  {n:'大乘二層',ti:'大乘',req:20000000e6,hp:1.4e9,atk:240e6,def:120e6,rate:68e6},
  {n:'大乘三層',ti:'大乘',req:31000000e6,hp:2e9,atk:340e6,def:170e6,rate:100e6},
@@ -590,7 +579,7 @@ const REALMS=[
  {n:'大乘八層',ti:'大乘',req:270000000e6,hp:10.8e9,atk:1.85e9,def:925e6,rate:690e6},
  {n:'大乘九層',ti:'大乘',req:415000000e6,hp:15.1e9,atk:2.6e9,def:1.3e9,rate:1010e6},
  {n:'大乘圓滿',ti:'大乘',req:640000000e6,hp:21e9,atk:3.6e9,def:1.8e9,rate:1480e6},
- // 仙道境界（遮天/完美世界風格）
+
  {n:'仙台顯現',ti:'仙道',req:90000e6,hp:800e6,atk:150e6,def:75e6,rate:30e6,life:200000},
  {n:'仙台四輪明',ti:'仙道',req:200000e6,hp:2e9,atk:380e6,def:190e6,rate:75e6,life:500000},
  {n:'道宮聯通',ti:'仙道',req:450000e6,hp:5e9,atk:960e6,def:480e6,rate:190e6,life:1200000},
@@ -615,11 +604,11 @@ const ZONES=[
 const DAO_DATA=[
  {id:'xueling',n:'雪靈兒',ti:'天山雪蓮轉世',aff:0,met:false,following:false,gN:'寒玉珠',gC:60,gG:18,
   atk:.10,rate:.12,d:'冰封敵方削攻12%，追加冰傷25%，修為加速',sp:'ice',ri:0,
-  // 屬性（基礎值，隨道侶境界成長）
+
   baseAtk:28,baseDef:35,baseHp:180,
-  // 分擔玩家受傷比例（好感≥80生效）
+
   shield:.18,
-  // 三招：攻擊、輔助、防禦各一
+
   skills:[
    {n:'寒冰裂',t:'atk',d:'凝聚冰晶猛擊，280%傷害+敵攻-15%',mult:2.8,debuffAtk:.15,cd:14,cur:0,prob:.10},
    {n:'冰魄共鳴',t:'aux',d:'冰力共鳴，玩家閃避+8%、修為/秒+18%（10秒）',cd:20,cur:0,prob:.08,tbDodge:.08,tbR:.18,tbD:10},
@@ -637,7 +626,7 @@ const DAO_DATA=[
   ]},
  {id:'yanfei',n:'焰妃',ti:'火靈族聖女',aff:0,met:false,following:false,gN:'鳳凰羽',gC:80,gG:18,
   atk:.20,rate:.04,d:'每回合造成敵方HP4%火傷，殺敵修為加成',sp:'fire',ri:0,
-  // 屬性
+
   baseAtk:65,baseDef:18,baseHp:120,
   shield:.10,
   skills:[
@@ -657,7 +646,7 @@ const DAO_DATA=[
   ]},
  {id:'yueyao',n:'月瑤',ti:'上古仙族後裔',aff:0,met:false,following:false,gN:'月華精露',gC:100,gG:20,
   atk:.04,rate:.25,d:'靜心助修，修為/秒+25%，好感滿後閉關額外加成',sp:'cult',ri:0,
-  // 屬性
+
   baseAtk:20,baseDef:28,baseHp:150,
   shield:.22,
   skills:[
@@ -677,7 +666,7 @@ const DAO_DATA=[
   ]},
  {id:'biluo',n:'碧蘿',ti:'草木精靈化形',aff:0,met:false,following:false,gN:'千年靈芝',gC:90,gG:19,
   atk:.07,rate:.10,d:'每回合恢復HP7%，偶爾掉落藥材',sp:'heal',ri:0,
-  // 屬性
+
   baseAtk:18,baseDef:22,baseHp:200,
   shield:.25,
   skills:[
@@ -757,7 +746,7 @@ const SECTS=[
   bonus:{atk:.95,def:1.3,spd:.9,crit:.06,rate:1.05},iAtk:10,iDef:16,iSpd:7,iHp:130,bgLbl:'淬體閉關',lifeBonus:10,
   rankNames:['記名弟子','外門弟子','內門弟子','真傳弟子','體道長老','宗主'],
   rankPerks:['無加成','防禦+6%','防禦+12%，HP+8%','防禦+20%，HP+15%','防禦+28%，HP+22%，修為/秒+8%','全屬性+12%'],
-  // 體修：攻擊=防禦計算，反彈=防禦計算
+
   bSkills:[
    {n:'玄冥鐵拳',t:'atk',d:'以防禦為基礎攻擊，造成防禦值×150%傷害',defMult:1.5,cd:11,cur:0,prob:.08},
    {n:'金身護法',t:'def',d:'金身護體，防禦+55%（10秒），恢復HP15%',cd:15,cur:0,prob:.07,selfDef:.55,heal:.15,dur:10},
@@ -885,7 +874,7 @@ const SECTS=[
    {t:'【危機】業障爆發，修為損8%',expLoss:.08,bad:true},
    {t:'血月當空，修為大增+{e}，攻擊+30%臨時',e:11,tb:'atk',tv:.3,td:10,bad:false},
   ]},
- // 散修：不入宗門，自由遊歷
+
  {id:'sm',name:'散修',icon:'🌙',desc:'獨行修士',color:'var(--ink2)',bg:'var(--paper2)',bc:'var(--ink3)',
   bonus:{atk:1.05,def:1.05,spd:1.05,crit:.10,rate:1.15},iAtk:10,iDef:8,iSpd:10,iHp:90,bgLbl:'獨修靜悟',lifeBonus:7,
   rankNames:['無名散修','江湖遊俠','一方散仙','名動一方','威震一域','天下聞名'],
@@ -945,13 +934,13 @@ const MINGLING={
   ]},
  qy:{name:'青雲天劍',icon:'⚡',color:'var(--sky2)',
   desc:'凝聚天地劍意，攻擊與暴擊隨等級大幅提升',
-  // 每級加成
+
   perLv:{atk:45,crit:.018,rate:.8},
-  // 被動技能（固定）
+
   passive:{n:'劍道通天',d:'攻擊超過10萬時，暴擊傷害+50%'},
-  // 主動技能（每30秒自動觸發一次，戰鬥中生效）
+
   active:{n:'萬劍歸宗',d:'釋放萬道劍氣，造成自身攻擊×800%傷害',mult:8.0,cd:30,cur:0},
-  // 升階消耗（靈石 / 修為）
+
   costs:[
    {stone:500,exp:5000},{stone:2000,exp:25000},{stone:8000,exp:100000},
    {stone:30000,exp:400000},{stone:100000,exp:1500000},
@@ -1012,14 +1001,14 @@ function fmt(n){if(n>=1e12)return(n/1e12).toFixed(1)+'兆';if(n>=1e8)return(n/1e
 function nowSec(){return Math.floor(Date.now()/1000);}
 
 let G={started:false,sid:null,bodyId:null,playerName:'修士',
- exp:0,ri:0,stone:50,herb:0,life:0,fame:0,con:0,ageTick:0,// ageTick=修煉開始的tick，年紀=(tick-ageTick)/365
+ exp:0,ri:0,stone:50,herb:0,life:0,fame:0,con:0,ageTick:0,
  bHp:0,permAtk:0,permDef:0,permRate:0,permSpd:0,permCrit:0,permHp:0,
  tempBuffs:{},mAgAtk:0,mAgDef:0,kills:0,bStage:0,
- bgToday:0,bgCdEnd:0,bgBuff:null,daoFollow:null,brkFailCount:0,brkCdEnd:0,brkWeak:false,brkWeakEnd:0,daoShieldBuff:0,daoBurnTurns:0,daoBurnDmg:0,daoSkCDs:{},// 道侶相關
+ bgToday:0,bgCdEnd:0,bgBuff:null,daoFollow:null,brkFailCount:0,brkCdEnd:0,brkWeak:false,brkWeakEnd:0,daoShieldBuff:0,daoBurnTurns:0,daoBurnDmg:0,daoSkCDs:{},
  skills:[],abilities:ABILITIES.map(a=>({...a})),
  dao:DAO_DATA.map(d=>({...d})),
- equip:Array(6).fill(null),bag:[],bagFilter:-1,// -1=全部 0~5=品質過濾
- mfl:{lv:0,killBuff:0,activeCur:0,defBuff:0,rateBuff:1},// 本命法寶
+ equip:Array(6).fill(null),bag:[],bagFilter:-1,
+ mfl:{lv:0,killBuff:0,activeCur:0,defBuff:0,rateBuff:1},
  zone:{active:false,zi:-1,at:0,mon:null,isBoss:false},
  camp:{active:false,at:0,log:[]},
  trav:{active:false,at:0,log:[]},
@@ -1031,7 +1020,7 @@ let G={started:false,sid:null,bodyId:null,playerName:'修士',
 
 function gS(){return SECTS.find(s=>s.id===G.sid)||SECTS[0];}
 function gB(){return BODIES.find(b=>b.id===G.bodyId);}
-function gD(){return G.daoFollow?G.dao.find(d=>d.id===G.daoFollow):null;}// 跟隨道侶
+function gD(){return G.daoFollow?G.dao.find(d=>d.id===G.daoFollow):null;}
 function rM(){const ri=G.sect.rankIdx;return{rate:1+[0,.05,.10,.18,.28,.40][ri],atk:1+[0,0,0,.05,.08,.12][ri],stone:1+[0,0,.05,.05,.05,.05][ri],killExp:ri>=4?.15:0,all:ri>=5?.12:0};}
 
 /* 體質加成（大境界×majorMult倍） */
@@ -1042,55 +1031,55 @@ function bdStatAt(bd,st,key){
  return total;
 }
 
-function cR(){if(!G.started)return 0;const s=gS();let r=s.bonus.rate+G.permRate;G.skills.forEach(sk=>{if(sk.u&&sk.rate)r+=sk.rate;});G.equip.forEach(e=>{if(e&&e.rate)r+=e.rate;});G.abilities.forEach(a=>{if(a.u&&a.rate)r+=a.rate;});REALMS.slice(0,G.ri+1).forEach(rv=>{r+=rv.rate;});if(G.tempBuffs.rate)r+=G.tempBuffs.rate.val;const bd=gB();if(bd)r+=bdStatAt(bd,G.bStage,'rate');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.rate){const di=dRI(d);r*=(1+d.rate*(1+DAO_RL[di].b));}});const rm=rM();r*=rm.rate;if(rm.all)r*=(1+rm.all);// 跟隨道侶修為/秒×1.5
-const fd=gD();if(fd&&fd.aff>=80)r*=1.5;// 月瑤bonus
+function cR(){if(!G.started)return 0;const s=gS();let r=s.bonus.rate+G.permRate;G.skills.forEach(sk=>{if(sk.u&&sk.rate)r+=sk.rate;});G.equip.forEach(e=>{if(e&&e.rate)r+=e.rate;});G.abilities.forEach(a=>{if(a.u&&a.rate)r+=a.rate;});REALMS.slice(0,G.ri+1).forEach(rv=>{r+=rv.rate;});if(G.tempBuffs.rate)r+=G.tempBuffs.rate.val;const bd=gB();if(bd)r+=bdStatAt(bd,G.bStage,'rate');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.rate){const di=dRI(d);r*=(1+d.rate*(1+DAO_RL[di].b));}});const rm=rM();r*=rm.rate;if(rm.all)r*=(1+rm.all);
+const fd=gD();if(fd&&fd.aff>=80)r*=1.5;
 if(fd&&fd.sp==='cult'&&fd.aff>=80)r*=1.3;
-// 本命法寶修為/秒加成
-if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.rate)r+=ml.perLv.rate*G.mfl.lv;// 天河靈器被動
-if(G.sid==='th'&&ml)r*=(1+Math.min(.5,Math.floor(cR()*.001)*.01));}// 本命法寶修為/秒buff
-if(G.mfl.rateBuff)r*=G.mfl.rateBuff;// 太虛虛空體10重特效：速度×修為/秒加成
-const vbd=gB();if(vbd&&vbd.id==='void'&&G.bStage>=10)r*=(1+Math.min(.50,cS()*.001));// 聲望加成修為/秒（每100聲望+0.2%，上限30%）
-if(G.fame>0)r*=(1+Math.min(.30,Math.floor(G.fame/100)*.002));// 渡劫虛弱削弱修為/秒
-if(G.brkWeak&&nowSec()<G.brkWeakEnd)r*=.70;// 閉關加速buff
+
+if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.rate)r+=ml.perLv.rate*G.mfl.lv;
+if(G.sid==='th'&&ml)r*=(1+Math.min(.5,Math.floor(cR()*.001)*.01));}
+if(G.mfl.rateBuff)r*=G.mfl.rateBuff;
+const vbd=gB();if(vbd&&vbd.id==='void'&&G.bStage>=10)r*=(1+Math.min(.50,cS()*.001));
+if(G.fame>0)r*=(1+Math.min(.30,Math.floor(G.fame/100)*.002));
+if(G.brkWeak&&nowSec()<G.brkWeakEnd)r*=.70;
 if(G.bgBuff&&nowSec()<G.bgBuff.end)r*=G.bgBuff.mult;
 return Math.max(.1,parseFloat(r.toFixed(2)));}
-function cA(){if(!G.started)return 0;const s=gS();let a=s.iAtk*s.bonus.atk+G.permAtk;G.skills.forEach(sk=>{if(sk.u&&sk.atk)a+=sk.atk;});G.abilities.forEach(b=>{if(b.u&&b.atk)a+=b.atk;});G.equip.forEach(e=>{if(e&&e.atk)a+=e.atk;});REALMS.slice(0,G.ri+1).forEach(rv=>{a+=rv.atk;});if(G.tempBuffs.atk)a*=(1+G.tempBuffs.atk.val);if(G.mAgAtk)a*=(1+G.mAgAtk);const bd=gB();if(bd)a+=bdStatAt(bd,G.bStage,'atk');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.atk){const di=dRI(d);a=Math.floor(a*(1+d.atk*(1+DAO_RL[di].b)));}});// 本命法寶攻擊加成
-if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.atk)a+=ml.perLv.atk*G.mfl.lv;}const rm=rM();a*=rm.atk;if(rm.all)a*=(1+rm.all);// 焰妃跟隨攻擊+15%
-const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)a*=1.15;// 魔神體煞氣爆發：疊加層數加成（20重解鎖）
-const dbd2=gB();if(dbd2&&dbd2.id==='demon'&&G.bStage>=20&&G._demonStacks>0)a*=(1+G._demonStacks*.20);// 魔神體血路狂殺永久加成
-if(G._demonPermAtk)a*=(1+G._demonPermAtk);// 聲望加成攻擊（每200聲望+0.1%，上限15%）
-if(G.fame>0)a*=(1+Math.min(.15,Math.floor(G.fame/200)*.001));// 渡劫虛弱削弱攻擊
+function cA(){if(!G.started)return 0;const s=gS();let a=s.iAtk*s.bonus.atk+G.permAtk;G.skills.forEach(sk=>{if(sk.u&&sk.atk)a+=sk.atk;});G.abilities.forEach(b=>{if(b.u&&b.atk)a+=b.atk;});G.equip.forEach(e=>{if(e&&e.atk)a+=e.atk;});REALMS.slice(0,G.ri+1).forEach(rv=>{a+=rv.atk;});if(G.tempBuffs.atk)a*=(1+G.tempBuffs.atk.val);if(G.mAgAtk)a*=(1+G.mAgAtk);const bd=gB();if(bd)a+=bdStatAt(bd,G.bStage,'atk');G.dao.forEach(d=>{if(d.u&&d.aff>=50&&d.atk){const di=dRI(d);a=Math.floor(a*(1+d.atk*(1+DAO_RL[di].b)));}});
+if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.atk)a+=ml.perLv.atk*G.mfl.lv;}const rm=rM();a*=rm.atk;if(rm.all)a*=(1+rm.all);
+const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)a*=1.15;
+const dbd2=gB();if(dbd2&&dbd2.id==='demon'&&G.bStage>=20&&G._demonStacks>0)a*=(1+G._demonStacks*.20);
+if(G._demonPermAtk)a*=(1+G._demonPermAtk);
+if(G.fame>0)a*=(1+Math.min(.15,Math.floor(G.fame/200)*.001));
 if(G.brkWeak&&nowSec()<G.brkWeakEnd)a*=.75;return Math.floor(a);}
-function cD(){if(!G.started)return 0;const s=gS();let d=s.iDef*s.bonus.def+G.permDef;G.skills.forEach(sk=>{if(sk.u&&sk.def)d+=sk.def;});G.abilities.forEach(b=>{if(b.u&&b.def)d+=b.def;});G.equip.forEach(e=>{if(e&&e.def)d+=e.def;});REALMS.slice(0,G.ri+1).forEach(rv=>{d+=rv.def;});if(G.tempBuffs.def)d*=(1+G.tempBuffs.def.val);if(G.mAgDef)d*=(1+G.mAgDef);const bd=gB();if(bd)d+=bdStatAt(bd,G.bStage,'def');// 本命法寶防禦加成
-if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.def)d+=ml.perLv.def*G.mfl.lv;}// 本命法寶激活防禦buff
-if(G.mfl.defBuff)d*=(1+G.mfl.defBuff);const rm=rM();if(rm.all)d*=(1+rm.all);// 渡劫虛弱削弱防禦
+function cD(){if(!G.started)return 0;const s=gS();let d=s.iDef*s.bonus.def+G.permDef;G.skills.forEach(sk=>{if(sk.u&&sk.def)d+=sk.def;});G.abilities.forEach(b=>{if(b.u&&b.def)d+=b.def;});G.equip.forEach(e=>{if(e&&e.def)d+=e.def;});REALMS.slice(0,G.ri+1).forEach(rv=>{d+=rv.def;});if(G.tempBuffs.def)d*=(1+G.tempBuffs.def.val);if(G.mAgDef)d*=(1+G.mAgDef);const bd=gB();if(bd)d+=bdStatAt(bd,G.bStage,'def');
+if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.def)d+=ml.perLv.def*G.mfl.lv;}
+if(G.mfl.defBuff)d*=(1+G.mfl.defBuff);const rm=rM();if(rm.all)d*=(1+rm.all);
 if(G.brkWeak&&nowSec()<G.brkWeakEnd)d*=.75;return Math.floor(d);}
-function cS(){if(!G.started)return 0;const s=gS();let sp=s.iSpd*s.bonus.spd+G.permSpd;G.skills.forEach(sk=>{if(sk.u&&sk.spd)sp+=sk.spd;});G.abilities.forEach(b=>{if(b.u&&b.spd)sp+=b.spd;});G.equip.forEach(e=>{if(e&&e.spd)sp+=e.spd;});if(G.tempBuffs.spd)sp*=(1+G.tempBuffs.spd.val);// 本命法寶速度加成
+function cS(){if(!G.started)return 0;const s=gS();let sp=s.iSpd*s.bonus.spd+G.permSpd;G.skills.forEach(sk=>{if(sk.u&&sk.spd)sp+=sk.spd;});G.abilities.forEach(b=>{if(b.u&&b.spd)sp+=b.spd;});G.equip.forEach(e=>{if(e&&e.spd)sp+=e.spd;});if(G.tempBuffs.spd)sp*=(1+G.tempBuffs.spd.val);
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.spd)sp+=ml.perLv.spd*G.mfl.lv;}const bd=gB();if(bd)sp+=bdStatAt(bd,G.bStage,'spd');return Math.floor(sp);}
-function cC(){if(!G.started)return 0;const s=gS();let c=s.bonus.crit+G.permCrit;G.skills.forEach(sk=>{if(sk.u&&sk.crit)c+=sk.crit;});G.abilities.forEach(b=>{if(b.u&&b.crit)c+=b.crit;});if(G.tempBuffs.crit)c+=G.tempBuffs.crit.val;const bd=gB();if(bd)c+=bdStatAt(bd,G.bStage,'crit');// 本命法寶暴擊加成
-if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.crit)c+=ml.perLv.crit*G.mfl.lv;}// 雪靈兒跟隨閃避+5%（算暴擊）
+function cC(){if(!G.started)return 0;const s=gS();let c=s.bonus.crit+G.permCrit;G.skills.forEach(sk=>{if(sk.u&&sk.crit)c+=sk.crit;});G.abilities.forEach(b=>{if(b.u&&b.crit)c+=b.crit;});if(G.tempBuffs.crit)c+=G.tempBuffs.crit.val;const bd=gB();if(bd)c+=bdStatAt(bd,G.bStage,'crit');
+if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.crit)c+=ml.perLv.crit*G.mfl.lv;}
 const fd=gD();if(fd&&fd.sp==='ice'&&fd.aff>=80)c+=.05;return Math.min(.88,c);}
-function cMH(){if(!G.started)return 100;const s=gS();let h=s.iHp*1.5+G.permHp;G.skills.forEach(sk=>{if(sk.u&&sk.hp)h+=sk.hp;});G.abilities.forEach(b=>{if(b.u&&b.hp)h+=b.hp;});G.equip.forEach(e=>{if(e&&e.hp)h+=e.hp;});REALMS.slice(0,G.ri+1).forEach(rv=>{h+=rv.hp;});const bd=gB();if(bd)h+=bdStatAt(bd,G.bStage,'hp');// 本命法寶HP加成
+function cMH(){if(!G.started)return 100;const s=gS();let h=s.iHp*1.5+G.permHp;G.skills.forEach(sk=>{if(sk.u&&sk.hp)h+=sk.hp;});G.abilities.forEach(b=>{if(b.u&&b.hp)h+=b.hp;});G.equip.forEach(e=>{if(e&&e.hp)h+=e.hp;});REALMS.slice(0,G.ri+1).forEach(rv=>{h+=rv.hp;});const bd=gB();if(bd)h+=bdStatAt(bd,G.bStage,'hp');
 if(G.started&&G.mfl.lv>0){const ml=gML();if(ml&&ml.perLv.hp)h+=ml.perLv.hp*G.mfl.lv;}const rm=rM();if(rm.all)h*=(1+rm.all);return Math.floor(h);}
 function cDodge(){const bd=gB();let d=bd?bdStatAt(bd,G.bStage,'dodge'):0;const fd=gD();if(fd&&fd.sp==='ice'&&fd.aff>=80)d+=.05;return d;}
 function cLeech(){const bd=gB();return bd?bdStatAt(bd,G.bStage,'leech'):0;}
 function cP(){return Math.floor(cA()*2.5+cD()*2+cS()+cMH()*.3+cR()*30);}
 function dRI(d){for(let i=DAO_RL.length-1;i>=0;i--)if(d.ri>=DAO_RL[i].req)return i;return 0;}
-// 道侶境界顯示：對應 REALMS 顯示完整名稱（煉氣三層 等）
+
 function daoRealmName(d){
   if(!d||d.ri<=0)return '凡人';
-  // 用修為值對應 REALMS 境界名
+
   for(let i=REALMS.length-1;i>=0;i--){
     if(d.ri>=REALMS[i].req)return REALMS[i].n;
   }
   return REALMS[0].n;
 }
-// 道侶屬性：基礎值 × (1 + 境界加成)
+
 function daoStat(d,key){if(!d)return 0;const ri=dRI(d);const grow=1+DAO_RL[ri].b*3;return Math.floor((d[key]||0)*grow);}
 function daoAtk(d){return daoStat(d,'baseAtk');}
 function daoDef(d){return daoStat(d,'baseDef');}
 function daoHp(d){return daoStat(d,'baseHp');}
-// 道侶當前分擔比例（基礎 + 技能buff）
+
 function daoShield(){const fd=gD();if(!fd||fd.aff<80)return 0;return G.daoShieldBuff||fd.shield||0;}
 function curTI(){return TIERS.indexOf(REALMS[G.ri].ti);}
 
@@ -1129,7 +1118,7 @@ function goStep2(){const nm=document.getElementById('name-inp').value.trim();if(
 function startGame(si){const s=SECTS[si];G.sid=s.id;G.started=true;G.skills=s.skills.map(sk=>({...sk}));G.life=0;G.ageTick=0;G.bHp=cMH();document.getElementById('pane-init').style.display='none';document.getElementById('pane-main').style.display='';document.getElementById('main-nav').style.display='flex';T('main');rUI2();updateUI();const bd=gB();LOG(`道號【${G.playerName}】踏入【${s.name}】，覺醒【${bd.name}】！`,'sp');pushEv('✦ 修仙之路開啟',`${G.playerName} 踏入 ${s.name}，覺醒 ${bd.name}（${bd.stages[0].n}）`,s.color);}
 function rUI2(){if(!G.started)return;const s=gS();const bd=gB();const fd=gD();document.getElementById('pn').textContent=G.playerName;document.getElementById('ps').textContent=s.name+' · '+s.rankNames[G.sect.rankIdx]+(bd?' · '+bd.name:''+(fd?' 💑'+fd.n:''));document.getElementById('pr').style.color=s.color;document.getElementById('main-title').textContent=G.playerName+'（'+s.desc+'）'+(fd?` 💑${fd.n}`:'');document.getElementById('skill-title').textContent=s.name+'功法';document.getElementById('exp-bar').style.background=s.color;document.getElementById('main-ava').innerHTML=`<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="18" fill="${s.bg}"/><text x="18" y="24" text-anchor="middle" font-size="15">${s.icon}</text></svg>`;}
 
-function rBGA(){const s=gS();const cdLeft=Math.max(0,G.bgCdEnd-nowSec());const canBG=G.bgToday<BG_MAX&&cdLeft===0;const el=document.getElementById('biguan-area');if(!el)return;let html='';if(cdLeft>0){const m=Math.floor(cdLeft/60);const sc=cdLeft%60;html=`<div class="bibox"><div class="bi-tit">⛅ 閉關冷卻中</div><div class="bi-sub">今日已閉關 ${G.bgToday}/${BG_MAX} 次</div><div class="bi-timer">${m}:${String(sc).padStart(2,'0')}</div></div>`;}else if(G.bgToday>=BG_MAX){html=`<div class="bibox"><div class="bi-tit">今日閉關次數已用完</div><div class="bi-sub">${G.bgToday}/${BG_MAX} 次 · 明日再來</div></div>`;}el.innerHTML=html;const btn=document.getElementById('btn-bg');if(btn){btn.disabled=!canBG;document.getElementById('bg-lbl').textContent=s.bgLbl;}const info=document.getElementById('bg-info');// 渡劫冷卻和虛弱狀態顯示
+function rBGA(){const s=gS();const cdLeft=Math.max(0,G.bgCdEnd-nowSec());const canBG=G.bgToday<BG_MAX&&cdLeft===0;const el=document.getElementById('biguan-area');if(!el)return;let html='';if(cdLeft>0){const m=Math.floor(cdLeft/60);const sc=cdLeft%60;html=`<div class="bibox"><div class="bi-tit">⛅ 閉關冷卻中</div><div class="bi-sub">今日已閉關 ${G.bgToday}/${BG_MAX} 次</div><div class="bi-timer">${m}:${String(sc).padStart(2,'0')}</div></div>`;}else if(G.bgToday>=BG_MAX){html=`<div class="bibox"><div class="bi-tit">今日閉關次數已用完</div><div class="bi-sub">${G.bgToday}/${BG_MAX} 次 · 明日再來</div></div>`;}el.innerHTML=html;const btn=document.getElementById('btn-bg');if(btn){btn.disabled=!canBG;document.getElementById('bg-lbl').textContent=s.bgLbl;}const info=document.getElementById('bg-info');
 const brkNow=nowSec();
 const brkBtn=document.getElementById('btn-brk');
 if(brkBtn){
@@ -1143,13 +1132,13 @@ if(brkBtn){
     brkBtn.disabled=false;
     brkBtn.title='';
   }
-  // 虛弱時顯示在動態
+
   if(isWeak){
     const weakLeft=Math.ceil((G.brkWeakEnd-brkNow)/60);
     const eb=document.getElementById('evb-mode');
     if(eb&&!G.zone.active&&!G.camp.active&&!G.trav.active)eb.textContent=`⚡ 渡劫虛弱中（${weakLeft}分）`;
   } else if(G.brkWeak){
-    G.brkWeak=false;// 虛弱結束
+    G.brkWeak=false;
   }
 }
 if(info){const fd=gD();const cultBonus=fd&&fd.sp==='cult'&&fd.aff>=80?' + 月瑤閉關加成':'';
@@ -1159,10 +1148,10 @@ info.textContent=`每日${BG_MAX}次 · 修為/秒×2~3倍持續1小時 · 已�
 
 function rSSt(){const el=document.getElementById('skill-status');if(!el||!G.started)return;el.innerHTML='';const tc={atk:'var(--cr2)',def:'var(--jade)',aux:'var(--sky2)'};const tl={atk:'攻擊',def:'防禦',aux:'輔助'};gS().bSkills.forEach(sk=>{const eff=Math.min(.8,sk.prob+(G.ri*.006));const d=document.createElement('div');d.className='row';d.innerHTML=`<div><div class="rvt">${sk.n} <span class="pill" style="background:${tc[sk.t]}18;color:${tc[sk.t]};">${tl[sk.t]}</span>${sk.cur>0?` <span class="pill pp">CD${sk.cur}s</span>`:''}</div><div class="rlt">${sk.d} · 觸發率${Math.round(eff*100)}%</div></div>`;el.appendChild(d);});}
 
-function doBG(){if(!G.started)return;const cdLeft=Math.max(0,G.bgCdEnd-nowSec());if(G.bgToday>=BG_MAX||cdLeft>0)return;G.bgToday++;G.bgCdEnd=nowSec()+BG_CD;let mult=R(2,3);// 月瑤跟隨閉關倍率+0.5
+function doBG(){if(!G.started)return;const cdLeft=Math.max(0,G.bgCdEnd-nowSec());if(G.bgToday>=BG_MAX||cdLeft>0)return;G.bgToday++;G.bgCdEnd=nowSec()+BG_CD;let mult=R(2,3);
 const fd=gD();if(fd&&fd.sp==='cult'&&fd.aff>=80)mult+=.5;
-// 閉關：提升修為/秒速率，持續1小時（3600秒），不直接給修為
-G.bgBuff={mult,end:nowSec()+BG_CD};// bgBuff記錄閉關加速狀態
+
+G.bgBuff={mult,end:nowSec()+BG_CD};
 G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.15));
 LOG(`${gS().bgLbl}第${G.bgToday}次！閉關中：修為/秒×${mult}倍，持續1小時`,'sp');
 pushEv(`⛅ ${gS().bgLbl}`,`進入閉關狀態！修為/秒速率×${mult}倍，持續1小時（3600秒）。氣血略回復。`,gS().color);
@@ -1172,7 +1161,7 @@ function doBreak(){
   const r=REALMS[G.ri];
   if(G.exp<r.req){LOG('修為未達圓滿，無法突破','dk');return;}
   if(G.ri>=REALMS.length-1){LOG('已達大道涅槃，超脫輪迴','sp');return;}
-  // 檢查渡劫冷卻
+
   const now=nowSec();
   if(G.brkCdEnd&&now<G.brkCdEnd){
     const left=Math.ceil((G.brkCdEnd-now)/60);
@@ -1180,42 +1169,42 @@ function doBreak(){
     return;
   }
   G.daily.brkUsed++;
-  // 成功率隨失敗次數略降（最低40%）
+
   const r0=REALMS[G.ri];
-  // 修為超出門檻越多成功率越高
+
   const overRate=r0.req>0?(G.exp-r0.req)/r0.req:0;
   const expBonus=overRate>=2?.20:overRate>=1?.12:overRate>=.5?.06:overRate>=.2?.03:0;
-  // 失敗累積：每次失敗+8%（天劫歷練，最高+40%）
+
   const failBonus=Math.min(.40,G.brkFailCount*.08);
-  // 最終成功率（失敗懲罰只剩冷卻和虛弱，不再降低成功率）
+
   const successRate=Math.min(.95,Math.max(.40,.65+expBonus+failBonus));
   const ok=Math.random()<successRate;
   if(ok){
-    const prevReq=REALMS[G.ri].req;// 先記住本層需求
+    const prevReq=REALMS[G.ri].req;
     G.ri++;
     const nr=REALMS[G.ri];
-    G.exp=Math.max(0,G.exp-prevReq);// 扣除本層需求，保留超出部分
+    G.exp=Math.max(0,G.exp-prevReq);
     G.bHp=cMH();
     G.fame+=8;
     G.brkFailCount=0;
     G.brkWeak=false;
     G.brkWeakEnd=0;
     if(Math.random()<.38)tryDrop();
-    LOG(`★ 【${G.playerName}】突破至【${nr.n}】！`,`sp`);
+    LOG(`★ 【${G.playerName}】突破至【${nr.n}】！`,'sp');
     const _sr=Math.round(Math.min(.95,Math.max(.40,.65+expBonus+Math.min(.40,G.brkFailCount*.08)))*100);pushEv('★ 境界突破',`突破至【${nr.n}】！超出修為保留，繼續累積！（成功率${_sr}%）`,gS().color);
     if(G.sid==='ms')G.exp+=Math.floor(cR()*5);
   } else {
     G.brkFailCount++;
     const fc=G.brkFailCount;
-    // 懲罰加重：失敗次數越多傷越重
-    const hpLoss=Math.min(.9,.5+fc*.08);// 50%~90%
-    const cdMins=fc*10;// 10/20/30...分鐘冷卻
-    const weakMins=fc*5;// 虛弱時間
+
+    const hpLoss=Math.min(.9,.5+fc*.08);
+    const cdMins=fc*10;
+    const weakMins=fc*5;
     G.bHp=Math.max(1,Math.floor(G.bHp*(1-hpLoss)));
     G.brkCdEnd=now+cdMins*60;
     G.brkWeak=true;
     G.brkWeakEnd=now+weakMins*60;
-    // 虛弱期間屬性降低（在 cA/cD/cR 中判斷）
+
     const msgs=[
       '天劫反噬，氣血重創！',
       '二度失敗，雷火灼體，傷勢加重！',
@@ -1231,8 +1220,8 @@ function doBreak(){
 function checkBreak(){/* 突破需手動點擊按鈕，不自動觸發 */}
 function doRefine(){if(!G.started||G.herb<5)return;G.herb-=5;const roll=Math.random();if(roll<.55){const g=Math.floor(cR()*70+60);G.exp+=g;G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.3));LOG(`回元丹成功！修為+${fmt(g)}`,'gd');}else if(roll<.80){LOG('丹爐爆炸！煉丹失敗','dk');}else if(roll<.93){const g=Math.floor(cR()*140+150);G.exp+=g;G.bHp=cMH();LOG(`★ 上品靈丹！修為+${fmt(g)}，氣血全復！`,'go');}else{const g=Math.floor(cR()*300+380);G.exp+=g;G.bHp=cMH();G.stone+=60;LOG(`★★ 極品仙丹！修為+${fmt(g)}，靈石+60！`,'sp');}checkBreak();updateUI();}
 
-function appEv(ev){const e=ev.e||0,s=ev.s||0,h=ev.h||0,f=ev.f||0,life=ev.life||0,r=ev.r||0,c=ev.c||0,hp=ev.hp||0;// 事件修為隨境界提升（每個大境界層×1.3）
-const _em=e>0?Math.floor(e*(1+G.ri*0.12)):e;G.exp+=_em;if(ev.expLoss)G.exp=Math.max(0,G.exp-Math.floor(G.exp*ev.expLoss));G.stone=Math.max(0,G.stone+s);if(ev.stoneLoss)G.stone=Math.max(0,G.stone-ev.stoneLoss);G.herb+=h;if(ev.herbLoss)G.herb=Math.max(0,G.herb-ev.herbLoss);G.fame+=f;// life獎勵已移除，改為自動計時
+function appEv(ev){const e=ev.e||0,s=ev.s||0,h=ev.h||0,f=ev.f||0,life=ev.life||0,r=ev.r||0,c=ev.c||0,hp=ev.hp||0;
+const _em=e>0?Math.floor(e*(1+G.ri*0.12)):e;G.exp+=_em;if(ev.expLoss)G.exp=Math.max(0,G.exp-Math.floor(G.exp*ev.expLoss));G.stone=Math.max(0,G.stone+s);if(ev.stoneLoss)G.stone=Math.max(0,G.stone-ev.stoneLoss);G.herb+=h;if(ev.herbLoss)G.herb=Math.max(0,G.herb-ev.herbLoss);G.fame+=f;
 G.con+=c;if(ev.pr)G.permRate+=r;if(ev.permAtk)G.permAtk+=ev.a||0;if(ev.permDef&&ev.permDef>1)G.permDef+=ev.permDef;if(ev.permDef2)G.permDef+=ev.d||0;if(ev.permHp)G.permHp+=hp;if(ev.permSpd)G.permSpd+=ev.spd||0;if(ev.permCrit)G.permCrit+=ev.permCrit;if(ev.hpDmg)G.bHp=Math.max(1,G.bHp-Math.floor(cMH()*ev.hpDmg));if(ev.heal)G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*ev.heal));if(ev.healFull)G.bHp=cMH();if(ev.tb&&ev.tv>0)G.tempBuffs[ev.tb]={val:ev.tv,end:Date.now()+ev.td*1000};else if(ev.tb&&ev.tv<0){G.tempBuffs[ev.tb]={val:ev.tv,end:Date.now()+ev.td*1000};}}
 function fmE(t,ev){return t.replace(/{e}/g,ev.e||0).replace(/{s}/g,ev.s||0).replace(/{h}/g,ev.h||0).replace(/{f}/g,ev.f||0).replace(/{r}/g,ev.r||0).replace(/{a}/g,ev.a||0).replace(/{life}/g,ev.life||0).replace(/{hp}/g,ev.hp||0).replace(/{d}/g,ev.d||0).replace(/{spd}/g,ev.spd||0).replace(/{c}/g,ev.c||0);}
 
@@ -1241,13 +1230,13 @@ function trigAuxSkill(){
   if(!G.started)return;
   const sk=gS().bSkills;
   sk.forEach(s=>{
-    if(s.t!=='aux')return;// 只觸發輔助類
-    // 使用獨立冷卻（用 s.offCur 記錄場外CD）
+    if(s.t!=='aux')return;
+
     if(!s.offCur)s.offCur=0;
     if(s.offCur>0){s.offCur--;return;}
-    if(Math.random()>s.prob*0.6)return;// 場外觸發率略低
-    s.offCur=s.cd*3;// 場外冷卻更長
-    // 套用效果
+    if(Math.random()>s.prob*0.6)return;
+    s.offCur=s.cd*3;
+
     if(s.tbR){
       G.tempBuffs.rate={val:s.tbR*cR(),end:Date.now()+s.tbD*1000};
       LOG(`✦【${s.n}】發動，修為/秒提升${Math.round(s.tbR*100)}%（${s.tbD}秒）`,'sp');
@@ -1262,7 +1251,7 @@ function trigAuxSkill(){
   });
 }
 
-function trigSE(){const pool=gS().campEvs;if(!pool.length)return;const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.type==='bonus'?'var(--gold2)':ev.type==='rival'||ev.type==='event'?'var(--sky3)':'var(--jade3)';pushEv(ev.bad?'⚠ 宗門危機':'🏯 宗門動態',msg,color);addCLog(msg,color,G.camp.log,'camp-log');LOG('[宗門]'+msg,ev.bad?'dk':'gd');// 道侶跟隨觸發道侶專屬事件（20%機率）
+function trigSE(){const pool=gS().campEvs;if(!pool.length)return;const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.type==='bonus'?'var(--gold2)':ev.type==='rival'||ev.type==='event'?'var(--sky3)':'var(--jade3)';pushEv(ev.bad?'⚠ 宗門危機':'🏯 宗門動態',msg,color);addCLog(msg,color,G.camp.log,'camp-log');LOG('[宗門]'+msg,ev.bad?'dk':'gd');
 if(G.camp.active&&G.daoFollow&&Math.random()<.20)trigDaoEv();checkBreak();updateUI();if(G.curTab==='camp')rCamp();}
 
 /* 渡劫輔助奇遇池 */
@@ -1276,7 +1265,7 @@ const TRIBULATION_EVTS=[
 ];
 
 function trigTE(){const pool=gS().travEvs;if(!pool.length)return;
-// 聲望≥500時有機率觸發高階奇遇
+
 if(G.fame>=500&&Math.random()<.08){
   const fameEvts=[
     {t:'聲名在外，高人主動傳授秘法，修為/秒永久微升',pr:true,r:.2,bad:false},
@@ -1293,9 +1282,9 @@ if(G.fame>=500&&Math.random()<.08){
   LOG('[歷練]'+msg,'go');
   updateUI();if(G.curTab==='trav')rTrav();return;
 }
-// 邂逅道侶
+
 const unmet=G.dao.filter(d=>!d.met);if(unmet.length>0&&Math.random()<.12){const avail=DAO_MEET.filter(m=>unmet.find(d=>d.id===m.id));if(avail.length){const tr=pk(avail);const dao=G.dao.find(d=>d.id===tr.id);if(dao){dao.met=true;dao.aff=10;}const msg=tr.t;pushEv('♡ 道侶邂逅',msg+'（好感度：10）','#f0a0c8');addCLog(msg,'#f0a0c8',G.trav.log,'trav-log');LOG(`✦ 與【${dao.n}】相遇！`,'pk');updateUI();if(G.curTab==='dao')rDao();return;}}
-// 渡劫輔助奇遇（15%機率，只有在渡劫冷卻中或有失敗記錄時才觸發）
+
 if(Math.random()<.15&&(G.brkCdEnd>nowSec()||G.brkFailCount>0)){
   const ev=pk(TRIBULATION_EVTS);
   const now=nowSec();
@@ -1306,7 +1295,7 @@ if(Math.random()<.15&&(G.brkCdEnd>nowSec()||G.brkFailCount>0)){
     effects.push(`冷卻縮短${mins}分鐘`);
   }
   if(ev.srBonus>0){
-    G.brkFailCount=Math.min(G.brkFailCount+ev.srBonus,G.brkFailCount+3);// 額外增加失敗計數讓成功率更高
+    G.brkFailCount=Math.min(G.brkFailCount+ev.srBonus,G.brkFailCount+3);
     const bonusPct=ev.srBonus*8;
     effects.push(`渡劫成功率+${bonusPct}%`);
   }
@@ -1316,16 +1305,15 @@ if(Math.random()<.15&&(G.brkCdEnd>nowSec()||G.brkFailCount>0)){
   LOG('[歷練]'+msg,'go');
   updateUI();if(G.curTab==='trav')rTrav();return;
 }
-const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.t.includes('機緣')?'var(--gold2)':'var(--jade3)';pushEv(ev.bad?'⚠ 歷練危機':'⛰ 歷練奇遇',msg,color);addCLog(msg,color,G.trav.log,'trav-log');LOG('[歷練]'+msg,ev.bad?'dk':'gd');// 道侶跟隨觸發道侶事件（20%機率）
+const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.t.includes('機緣')?'var(--gold2)':'var(--jade3)';pushEv(ev.bad?'⚠ 歷練危機':'⛰ 歷練奇遇',msg,color);addCLog(msg,color,G.trav.log,'trav-log');LOG('[歷練]'+msg,ev.bad?'dk':'gd');
 if(G.trav.active&&G.daoFollow&&Math.random()<.20)trigDaoEv();checkBreak();updateUI();if(G.curTab==='trav')rTrav();}
 
 function trigDaoEv(){const fd=gD();if(!fd||!fd.events||!fd.events.length)return;const ev=pk(fd.events);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':'#f0a0c8';pushEv(`💑 ${fd.n}的陪伴`,msg,color);if(G.camp.active)addCLog(`[${fd.n}] `+msg,'#f0a0c8',G.camp.log,'camp-log');else addCLog(`[${fd.n}] `+msg,'#f0a0c8',G.trav.log,'trav-log');LOG(`[${fd.n}] `+msg,'pk');checkBreak();updateUI();}
 
-
 /* ── 道侶對話（依個性不同，隨機觸發顯示在事件記錄中）── */
 const DAO_CHAT={
  xueling:[
-  // 宗門日常
+
   {t:'camp',msg:'呼吸不穩，注意。',color:'#90c8ff'},
   {t:'camp',msg:'嗯。',color:'#90c8ff'},
   {t:'camp',msg:'這裡靈氣尚可。',color:'#90c8ff'},
@@ -1336,7 +1324,7 @@ const DAO_CHAT={
   {t:'camp',msg:'……你又在想什麼。',color:'#90c8ff'},
   {t:'camp',msg:'不必強撐。',color:'#90c8ff'},
   {t:'camp',msg:'靈石不夠就說，我還有一些。',color:'#90c8ff'},
-  // 歷練
+
   {t:'trav',msg:'這條路我走過，跟我來。',color:'#90c8ff'},
   {t:'trav',msg:'妖族氣息，放慢腳步。',color:'#90c8ff'},
   {t:'trav',msg:'前方有靈脈，感覺到了嗎？',color:'#90c8ff'},
@@ -1346,7 +1334,7 @@ const DAO_CHAT={
   {t:'trav',msg:'你今天走路的姿勢不對，傷過腿嗎？',color:'#90c8ff'},
   {t:'trav',msg:'風向變了。可能要下雪。',color:'#90c8ff'},
   {t:'trav',msg:'那邊有靈草。我去採，你等著。',color:'#90c8ff'},
-  // 征戰
+
   {t:'zone',msg:'敵人的破綻在左側。',color:'#90c8ff'},
   {t:'zone',msg:'我護著你。',color:'#90c8ff'},
   {t:'zone',msg:'別大意。',color:'#90c8ff'},
@@ -1355,7 +1343,7 @@ const DAO_CHAT={
   {t:'zone',msg:'受傷了嗎？先退後。',color:'#90c8ff'},
   {t:'zone',msg:'時機到了，現在。',color:'#90c8ff'},
   {t:'zone',msg:'冷靜。不要被牠的速度帶亂節奏。',color:'#90c8ff'},
-  // 好感高（逐漸鬆動）
+
   {t:'any',msg:'今天……你辛苦了。',minAff:60,color:'#c0e8ff'},
   {t:'any',msg:'你有沒有好好吃東西？',minAff:65,color:'#c0e8ff'},
   {t:'any',msg:'你受傷了？讓我看看。',minAff:75,color:'#c0e8ff'},
@@ -1364,7 +1352,7 @@ const DAO_CHAT={
   {t:'any',msg:'……我沒有特別在意你。只是習慣了。',minAff:95,color:'#d8f0ff'},
  ],
  yanfei:[
-  // 宗門
+
   {t:'camp',msg:'哎，又在發呆？！',color:'#ff9070'},
   {t:'camp',msg:'靈石怎麼這麼少，你是不是在養我？',color:'#ff9070'},
   {t:'camp',msg:'哼，今天勉強算你表現不錯啦。',color:'#ff9070'},
@@ -1375,7 +1363,7 @@ const DAO_CHAT={
   {t:'camp',msg:'你剛才跟那個師妹說什麼？',color:'#ff9070'},
   {t:'camp',msg:'靈丹我吞了，效果不錯，謝。',color:'#ff9070'},
   {t:'camp',msg:'今天的靈石分我一半吧。',color:'#ff9070'},
-  // 歷練
+
   {t:'trav',msg:'等我！跑那麼快幹嘛！',color:'#ff9070'},
   {t:'trav',msg:'那個妖獸我來！別搶！',color:'#ff9070'},
   {t:'trav',msg:'這個洞府感覺有寶貝，進去看看！',color:'#ff9070'},
@@ -1385,7 +1373,7 @@ const DAO_CHAT={
   {t:'trav',msg:'荒郊野外的有什麼好看的……哦不錯，日落很美。',color:'#ff9070'},
   {t:'trav',msg:'前面的妖族認識我！上次被我揍過！',color:'#ff9070'},
   {t:'trav',msg:'走這麼慢幹嘛，腿短嗎你？',color:'#ff9070'},
-  // 征戰
+
   {t:'zone',msg:'讓我先！火法剋這種！',color:'#ff9070'},
   {t:'zone',msg:'嗬！不錯的傢伙！讓本聖女陪你玩玩！',color:'#ff9070'},
   {t:'zone',msg:'快點！我還有事！',color:'#ff9070'},
@@ -1394,7 +1382,7 @@ const DAO_CHAT={
   {t:'zone',msg:'呵，就這？弱爆了。',color:'#ff9070'},
   {t:'zone',msg:'你怎麼受傷了！！說好要小心的！',color:'#ff9070'},
   {t:'zone',msg:'Boss啊？正好，我手癢很久了。',color:'#ff9070'},
-  // 好感高（嘴硬心軟）
+
   {t:'any',msg:'哼……你還好吧。就是問一下，別誤會。',minAff:60,color:'#ffb090'},
   {t:'any',msg:'你要是敢受重傷，我不理你了！',minAff:70,color:'#ffb090'},
   {t:'any',msg:'哼，就當我捨不得你受傷了，怎樣！',minAff:80,color:'#ffb090'},
@@ -1403,7 +1391,7 @@ const DAO_CHAT={
   {t:'any',msg:'說什麼謝謝，傻瓜。以後也要這樣。',minAff:97,color:'#ffd0b0'},
  ],
  yueyao:[
-  // 宗門
+
   {t:'camp',msg:'靜心凝神，修為自然而至。',color:'#c0a8ff'},
   {t:'camp',msg:'今日天象吉利，適合突破境界。',color:'#c0a8ff'},
   {t:'camp',msg:'月華充盈，我感應到你的修為在增長。',color:'#c0a8ff'},
@@ -1414,7 +1402,7 @@ const DAO_CHAT={
   {t:'camp',msg:'這盞月華燈，放在你修煉處，有助定心。',color:'#c0a8ff'},
   {t:'camp',msg:'萬事皆有時，不必強求。',color:'#c0a8ff'},
   {t:'camp',msg:'今夜月色甚美。若有空，可一同賞月。',color:'#c0a8ff'},
-  // 歷練
+
   {t:'trav',msg:'此地靈氣蘊藏，可細細感悟。',color:'#c0a8ff'},
   {t:'trav',msg:'前方有仙緣，但也有考驗，做好準備。',color:'#c0a8ff'},
   {t:'trav',msg:'月光指引，此路通向機緣。',color:'#c0a8ff'},
@@ -1424,7 +1412,7 @@ const DAO_CHAT={
   {t:'trav',msg:'走慢些，路不在快，在於心境。',color:'#c0a8ff'},
   {t:'trav',msg:'那道陣法的破綻在月華照不到之處。',color:'#c0a8ff'},
   {t:'trav',msg:'此刻星象，正是修煉突破的好時機。',color:'#c0a8ff'},
-  // 征戰
+
   {t:'zone',msg:'以靜制動，伺機而出。',color:'#c0a8ff'},
   {t:'zone',msg:'敵雖強，你心中自有答案。',color:'#c0a8ff'},
   {t:'zone',msg:'月光庇佑你。',color:'#c0a8ff'},
@@ -1432,7 +1420,7 @@ const DAO_CHAT={
   {t:'zone',msg:'不必強攻，等待破綻自現。',color:'#c0a8ff'},
   {t:'zone',msg:'受傷了？先撤，我來護法。',color:'#c0a8ff'},
   {t:'zone',msg:'好，就是這個時機。',color:'#c0a8ff'},
-  // 好感高
+
   {t:'any',msg:'你可知道，我觀星許久，皆為等待你這份緣份。',minAff:60,color:'#e0d0ff'},
   {t:'any',msg:'無論修仙路多險，月瑤皆隨側。',minAff:70,color:'#e0d0ff'},
   {t:'any',msg:'你是月瑤此生修行中最重要的人。',minAff:80,color:'#e0d0ff'},
@@ -1441,7 +1429,7 @@ const DAO_CHAT={
   {t:'any',msg:'無論天地如何變，月瑤在你身邊。',minAff:97,color:'#f0eaff'},
  ],
  biluo:[
-  // 宗門
+
   {t:'camp',msg:'這裡的草好漂亮！可以採嗎？',color:'#90e068'},
   {t:'camp',msg:'唔……修煉的時候要集中，我也跟著練！',color:'#90e068'},
   {t:'camp',msg:'今天又找到好東西了！靈草！給你！',color:'#90e068'},
@@ -1452,7 +1440,7 @@ const DAO_CHAT={
   {t:'camp',msg:'這裡有好多蟲蟲，好可愛～',color:'#90e068'},
   {t:'camp',msg:'你的臉色不太好，是不是沒睡好？',color:'#90e068'},
   {t:'camp',msg:'碧蘿偷偷把你房間的靈草澆了水！',color:'#90e068'},
-  // 歷練
+
   {t:'trav',msg:'哇！那隻妖獸好可愛！等等，它要攻擊了……',color:'#90e068'},
   {t:'trav',msg:'啊！蘑菇！不對，是靈芝！我找到了！',color:'#90e068'},
   {t:'trav',msg:'這棵樹告訴我前面有危險……你相信嗎？',color:'#90e068'},
@@ -1462,7 +1450,7 @@ const DAO_CHAT={
   {t:'trav',msg:'碧蘿感覺……左邊比較安全。草草這樣說的。',color:'#90e068'},
   {t:'trav',msg:'這裡的花碧蘿沒見過，好美～可以採一朵嗎？',color:'#90e068'},
   {t:'trav',msg:'好累……但是跟你一起走好開心！',color:'#90e068'},
-  // 征戰
+
   {t:'zone',msg:'碧蘿幫你治療！要加油哦！',color:'#90e068'},
   {t:'zone',msg:'那個妖怪好可怕……碧蘿要勇敢！',color:'#90e068'},
   {t:'zone',msg:'你沒事吧沒事吧沒事吧！？',color:'#90e068'},
@@ -1470,14 +1458,14 @@ const DAO_CHAT={
   {t:'zone',msg:'碧蘿護著你！你放心打！',color:'#90e068'},
   {t:'zone',msg:'受傷了！碧蘿這就治好！',color:'#90e068'},
   {t:'zone',msg:'Boss好大……但碧蘿不怕！你在旁邊！',color:'#90e068'},
-  // 好感高（純真的感情）
+
   {t:'any',msg:'碧蘿可以一直陪著你嗎？就算千年萬年也好！',minAff:60,color:'#c0f088'},
   {t:'any',msg:'你是碧蘿遇過最好的人。碧蘿很高興。',minAff:70,color:'#c0f088'},
   {t:'any',msg:'碧蘿不要靈芝了，碧蘿只要你平平安安。',minAff:80,color:'#c0f088'},
   {t:'any',msg:'以前碧蘿以為，千年靈芝是世上最珍貴的。現在覺得……是你。',minAff:87,color:'#c0f088'},
   {t:'any',msg:'碧蘿不太懂「喜歡」是什麼，但每次見到你，心跳很快。',minAff:93,color:'#d8ffa8'},
   {t:'any',msg:'你要是走了，碧蘿會哭哭的。所以……不許走！',minAff:97,color:'#d8ffa8'},
-  // 門派專屬
+
   {t:'any',msg:'你是劍修啊，碧蘿覺得你拿著劍的樣子好帥！',sid:['qy'],color:'#90e068'},
   {t:'any',msg:'你練體修的，能讓碧蘿摸摸你的手嗎？好硬……',sid:['xm'],color:'#90e068'},
   {t:'any',msg:'你修水法的，感覺好溫柔，跟碧蘿很像！',sid:['th'],color:'#90e068'},
@@ -1487,113 +1475,113 @@ const DAO_CHAT={
 };
 
 /* ── 道侶門派專屬對話（雪靈兒/焰妃/月瑤對各門派的反應）── */
-// 這些台詞會和通用台詞一起加入 DAO_CHAT 對應道侶的池子中
+
 (function(){
-  // 追加通用台詞（不分門派）
+
   const more={
     xueling:[
-      // 宗門
+
       {t:'camp',msg:'你今天修煉的時間比昨天少了。',color:'#90c8ff'},
       {t:'camp',msg:'靈石記得留一點。別全花光。',color:'#90c8ff'},
       {t:'camp',msg:'……我幫你看了下周的氣象。有雷。',color:'#90c8ff'},
       {t:'camp',msg:'你背後的穴道有點堵，我幫你疏通一下。',color:'#c0e8ff'},
       {t:'camp',msg:'今天的靈氣濃度高，適合衝擊一下境界。',color:'#90c8ff'},
       {t:'camp',msg:'吃東西了嗎。',color:'#90c8ff'},
-      // 歷練
+
       {t:'trav',msg:'這裡的妖獸和往常不同。謹慎。',color:'#90c8ff'},
       {t:'trav',msg:'……你剛才差點踩到機關。',color:'#90c8ff'},
       {t:'trav',msg:'前面的岔路往右。我確定。',color:'#90c8ff'},
       {t:'trav',msg:'風向變了，可能有伏兵。',color:'#90c8ff'},
       {t:'trav',msg:'你走路的時候在想什麼。',color:'#90c8ff'},
       {t:'trav',msg:'這朵花有毒。別碰。',color:'#90c8ff'},
-      // 征戰
+
       {t:'zone',msg:'不要讓牠靠近你的側翼。',color:'#90c8ff'},
       {t:'zone',msg:'我看著你。',color:'#90c8ff'},
       {t:'zone',msg:'這隻弱點是頸部。',color:'#90c8ff'},
       {t:'zone',msg:'……你還有氣力嗎。',color:'#90c8ff'},
       {t:'zone',msg:'退後一步，讓我先。',color:'#90c8ff'},
-      // 好感
+
       {t:'any',msg:'……其實，我一直在注意你。',minAff:72,color:'#c0e8ff'},
       {t:'any',msg:'你笑起來不像平時那麼鋒利。',minAff:78,color:'#c0e8ff'},
       {t:'any',msg:'有時候我在想，如果你不在了……算了。',minAff:85,color:'#c0e8ff'},
       {t:'any',msg:'冷不冷。我可以離你近一點。',minAff:92,color:'#d8f0ff'},
     ],
     yanfei:[
-      // 宗門
+
       {t:'camp',msg:'你在做什麼，那麼認真！讓我看看！',color:'#ff9070'},
       {t:'camp',msg:'靈石夠不夠？我前天搶了些，要不要分你？',color:'#ff9070'},
       {t:'camp',msg:'哼，修這麼久還沒突破，我都替你急！',color:'#ff9070'},
       {t:'camp',msg:'你知道嗎，剛才有個弟子說你壞話，我替你揍了他！',color:'#ff9070'},
       {t:'camp',msg:'今天的飯好難吃。你也這樣覺得吧。',color:'#ff9070'},
       {t:'camp',msg:'我做了點火靈補藥，你要不要喝。別謝我，剩下的。',color:'#ffb090'},
-      // 歷練
+
       {t:'trav',msg:'這個地方我來過！跟我走就對了！……大概。',color:'#ff9070'},
       {t:'trav',msg:'跑什麼跑！等等我！',color:'#ff9070'},
       {t:'trav',msg:'前面有個洞府！我先進去探路！',color:'#ff9070'},
       {t:'trav',msg:'你餓了嗎？我帶了火燒餅！',color:'#ff9070'},
       {t:'trav',msg:'這裡的靈氣有點燥，對我有利！讓我來！',color:'#ff9070'},
       {t:'trav',msg:'哼，這種小路你也走得這麼慢？',color:'#ff9070'},
-      // 征戰
+
       {t:'zone',msg:'讓開！這個我來！',color:'#ff9070'},
       {t:'zone',msg:'別擋我！火法不認人！',color:'#ff9070'},
       {t:'zone',msg:'這種貨色也敢擋路，真是不知死活！',color:'#ff9070'},
       {t:'zone',msg:'你要撐住啊！我火法要蓄力！',color:'#ff9070'},
       {t:'zone',msg:'好了好了，交給我！',color:'#ff9070'},
-      // 好感
+
       {t:'any',msg:'喂……你有沒有覺得，我最近對你特別兇？',minAff:68,color:'#ffb090'},
       {t:'any',msg:'那是因為……算了，你自己想。',minAff:72,color:'#ffb090'},
       {t:'any',msg:'你要是死了，我才不會難過！才不會！',minAff:82,color:'#ffb090'},
       {t:'any',msg:'……我偶爾會想，要是我沒遇到你就好了。省得這麼煩。',minAff:90,color:'#ffd0b0'},
     ],
     yueyao:[
-      // 宗門
+
       {t:'camp',msg:'今日子時，適合引氣入脈。可以一試。',color:'#c0a8ff'},
       {t:'camp',msg:'你似乎有些心神不寧，可是遇到了什麼？',color:'#c0a8ff'},
       {t:'camp',msg:'月瑤為你備了一盞靈茶，可安神定志。',color:'#c0a8ff'},
       {t:'camp',msg:'境界之事，急不得，緩不得，需與自身節律相合。',color:'#c0a8ff'},
       {t:'camp',msg:'宗門中有人在議論你，月瑤已聽見，你勿掛心。',color:'#c0a8ff'},
       {t:'camp',msg:'今夜星象，主大吉。你的機緣近了。',color:'#c0a8ff'},
-      // 歷練
+
       {t:'trav',msg:'此地靈獸已感知我們的氣息，需靜心掩蓋。',color:'#c0a8ff'},
       {t:'trav',msg:'月瑤在這棵樹下感應到了什麼……是舊時的靈陣殘跡。',color:'#c0a8ff'},
       {t:'trav',msg:'走慢一些，此地有暗勁，需以心察之。',color:'#c0a8ff'},
       {t:'trav',msg:'你看，那邊有道光，或許是緣份所在。',color:'#c0a8ff'},
       {t:'trav',msg:'月瑤為你護法，你放心感悟便是。',color:'#c0a8ff'},
       {t:'trav',msg:'此路盡頭有靈泉，月瑤早已感應。',color:'#c0a8ff'},
-      // 征戰
+
       {t:'zone',msg:'月光為刃，月瑤在此。',color:'#c0a8ff'},
       {t:'zone',msg:'此敵心神已亂，可一擊制之。',color:'#c0a8ff'},
       {t:'zone',msg:'月瑤護你左側，你只管前攻。',color:'#c0a8ff'},
       {t:'zone',msg:'勝負已定，只待你出手。',color:'#c0a8ff'},
       {t:'zone',msg:'不急，待月瑤先以月力壓制。',color:'#c0a8ff'},
-      // 好感
+
       {t:'any',msg:'月瑤有時夢見你，醒來卻記不清了。只是……心情很好。',minAff:68,color:'#e0d0ff'},
       {t:'any',msg:'你可知，月瑤觀星，有一顆星已許久未移動，那是你的位置。',minAff:76,color:'#e0d0ff'},
       {t:'any',msg:'若有來生，月瑤仍願在此等你。',minAff:86,color:'#e0d0ff'},
       {t:'any',msg:'道侶二字，月瑤從未輕言。如今……說給你聽。',minAff:94,color:'#f0eaff'},
     ],
     biluo:[
-      // 宗門
+
       {t:'camp',msg:'碧蘿今天採到了三種靈草！要看嗎？',color:'#90e068'},
       {t:'camp',msg:'那隻小松鼠又來找碧蘿玩了！好可愛！',color:'#90e068'},
       {t:'camp',msg:'碧蘿幫你澆了靈田，你不用謝！',color:'#90e068'},
       {t:'camp',msg:'你今天看起來好累，碧蘿幫你揉揉肩膀？',color:'#90e068'},
       {t:'camp',msg:'碧蘿覺得宗門的伙食可以加點靈草，更補！',color:'#90e068'},
       {t:'camp',msg:'今天的月亮好圓！碧蘿好喜歡！你呢？',color:'#90e068'},
-      // 歷練
+
       {t:'trav',msg:'碧蘿聽到了奇怪的聲音……是妖獸嗎？',color:'#90e068'},
       {t:'trav',msg:'這棵樹好大！碧蘿想爬上去看看！',color:'#90e068'},
       {t:'trav',msg:'啊！蝴蝶！碧蘿去追一下！……等等，任務要緊！',color:'#90e068'},
       {t:'trav',msg:'碧蘿的腳痠了，可以休息一下嗎？',color:'#90e068'},
       {t:'trav',msg:'這裡的空氣好好聞！有靈藥的氣息！',color:'#90e068'},
       {t:'trav',msg:'碧蘿感覺那邊有危險……草草告訴我的！',color:'#90e068'},
-      // 征戰
+
       {t:'zone',msg:'碧蘿怕怕，但不跑！你在旁邊！',color:'#90e068'},
       {t:'zone',msg:'治好了！你繼續打！碧蘿在！',color:'#90e068'},
       {t:'zone',msg:'那個妖獸在欺負小動物！打它！',color:'#90e068'},
       {t:'zone',msg:'碧蘿把藤蔓纏上去了！快趁現在！',color:'#90e068'},
       {t:'zone',msg:'不要受傷！碧蘿的草藥快用完了！',color:'#90e068'},
-      // 好感
+
       {t:'any',msg:'碧蘿每次見到你，都不想走了。',minAff:68,color:'#c0f088'},
       {t:'any',msg:'你知道碧蘿最開心的時候是什麼嗎？就是現在！',minAff:75,color:'#c0f088'},
       {t:'any',msg:'碧蘿想了很久，決定把最珍貴的靈芝送給你。',minAff:83,color:'#c0f088'},
@@ -1653,11 +1641,11 @@ const DAO_CHAT={
 function trigDaoChat(ctx){
   const fd=gD();if(!fd||!fd.met)return;
   const pool=DAO_CHAT[fd.id];if(!pool)return;
-  // 過濾情境（camp/trav/zone/any）和最低好感度，以及門派對話
+
   const avail=pool.filter(c=>{
     const ctxOk=c.t==='any'||c.t===ctx;
     const affOk=!c.minAff||fd.aff>=c.minAff;
-    // 門派過濾：c.sid 為陣列表示只對特定門派說，無 sid 則通用
+
     const sidOk=!c.sid||c.sid.includes(G.sid);
     return ctxOk&&affOk&&sidOk;
   });
@@ -1670,7 +1658,6 @@ function trigDaoChat(ctx){
   LOG(msg,'pk');
 }
 
-// 征戰
 function rZones(){const el=document.getElementById('zone-list');el.innerHTML='';const cti=curTI();ZONES.forEach((z,i)=>{const avail=TIERS.indexOf(z.req)<=cti;const isAct=G.zone.active&&G.zone.zi===i;const d=document.createElement('div');d.className='zcard'+(isAct?' az':avail?'':' lk');d.onclick=(avail&&!G.camp.active&&!G.trav.active)?()=>enterZone(i):null;d.innerHTML=`<div><div style="font-size:11px;font-weight:700;color:var(--ink2);">${z.ico} ${z.n}</div><div style="font-size:9px;color:var(--ink3);">需${z.req}境</div></div><span class="pill ${isAct?'pg':avail?'pj':'pp'}">${G.camp.active||G.trav.active?'其他中':isAct?'征戰中':avail?'進入':'未解鎖'}</span>`;el.appendChild(d);});}
 function enterZone(i){if(G.camp.active||G.trav.active){alert('請先停止宗門掛機或外出歷練！');return;}G.zone={active:true,zi:i,at:0,mon:null,isBoss:false};spawnM();document.getElementById('btl-wrap').style.display='';updateBUI();bLog(`— 進入【${ZONES[i].n}】，全自動征戰 —`);rZones();}
 function spawnM(){const z=ZONES[G.zone.zi];const isBoss=G.kills>0&&(G.kills%30===0||Math.random()<.08);if(isBoss&&z.bosses.length){const mt=pk(z.bosses);G.zone.isBoss=true;G.zone.mon={...mt,hpMax:mt.hp,hp:mt.hp};}else{G.zone.isBoss=false;const mt=pk(z.mons);const sc=1+Math.floor(G.kills/20)*.1;G.zone.mon={...mt,hpMax:Math.floor(mt.hp*sc),hp:Math.floor(mt.hp*sc),atk:Math.floor(mt.atk*sc),def:Math.floor(mt.def*sc)};}}
@@ -1678,29 +1665,29 @@ function updateBUI(){if(!G.zone.active)return;const m=G.zone.mon;const mxHp=cMH(
 function bLog(msg,cls=''){const b=document.getElementById('blog');const el=document.createElement('div');el.className='bl'+(cls?' '+cls:'');el.textContent=msg;b.prepend(el);while(b.children.length>20)b.removeChild(b.lastChild);}
 
 function autoFight(){if(!G.zone.active||!G.zone.mon)return;const m=G.zone.mon;
-  // 速度加成閃避：速度每50點+1%閃避（上限+15%）
+
   const spdDodge=Math.min(.15,Math.floor(cS()/50)*.01);
   const totalDodge=cDodge()+spdDodge;
   if(totalDodge>0&&Math.random()<totalDodge){
-    if(spdDodge>0&&Math.random()<spdDodge)bLog(`⚡ 速度閃避！`,`wi`);
+    if(spdDodge>0&&Math.random()<spdDodge)bLog(`⚡ 速度閃避！`,'wi');
     else bLog(`${G.playerName}閃避！`,'wi');
     return;
-  }const ic=Math.random()<cC();// 體修：攻擊以防禦值計算
+  }const ic=Math.random()<cC();
 let dmg;let critMult=1.85;
 if(G.sid==='qy'&&G.mfl.lv>0)critMult=2.35;
-if(G.sid==='sm')critMult=2.1;// 散修暴擊倍率
+if(G.sid==='sm')critMult=2.1;
 if(G.sid==='xm'){
   dmg=Math.max(1,Math.floor(cD()*0.9+R(-1,2)));
   if(ic)dmg=Math.floor(dmg*critMult);
 }else if(G.sid==='sm'){
-  // 散修：攻防平均，萬法歸一
+
   const smBase=Math.floor((cA()+cD()*0.6)/1.6);
   dmg=Math.max(1,Math.floor(smBase-m.def*0.7+R(-2,2)));
 
   if(ic)dmg=Math.floor(dmg*critMult);
 }else{
   dmg=Math.max(1,Math.floor(cA()-m.def+R(-2,2)));
-  // 魔刀殺戮疊加攻擊
+
   if(G.sid==='ms'&&G.mfl.killBuff)dmg=Math.floor(dmg*(1+G.mfl.killBuff));
   if(ic)dmg=Math.floor(dmg*critMult);
 }m.hp-=dmg;const leech=cLeech();if(leech>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*leech));if(ic){bLog(`✦ ${G.playerName} 暴擊【${m.n}】！造成 ${fmt(dmg)} 傷害`,'cr');}
@@ -1714,7 +1701,7 @@ if(G.sid==='xm'){
   if(pDmg>cMH()*.3)bLog(`【${m.n}】重擊！你受到 ${fmt(pDmg)} 傷害`,'hi');
   else bLog(`【${m.n}】反擊，你受到 ${fmt(pDmg)} 傷害`,'hi');
   if(G.bHp<=0){onDefeat();return;}
-  // 九天雷霆體5重：機率連擊（暴擊率×1.5倍觸發機率）
+
   const tbd=gB();
   if(tbd&&tbd.id==='thunder'&&G.bStage>=5){
     const comboChance=Math.min(.45,cC()*1.5);
@@ -1723,7 +1710,7 @@ if(G.sid==='xm'){
       m.hp-=comboDmg;
       bLog(`⚡ 雷霆連擊！追加 ${fmt(comboDmg)} 傷害`,'sk');
       if(m.hp<=0){onKill();return;}
-      // 15重：連擊再觸發連擊（30%）
+
       if(G.bStage>=15&&Math.random()<.30){
         const combo2Dmg=Math.floor(cA()*.3);
         m.hp-=combo2Dmg;
@@ -1732,7 +1719,7 @@ if(G.sid==='xm'){
       }
     }
   }
-  // 九煞魔神體：受傷積累煞氣
+
   const dbd=gB();
   if(dbd&&dbd.id==='demon'&&G.bStage>=20){
     if(!G._demonStacks)G._demonStacks=0;
@@ -1741,17 +1728,17 @@ if(G.sid==='xm'){
 }
 function applyDaoFx(dmg){
   const fd=gD();if(!fd||fd.aff<80||!G.zone.active)return;const m=G.zone.mon;
-  // 基礎屬性攻擊
+
   const da=daoAtk(fd);
   if(da>0&&m){const d2=Math.max(1,Math.floor(da*0.8+R(-1,2)));m.hp-=d2;bLog(`💑${fd.n} 協助攻擊【${m.n}】，造成 ${fmt(d2)} 傷害`,'dao');}
-  // 持續灼燒傷害
+
   if(G.daoBurnTurns>0&&m){m.hp-=G.daoBurnDmg;G.daoBurnTurns--;}
-  // 特殊屬性效果
+
   if(fd.sp==='ice'&&m){const fx=Math.floor(cA()*.18);m.hp-=fx;bLog(`❄ 雪靈兒冰封【${m.n}】，追加冰傷 ${fmt(fx)}`,'dao');}
   else if(fd.sp==='fire'&&m){const fx=Math.floor(m.hpMax*.04);m.hp-=fx;bLog(`🔥 焰妃灼燒【${m.n}】，造成 ${fmt(fx)} 火傷`,'dao');}
   else if(fd.sp==='heal'){const rh=Math.floor(cMH()*.07);G.bHp=Math.min(cMH(),G.bHp+rh);bLog(`🌿 碧蘿草木靈氣，恢復你 ${fmt(rh)} 氣血`,'dao');}
   else if(fd.sp==='cult'){const re=Math.floor(cR()*1.0);G.exp+=re;}
-  // 道侶技能觸發
+
   tryDaoSkills(fd,m);
   if(m&&m.hp<=0)onKill();
 }
@@ -1765,7 +1752,7 @@ function tryDaoSkills(fd,m){
     const eff=Math.min(.75,sk.prob+(G.ri*.005));
     if(Math.random()>=eff)return;
     G.daoSkCDs[key]=sk.cd;
-    // 攻擊技
+
     if(sk.t==='atk'&&m){
       const da=daoAtk(fd);
       let d2=Math.floor(da*sk.mult);
@@ -1778,7 +1765,7 @@ function tryDaoSkills(fd,m){
       if(sk.burn){G.daoBurnDmg=Math.floor(da*0.3);G.daoBurnTurns=sk.burn;}
       if(m.hp<=0){onKill();return;}
     }
-    // 輔助技
+
     if(sk.t==='aux'){
       if(sk.tbR){G.tempBuffs.rate={val:sk.tbR*cR(),end:Date.now()+sk.tbD*1000};}
       if(sk.tbAtk){G.mAgAtk=(G.mAgAtk||0)+sk.tbAtk;setTimeout(()=>{G.mAgAtk=Math.max(0,G.mAgAtk-sk.tbAtk);},(sk.tbD||12)*1000);}
@@ -1791,7 +1778,7 @@ function tryDaoSkills(fd,m){
       if(sk.auxHeal)auxDesc.push(`恢復${Math.round(sk.auxHeal*100)}%氣血`);
       bLog(`💑${fd.n} 發動【${sk.n}】：${auxDesc.join('、')}`,'dao');
     }
-    // 防禦技（提升分擔比例）
+
     if(sk.t==='def'&&sk.shieldBuff){
       G.daoShieldBuff=sk.shieldBuff;
       setTimeout(()=>{G.daoShieldBuff=0;},(sk.shieldDur||8)*1000);
@@ -1800,10 +1787,10 @@ function tryDaoSkills(fd,m){
   });
 }
 
-function trySk(){if(!G.zone.active)return;gS().bSkills.forEach(sk=>{if(sk.cur>0){sk.cur=Math.max(0,sk.cur-1);return;}const eff=Math.min(.8,sk.prob+(G.ri*.006));if(Math.random()<eff){sk.cur=sk.cd;const m=G.zone.mon;// 體修：防禦值計算傷害
+function trySk(){if(!G.zone.active)return;gS().bSkills.forEach(sk=>{if(sk.cur>0){sk.cur=Math.max(0,sk.cur-1);return;}const eff=Math.min(.8,sk.prob+(G.ri*.006));if(Math.random()<eff){sk.cur=sk.cd;const m=G.zone.mon;
 if(sk.defMult&&m){const dmg=Math.floor(cD()*sk.defMult);m.hp-=dmg;bLog(`⚔ 【${sk.n}】以防禦之力轟出！對【${m.n}】造成 ${fmt(dmg)} 傷害`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.defReflect&&m){const rd=Math.floor(cD()*sk.defReflect);m.hp-=rd;bLog(`🛡 【${sk.n}】護盾反震！以防禦反彈 ${fmt(rd)} 傷害回【${m.n}】`,'sk');if(m.hp<=0){onKill();return;}}else if(sk.mult>0){let dmg=Math.floor(cA()*sk.mult);if(sk.leech&&dmg>0)G.bHp=Math.min(cMH(),G.bHp+Math.floor(dmg*sk.leech));if(sk.lowHp){const pct=G.bHp/cMH();dmg=Math.floor(dmg*(1+.1+(.5*(1-pct))));}if(m){m.hp-=dmg;bLog(`⚔ 【${sk.n}】發動！對【${m.n}】造成 ${fmt(dmg)} 傷害`,'sk');if(sk.debuffSpd)m.atk=Math.floor(m.atk*.7);if(m.hp<=0){onKill();return;}}}if(sk.buffAtk){G.mAgAtk=sk.buffAtk;setTimeout(()=>{G.mAgAtk=0;},(sk.buffDur||12)*1000);bLog(`⚔ 【${sk.n}】發動！攻擊提升 ${Math.round(sk.buffAtk*100)}%（${sk.buffDur||12}秒）`,'sk');}if(sk.selfDef){G.mAgDef=sk.selfDef;setTimeout(()=>{G.mAgDef=0;},(sk.dur||8)*1000);}if(sk.tbR){G.tempBuffs.rate={val:sk.tbR*cR(),end:Date.now()+sk.tbD*1000};}if(sk.tbS){G.tempBuffs.spd={val:sk.tbS,end:Date.now()+sk.tbD*1000};}if(sk.heal){const rh=Math.floor(cMH()*sk.heal);G.bHp=Math.min(cMH(),G.bHp+rh);bLog(`💚 【${sk.n}】恢復 ${fmt(rh)} 氣血`,'wi');}}});}
 function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();
-  // 九煞魔神體15重：每殺100敵永久攻擊+1%（最高+30%）
+
   const dbd=gB();
   if(dbd&&dbd.id==='demon'&&G.bStage>=15){
     if(!G._demonKills)G._demonKills=0;
@@ -1815,19 +1802,18 @@ function onKill(){if(!G.zone.active)return;const m=G.zone.mon;onMFLKill();
         LOG(`✦ 血路狂殺！攻擊永久+1%（當前+${Math.round(G._demonPermAtk*100)}%）`,'go');
       }
     }
-  }const rm=rM();G.exp+=m.exp*(1+rm.killExp);G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);// 焰妃殺敵修為+10%
+  }const rm=rM();G.exp+=m.exp*(1+rm.killExp);G.stone+=Math.floor(m.stone*(rm.stone||1));if(m.herb)G.herb+=m.herb;if(m.fame)G.fame+=m.fame;G.kills++;G.daily.kills++;if(G.sid==='ms')G.exp+=Math.floor(m.exp*.22);
 const fd=gD();if(fd&&fd.sp==='fire'&&fd.aff>=80)G.exp+=Math.floor(m.exp*.10);if(m.boss){bLog(`★Boss【${m.n}】！修為+${fmt(m.exp)} 石+${fmt(m.stone)}${m.fame?' 望+'+m.fame:''}${m.herb?' 藥+'+m.herb:''}`,'wi');tryDrop();if(Math.random()<.45)tryDrop();}else if(Math.random()<.08)tryDrop();G.bHp=Math.min(cMH(),G.bHp+Math.floor(cMH()*.06));spawnM();checkBreak();if(G.curTab==='zone')updateBUI();updateUI();}
 function onDefeat(){G.bHp=Math.floor(cMH()*.2);bLog('力竭撤退...','lo');LOG(`在【${ZONES[G.zone.zi].n}】敗退`,'dk');exitZone();}
 function exitZone(){G.zone.active=false;document.getElementById('btl-wrap').style.display='none';rZones();updateUI();}
 function tryDrop(){const zi=G.zone.zi;const grade=Math.min(5,Math.floor(zi+Math.random()*1.5));const si=Math.floor(Math.random()*6);const sn=EQUIP_SLOTS[si];const wN=[['木劍','靈鐵劍','玄鐵刀','紫霄劍','混沌戟','道祖劍'],['鐵拳套','玄鐵拳','煉體拳','龍骨拳','太古拳','混沌拳'],['水靈杖','天河杖','靈水器','滄海器','時間杖','混沌源'],['血刀','魔煞刀','屠神刀','萬煞刀','血海刀','混沌刀']];const gN=[['布帽','玄鐵冠','星辰冠','龍角冠','天道冠','仙台冠'],['粗布衣','靈蠶甲','玄鐵甲','龍紋甲','天道甲','洪荒甲'],['布護腕','靈玉腕','玄金腕','星紋腕','龍爪腕','道祖腕'],['草鞋','靈雲靴','疾風靴','縮地靴','天馬靴','混沌靴'],['靈石碎','聚靈珠','元神珠','星辰珠','天道珠','洪荒珠']];const si2=G.sid==='sm'?Math.floor(Math.random()*4):({'qy':0,'xm':1,'th':2,'ms':3}[G.sid]||0);const name=sn==='武器'?wN[si2][grade]:({頭盔:gN[0],胸甲:gN[1],護腕:gN[2],靴子:gN[3],法寶:gN[4]}[sn]||gN[0])[grade];const item={slot:sn,name,grade,atk:sn==='武器'?[8,32,100,320,1100,4800][grade]:0,def:['胸甲','頭盔','護腕'].includes(sn)?[4,16,50,160,560,2400][grade]:0,spd:sn==='靴子'?[2,10,28,88,300,1200][grade]:0,rate:sn==='法寶'?[.2,1,3.2,12,44,180][grade]:0,hp:['胸甲','頭盔'].includes(sn)?[15,65,200,640,2400,9600][grade]:0};G.bag.push(item);LOG(`✦ 掉落【${name}】（${EG[grade]}品·${sn}）`,'go');if(G.curTab==='equip')rEquip();}
 
-// 宗門掛機
 function startCamp(){if(G.zone.active||G.trav.active){alert('請先停止征戰或外出歷練！');return;}G.camp.active=true;G.camp.at=0;document.getElementById('btn-cs').disabled=true;document.getElementById('btn-ce').disabled=false;LOG('開始宗門掛機...','gd');pushEv('🏯 宗門掛機開始','修為速率降為50%，每10~15秒觸發宗門事件（有好有壞）','var(--jade2)');rCamp();rZones();}
 function stopCamp(){G.camp.active=false;document.getElementById('btn-cs').disabled=false;document.getElementById('btn-ce').disabled=true;LOG('停止宗門掛機','gd');rCamp();rZones();}
 function rCamp(){
  const cs=document.getElementById('camp-st');if(cs){if(G.camp.active){cs.innerHTML=`<div style="background:var(--jade4);border:1px solid var(--jade2);border-radius:var(--r);padding:7px 10px;"><div style="font-size:10px;font-weight:700;color:var(--jade);">🏯 宗門掛機進行中</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;">修為/秒 ×50% = ${(cR()*.5).toFixed(1)}</div></div>`;}else{cs.innerHTML=`<div style="font-size:9px;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;padding:5px 0;"></div>`;}}
  const ra=document.getElementById('rank-area');
-  // 散修：以聲望代替宗門職位
+
   if(G.sid==='sm'&&ra){
     const smNames=['無名散修','江湖遊俠','一方散仙','名動一方','威震一域','天下聞名'];
     const smReq=[0,100,400,1200,3500,8000];
@@ -1886,24 +1872,19 @@ function rankUp(){
   if(G.fame<RANK_FAME_REQ[ri+1]){LOG(`聲望不足！需要 ${RANK_FAME_REQ[ri+1]} 聲望才能晉升`,'dk');return;}
   G.sect.rankIdx++;G.fame+=15;LOG(`晉升【${gS().rankNames[G.sect.rankIdx]}】！`,'sp');pushEv('★ 宗門晉升',`晉升至【${gS().rankNames[G.sect.rankIdx]}】！`,gS().color);rUI2();rCamp();updateUI();}
 
-// 外出歷練
 function startTrav(){if(G.zone.active||G.camp.active){alert('請先停止征戰或宗門掛機！');return;}G.trav.active=true;G.trav.at=0;document.getElementById('btn-ts').disabled=true;document.getElementById('btn-te').disabled=false;LOG('開始外出歷練...','gd');pushEv('⛰ 外出歷練開始','每10~15秒觸發奇遇，有好有壞，修為正常獲得','var(--jade2)');rTrav();rZones();}
 function stopTrav(){G.trav.active=false;document.getElementById('btn-ts').disabled=false;document.getElementById('btn-te').disabled=true;LOG('停止外出歷練','gd');rTrav();rZones();}
 function rTrav(){const ts=document.getElementById('trav-st');if(ts){if(G.trav.active){ts.innerHTML=`<div style="background:var(--jade4);border:1px solid var(--jade2);border-radius:var(--r);padding:7px 10px;"><div style="font-size:10px;font-weight:700;color:var(--jade);">⛰ 外出歷練中</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;"></div></div>`;}else{ts.innerHTML=`<div style="font-size:9px;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;padding:5px 0;"></div>`;}}}
 
-// 道侶（結識後可選擇跟隨出戰，一次只能選一位）
 function rDao(){const el=document.getElementById('dao-list');el.innerHTML='';const metD=G.dao.filter(d=>d.met);if(!metD.length){el.innerHTML='<div style="font-size:10px;color:var(--ink3);font-family:\'Noto Sans SC\',sans-serif;padding:7px 0;">尚未邂逅任何道侶。</div>';return;}metD.forEach((d)=>{const i=G.dao.indexOf(d);const isFollowing=G.daoFollow===d.id;let sl='相識',slC='ps2';if(d.aff>=50&&d.aff<80){sl='心儀';slC='pg';}else if(d.aff>=80){sl='✦ 道侶';slC='pj';}const dri=dRI(d);const drn=DAO_RL[dri].n;const card=document.createElement('div');card.className='dcard'+(isFollowing?' active-dao':'');card.innerHTML=`<div class="dport">${DSVG[d.id]||''}</div><div class="dinfo"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span class="dn">${d.n}</span><span class="pill ${slC}">${sl}</span>${isFollowing?'<span class="pill pi2">💑 跟隨出戰</span>':''}</div><div class="dt">${d.ti}</div><div class="dd">${d.d}</div><div style="font-size:9px;color:var(--jade);margin-top:2px;">跟隨加成：${d.followBonus}</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;">境界：${daoRealmName(d)}</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px;"><span style="color:#d4537e;font-size:11px;">♡</span><div class="bg" style="flex:1;height:4px;"><div class="bar" style="width:${d.aff}%;background:#d4537e;height:4px;"></div></div><span style="font-size:8px;color:var(--ink3);">${Math.floor(d.aff)}/100</span></div><div style="display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;">${d.aff>=30&&!isFollowing?`<button class="sb cj" onclick="followDao(${i})">💑 選擇跟隨出戰</button>`:isFollowing?`<button class="sb cc" onclick="unfollowDao()">✕ 取消跟隨</button>`:'<span style="font-size:9px;color:var(--ink3);">好感達30可選擇跟隨</span>'}${d.aff<100?`<button class="sb${G.stone>=d.gC?' cg':''}" onclick="giftD(${i})" ${G.stone>=d.gC?'':'disabled'}>贈【${d.gN}】(${d.gC}石)</button>`:''}</div></div>`;el.appendChild(card);});}
 
 function followDao(i){const d=G.dao[i];if(!d.met||d.aff<30)return;if(G.daoFollow&&G.daoFollow!==d.id)unfollowDao();G.daoFollow=d.id;LOG(`💑 選擇【${d.n}】跟隨出戰！修為/秒大幅提升`,'pk');pushEv('💑 道侶跟隨',`${d.n} 決定陪伴你出戰。跟隨加成：${d.followBonus}`,'#f0a0c8');rDao();rUI2();updateUI();}
 function unfollowDao(){const d=gD();if(d)LOG(`${d.n} 暫時分開...`,'pk');G.daoFollow=null;rDao();rUI2();updateUI();}
 function giftD(i){const d=G.dao[i];if(!d.met||G.stone<d.gC)return;G.stone-=d.gC;d.aff=Math.min(100,d.aff+d.gG);if(d.aff>=80)LOG(`★ ${d.n}締結道侶！`,'pk');else if(d.aff>=50)LOG(`${d.n}對你心生情愫...`,'pk');else LOG(`贈予${d.n}【${d.gN}】，好感+${d.gG}`);rDao();updateUI();}
 
-// 功法
 function rSkills(){const el=document.getElementById('skill-list');el.innerHTML='';G.skills.forEach((s,i)=>{const s2=gS();const can=!s.u&&G.stone>=s.cost&&G.con>=s.con;const d=document.createElement('div');d.className='skcard'+(s.u?' lu':'');d.innerHTML=`<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:5px;"><div style="flex:1;"><div class="skn">${s.n} ${s.u?`<span class="pill" style="background:${s2.bg};color:${s2.color};">已修習</span>`:''}</div><div class="skd">${s.d}</div><div style="margin-top:3px;">${s.rate?`<span class="tag" style="background:var(--jade4);color:var(--jade);">修為/秒+${s.rate}</span>`:''}${s.atk?`<span class="tag" style="background:var(--cr4);color:var(--cr2);">攻擊+${s.atk}</span>`:''}${s.def?`<span class="tag" style="background:var(--sky4);color:var(--sky2);">防禦+${s.def}</span>`:''}${s.hp?`<span class="tag" style="background:var(--cr4);color:var(--cr);">HP+${s.hp}</span>`:''}${s.crit?`<span class="tag" style="background:var(--gold4);color:var(--gold);">暴擊+${Math.round(s.crit*100)}%</span>`:''}${s.spd?`<span class="tag" style="background:#faeeda;color:#854F0B;">速度+${s.spd}</span>`:''}${!s.u?`<span class="tag" style="background:var(--paper2);color:var(--ink3);">需石${s.cost}+貢獻${s.con}</span>`:''}</div></div>${!s.u?`<button class="sb${can?' cg':''}" onclick="buyS(${i})" ${can?'':'disabled'}>修習</button>`:''}</div>`;el.appendChild(d);});const al=document.getElementById('abil-list');al.innerHTML='';G.abilities.forEach((a,i)=>{const can=!a.u&&G.stone>=a.cost&&G.con>=a.con;const d=document.createElement('div');d.className='row';d.innerHTML=`<div style="flex:1;"><div class="rvt">${a.n} ${a.u?'<span class="pill pg">已習得</span>':''}</div><div class="rlt">${a.d} · 需石${a.cost}+貢獻${a.con}</div></div>${!a.u?`<button class="sb${can?' cg':''}" onclick="buyA(${i})" ${can?'':'disabled'} style="margin-left:5px;">習得</button>`:''}`;al.appendChild(d);});}
 function buyS(i){const s=G.skills[i];if(s.u||G.stone<s.cost||G.con<s.con)return;G.stone-=s.cost;G.con-=s.con;s.u=true;LOG(`修習【${s.n}】！`,'sp');rSkills();updateUI();}
 function buyA(i){const a=G.abilities[i];if(a.u||G.stone<a.cost||G.con<a.con)return;G.stone-=a.cost;G.con-=a.con;a.u=true;LOG(`習得神通【${a.n}】！`,'sp');rSkills();updateUI();}
-
-// 裝備
 
 function gML(){return G.sid?MINGLING[G.sid]:null;}
 
@@ -1913,7 +1894,7 @@ function tryMFL(){
   const ml=gML();if(!ml||!ml.active)return;
   const sk=ml.active;
   if(G.mfl.activeCur>0){G.mfl.activeCur--;return;}
-  if(Math.random()>.12)return;// 每回合12%觸發率（CD冷卻由 activeCur 控制）
+  if(Math.random()>.12)return;
   G.mfl.activeCur=sk.cd;
   const m=G.zone.mon;if(!m)return;
   let dmg=0;
@@ -1923,9 +1904,9 @@ function tryMFL(){
   if(dmg>0&&m){m.hp-=dmg;const leechHp=sk.leech?Math.floor(dmg*sk.leech):0;if(leechHp>0)G.bHp=Math.min(cMH(),G.bHp+leechHp);bLog(`✦ 本命法寶【${ml.name}】發動【${sk.n}】！對【${m.n}】造成 ${fmt(dmg)} 傷害${leechHp>0?' 吸血+'+fmt(leechHp):''}`);}
   if(sk.buffDef){G.mfl.defBuff=sk.buffDef;setTimeout(()=>{G.mfl.defBuff=0;},(sk.buffDur||15)*1000);bLog(`✦【${ml.name}】${sk.n}防禦大幅提升！`,'go');}
   if(sk.buffRate){G.mfl.rateBuff=sk.buffRate;setTimeout(()=>{G.mfl.rateBuff=1;},(sk.buffDur||20)*1000);bLog(`✦【${ml.name}】${sk.n}修為/秒暴增！`,'go');}
-  // 魔刀殺戮被動：每殺敵+1%攻擊（killBuff疊加）
+
   if(G.sid==='ms')G.mfl.killBuff=Math.min(1.0,G.mfl.killBuff+.01);
-  // 青雲劍道被動：暴擊傷害+50%（在 autoFight 中判斷）
+
   if(m&&m.hp<=0)onKill();
 }
 
@@ -1938,11 +1919,11 @@ function upgradeMFL(useExp){
   if(G.mfl.lv>=10){LOG('本命法寶已達滿級！','sp');return;}
   const cost=ml.costs[G.mfl.lv];
   if(useExp){
-    // 用修為升階
+
     if(G.exp<cost.exp){LOG('修為不足！','dk');return;}
     G.exp-=cost.exp;
   } else {
-    // 用靈石升階
+
     if(G.stone<cost.stone){LOG('靈石不足！','dk');return;}
     G.stone-=cost.stone;
   }
@@ -2003,7 +1984,7 @@ function rMFL(){
 }
 
 /* ── 背包功能函數 ── */
-// 一鍵穿戴最優裝備
+
 function equipBest(){
   let changed=0;
   EQUIP_SLOTS.forEach((slot,si)=>{
@@ -2029,28 +2010,26 @@ function equipBest(){
   rEquip();updateUI();
 }
 
-// 計算裝備分數（用於比較同品質）
 function itemScore(item){
   return (item.atk||0)*2+(item.def||0)*1.5+(item.hp||0)*0.1+(item.spd||0)*3+(item.rate||0)*20;
 }
 
-// 一鍵丟棄：丟棄比當前穿戴差的同部位裝備
 function autoDiscard(){
   let cnt=0,stone=0;
   const toDiscard=[];
   G.bag.forEach((item,i)=>{
     const si=EQUIP_SLOTS.indexOf(item.slot);
     const cur=G.equip[si];
-    // 比穿戴中差就丟
+
     if(cur&&item.grade<cur.grade){
       toDiscard.push(i);
     }
-    // 同品質但分數低也丟
+
     else if(cur&&item.grade===cur.grade&&itemScore(item)<itemScore(cur)){
       toDiscard.push(i);
     }
   });
-  // 從後往前刪避免 index 錯位
+
   toDiscard.reverse().forEach(i=>{
     const bv=[2,8,25,100,400,1800][G.bag[i].grade]||2;stone+=Math.floor(bv*(1+G.ri*0.05));
     G.bag.splice(i,1);
@@ -2062,21 +2041,19 @@ function autoDiscard(){
   rEquip();updateUI();
 }
 
-// 整理排序：依部位→品質排序
 function sortBag(){
   G.bag.sort((a,b)=>{
     const si=EQUIP_SLOTS.indexOf(a.slot)-EQUIP_SLOTS.indexOf(b.slot);
     if(si!==0)return si;
-    return b.grade-a.grade;// 同部位品質高的在前
+    return b.grade-a.grade;
   });
   LOG('背包已整理','gd');
   rEquip();
 }
 
-// 設定過濾品質
 function setBagFilter(grade){
   G.bagFilter=grade;
-  // 更新按鈕樣式
+
   ['all','0','1','2','3','4','5'].forEach(k=>{
     const btn=document.getElementById('flt-'+k);
     if(btn){
@@ -2088,7 +2065,7 @@ function setBagFilter(grade){
 }
 
 function rEquip(){
-  // 本命法寶區塊
+
   const mflEl=document.getElementById('mfl-area');
   if(mflEl&&G.started)mflEl.innerHTML=rMFL();
   const sl=document.getElementById('equip-slots');sl.innerHTML='';EQUIP_SLOTS.forEach((s,i)=>{const e=G.equip[i];const d=document.createElement('div');d.className='eslot';if(e){d.style.borderColor=EC[e.grade];d.innerHTML=`<div style="font-size:9px;font-weight:700;color:${EC[e.grade]};">${e.name}</div><div style="font-size:8px;color:var(--ink3);">${s}·${EG[e.grade]}</div>`;}else{d.innerHTML=`<div style="font-size:9px;color:var(--ink3);">—空—</div><div style="font-size:8px;color:var(--ink3);">${s}</div>`;}sl.appendChild(d);});const cnt=G.equip.filter(Boolean).length;document.getElementById('equip-set').textContent=cnt>=6?'✦ 六件全套：戰力+15%！':`裝備 ${cnt}/6 件`;const bl=document.getElementById('bag-list');document.getElementById('bag-cnt').textContent=G.bag.length+'件';bl.innerHTML='';if(!G.bag.length){bl.innerHTML='<div style="font-size:9px;color:var(--ink3);padding:6px 0;">背包空空，征戰打Boss獲得裝備！</div>';return;}G.bag.forEach((item,i)=>{const si2=EQUIP_SLOTS.indexOf(item.slot);const cur=G.equip[si2];const better=!cur||item.grade>=cur.grade;const d=document.createElement('div');d.className='row';d.innerHTML=`<div><div style="font-size:10px;font-weight:700;color:${EC[item.grade]};">${item.name} <span class="pill" style="background:${EC[item.grade]}18;color:${EC[item.grade]};">${EG[item.grade]}</span></div><div style="font-size:8px;color:var(--ink3);">${item.slot}${item.atk?' 攻+'+item.atk:''}${item.def?' 防+'+item.def:''}${item.spd?' 速+'+item.spd:''}${item.rate?' 修/秒+'+item.rate:''}${item.hp?' HP+'+item.hp:''}</div></div><div style="display:flex;gap:3px;"><button class="sb${better?' cg':''}" onclick="equipI(${i})">穿${better?'↑':''}</button><button class="sb cc" onclick="discI(${i})">棄</button></div>`;bl.appendChild(d);});}
@@ -2096,7 +2073,7 @@ function equipI(i){const item=G.bag[i];const si2=EQUIP_SLOTS.indexOf(item.slot);
 function discI(i){
   const item=G.bag[i];
   const baseVal=[2,8,25,100,400,1800][item.grade]||2;
-  const riBonus=1+G.ri*0.05;// 境界越高，分解值越高
+  const riBonus=1+G.ri*0.05;
   const stone=Math.floor(baseVal*riBonus);
   G.stone+=stone;
   G.bag.splice(i,1);
@@ -2104,13 +2081,12 @@ function discI(i){
   rEquip();updateUI();
 }
 
-// 體質（大境界大幅提升，小境界小幅）
 function rBody(){const bd=gB();if(!bd){document.getElementById('body-detail').textContent='—';return;}const st=G.bStage;const nextSt=bd.stages[st];const cost=st<bd.maxSt?bd.cost[st]:Infinity;
  const totalAtk=bdStatAt(bd,st,'atk'),totalDef=bdStatAt(bd,st,'def'),totalHp=bdStatAt(bd,st,'hp');
  const totalRate=bdStatAt(bd,st,'rate'),totalCrit=bdStatAt(bd,st,'crit'),totalSpd=bdStatAt(bd,st,'spd');
  const totalDodge=bdStatAt(bd,st,'dodge'),totalLeech=bdStatAt(bd,st,'leech');
  let dotsHtml='';for(let i=0;i<bd.maxSt;i++){const s=bd.stages[i];dotsHtml+=`<div class="bddot${i<st?' f':''}${s.major?' major':''}" title="${s.n}${s.major?' (大境界)':''}"></div>`;}
- // 找已解鎖的特殊能力
+
 const specialKeys=bd.special?Object.keys(bd.special).filter(k=>st>=parseInt(k)).sort((a,b)=>b-a):[];
 const latestSpecial=specialKeys.length>0?bd.special[specialKeys[0]]:'';
 const nextSpecialKey=bd.special?Object.keys(bd.special).find(k=>st<parseInt(k)):null;
@@ -2125,7 +2101,7 @@ function trainBody(){const bd=gB();if(!bd||G.bStage>=bd.maxSt)return;const cost=
 function updateUI(){if(!G.started)return;const r=REALMS[G.ri];const mxHp=cMH();G.bHp=Math.min(G.bHp||mxHp,mxHp);document.getElementById('pr').textContent=r.n+' · '+r.ti;document.getElementById('r-st').textContent=fmt(G.stone);document.getElementById('r-hb').textContent=Math.floor(G.herb);document.getElementById('r-fm').textContent=Math.floor(G.fame);const _age=Math.floor(G.tick/365);document.getElementById('r-lf').textContent=_age+'年';document.getElementById('r-cn').textContent=Math.floor(G.con);document.getElementById('r-rt').textContent=fmt(cR());document.getElementById('r-rt').style.color=gS().color;const pct=r.req===Infinity?100:Math.min(100,G.exp/r.req*100);document.getElementById('rlm-lb').textContent=r.n;document.getElementById('exp-pc').textContent=Math.floor(pct)+'%';document.getElementById('exp-bar').style.width=Math.min(100,pct)+'%';document.getElementById('exp-n').textContent=fmt(G.exp);document.getElementById('exp-r').textContent=r.req===Infinity?'∞':fmt(r.req);document.getElementById('s-atk').textContent=fmt(cA());document.getElementById('s-def').textContent=fmt(cD());document.getElementById('s-spd').textContent=cS();document.getElementById('s-crt').textContent=Math.round(cC()*100)+'%';document.getElementById('s-hp').textContent=fmt(Math.max(0,G.bHp));document.getElementById('s-mhp').textContent=fmt(mxHp);document.getElementById('s-pow').textContent=fmt(cP());document.getElementById('s-rat').textContent=fmt(cR());document.getElementById('hp-bar').style.width=Math.max(0,G.bHp/mxHp*100)+'%';document.getElementById('hp-lb').textContent=fmt(Math.max(0,G.bHp))+'/'+fmt(mxHp);const bb=document.getElementById('btn-brk');
 if(bb){
   bb.style.opacity=G.exp>=r.req?'1':'0.45';
-  // 計算當前成功率顯示在動態
+
   if(G.exp>=r.req&&!G.zone.active){
     const _over=r.req>0?(G.exp-r.req)/r.req:0;
     const _eb=_over>=2?.20:_over>=1?.12:_over>=.5?.06:_over>=.2?.03:0;
@@ -2134,7 +2110,6 @@ if(bb){
     bb.title=`當前成功率 ${_sr}%`;
   }
 }const eb=document.getElementById('evb-mode');if(eb){const fd=gD();eb.textContent=G.zone.active?'征戰中':G.camp.active?'宗門掛機':G.trav.active?'外出歷練':'自動修煉';if(fd&&fd.aff>=80){eb.textContent+=' 💑'+fd.n;}}Object.keys(G.tempBuffs).forEach(k=>{if(G.tempBuffs[k].end<Date.now())delete G.tempBuffs[k];});}
-
 
 /* ── 天驕榜資料 ── */
 const TIANJIAO=[
@@ -2185,12 +2160,12 @@ function fightTianJiao(i){
   if(!G.started)return;const tj=TIANJIAO[i];const now=nowSec();
   if(tj.cdEnd>now)return;
   const myPow=cP();const tjPow=tj.pow;
-  // 勝負計算：以戰力比為基礎，加入隨機因素
+
   const winProb=Math.min(.95,Math.max(.05,myPow/(tjPow+myPow)*1.8));
   const win=Math.random()<winProb;
   tj.cdEnd=now+tj.cdH*3600;
   if(win){
-    // 勝利獎勵
+
     if(tj.reward.type==='equip'||tj.reward.type==='both'){
       const grade=tj.reward.grade;
       const si=Math.floor(Math.random()*6);const sn=EQUIP_SLOTS[si];
@@ -2210,7 +2185,7 @@ function fightTianJiao(i){
     G.fame+=20;G.kills+=5;G.daily.kills+=5;
     pushEv('🏆 天驕榜勝利',`擊敗【${tj.name}】！聲望大增，獲得豐厚獎勵！`,'var(--gold2)');
   } else {
-    // 失敗：氣血減半，少量修為
+
     G.bHp=Math.max(1,Math.floor(G.bHp*.45));
     const consolation=Math.floor(cR()*15);G.exp+=consolation;
     LOG(`敗於天驕【${tj.name}】，氣血大損，修為+${consolation}`,'dk');
@@ -2221,30 +2196,30 @@ function fightTianJiao(i){
 
 setInterval(()=>{
   if(!G.started)return;G.tick++;
-  // 每日任務24小時重置
+
   const now24=nowSec();
   if(G.daily.resetAt===0)G.daily.resetAt=now24+86400;
   if(now24>=G.daily.resetAt){G.daily={kills:0,kCl:false,brkUsed:0,bCl:false,bgCl:false,resetAt:now24+86400};G.bgToday=0;LOG('每日任務已重置！','gd');}
-  // 宗門任務3小時重置
+
   if(G.stask.resetAt===0)G.stask.resetAt=now24+10800;
   if(now24>=G.stask.resetAt){G.stask={cl:[false,false],resetAt:now24+10800};LOG('宗門任務已重置！','gd');}
   if(G.camp.active)G.exp+=cR()*.5;else G.exp+=cR();
   if(!G.zone.active)G.bHp=Math.min(cMH(),G.bHp+cMH()*.003);
-  // 碧蘿跟隨恢復HP
+
   const fd=gD();if(fd&&fd.sp==='heal'&&fd.aff>=80)G.bHp=Math.min(cMH(),G.bHp+cMH()*.008);
-  // 道侶境界成長（跟隨道侶成長更快）
+
   G.dao.forEach(d=>{
   if(d.met){
     const fg=d.id===G.daoFollow?0.8:0.5;
     d.ri+=cR()*fg;
     if(d.aff<100)d.aff=Math.min(100,d.aff+.006);
-    // 道侶修為到達下一境界自動進階
+
     const curR=daoRealmName(d);
-    // 找當前境界index
+
     let curIdx=0;
     for(let i=REALMS.length-1;i>=0;i--){if(d.ri>=REALMS[i].req){curIdx=i;break;}}
-    // 若超過下一境界需求，不需額外處理（daoRealmName自動對應）
-    // 但要顯示進階提示
+
+    
     if(!d._lastRiIdx)d._lastRiIdx=0;
     if(curIdx>d._lastRiIdx){
       const nr=REALMS[curIdx];
@@ -2255,25 +2230,25 @@ setInterval(()=>{
   }
 });
   if(G.tick%10===0){const sg=Math.floor(G.ri*.5+.2);if(sg>0)G.stone+=sg;}
-  // 碧蘿偶爾掉藥材
+
   if(fd&&fd.sp==='heal'&&fd.aff>=80&&G.tick%45===0&&Math.random()<.35)G.herb+=1;
   if(G.zone.active){G.zone.at++;if(G.zone.at>=2){G.zone.at=0;autoFight();tryMFL();if(G.zone.active)updateBUI();}gS().bSkills.forEach(sk=>{if(sk.cur>0)sk.cur=Math.max(0,sk.cur-1);});if(G.mfl.activeCur>0)G.mfl.activeCur=Math.max(0,G.mfl.activeCur-1);if(G.tick%12===0&&Math.random()<.30)trigDaoChat('zone');}
-  // 事件間隔10~15秒（tick每秒，at每秒++）
+
   if(G.camp.active){G.camp.at++;if(G.camp.at>=R(10,15)){G.camp.at=0;trigSE();if(Math.random()<.25)trigDaoChat('camp');}
-  // 門派輔助招式在宗門掛機中觸發
+
   trigAuxSkill();}
   if(G.trav.active){G.trav.at++;if(G.trav.at>=R(10,15)){G.trav.at=0;trigTE();if(Math.random()<.25)trigDaoChat('trav');}
-  // 門派輔助招式在歷練中觸發
+
   trigAuxSkill();}
   if(!G.zone.active&&!G.camp.active&&!G.trav.active&&G.tick%90===0&&Math.random()<.25)trigSE();
   if(G.tick%40===0&&!G.zone.active){const m={qy:['劍意流轉，修為穩增。','心劍合一，仙途漸顯。'],xm:['肉身淬鍊，體魄日強。','以身護道，玄冥不滅。'],th:['靈水環繞，修為如潮。','天河靈感，自然流淌。'],ms:['殺氣盤旋，修為飛漲。','煞氣凝聚，道心磨礪。']};LOG(pk(m[G.sid]||m.qy));}
   checkBreak();updateUI();
-  if(G.curTab==='main'){rBGA();rSSt();}  // 閉關buff到期清除
+  if(G.curTab==='main'){rBGA();rSSt();}  
   if(G.bgBuff&&nowSec()>=G.bgBuff.end){G.bgBuff=null;}
   if(G.curTab==='zone'&&G.zone.active)updateBUI();
   if(G.curTab==='camp')rCamp();
   if(G.curTab==='dao'&&G.tick%15===0)rDao();if(G.curTab==='body'&&G.tick%10===0)rBody();
-  // 每30秒自動存檔
+
   if(G.tick%30===0){saveGame(true).catch(e=>console.warn('自動存檔失敗',e));}
 },1000);
 
@@ -2316,10 +2291,10 @@ function idbLoad(key){
     }catch(e){res(null);}
   });
 }
-// Cookie 存檔（限 4KB，只存關鍵欄位）
+
 function cookieSave(json){
   try{
-    // 只存關鍵欄位（壓縮版）
+
     const mini={ri:G.ri,exp:G.exp,stone:G.stone,fame:G.fame,con:G.con,sid:G.sid,tick:G.tick,_ts:Date.now()};
     document.cookie=SAVE_KEY+'_mini='+encodeURIComponent(JSON.stringify(mini))+';max-age=31536000;path=/';
   }catch(e){}
@@ -2342,13 +2317,13 @@ async function saveGame(_autoSave=false){
       _ts: Date.now(),
     };
     const json=JSON.stringify(sv);
-    // 1. localStorage
+
     try{localStorage.setItem(SAVE_KEY,json);}catch(e){}
-    // 2. IndexedDB（最可靠）
+
     await idbSave(SAVE_KEY,json);
-    // 3. Cookie（備援）
+
     cookieSave(json);
-    // 視覺反饋
+
     const btn=document.querySelector('[title="手動存檔"]');
     if(btn){btn.textContent='✓';setTimeout(()=>{btn.textContent='💾';},1200);}
     if(!_autoSave)LOG(`💾 存檔成功（${new Date().toLocaleTimeString()}）`,'gd');
@@ -2361,21 +2336,19 @@ async function saveGame(_autoSave=false){
 
 async function loadGame(){
   try{
-    // 先初始化 IndexedDB
+
     await initIDB();
     let raw = null;
-    // 1. 先試 IndexedDB
+
     raw = await idbLoad(SAVE_KEY);
-    // 2. 再試 localStorage
+
     if(!raw){try{raw=localStorage.getItem(SAVE_KEY);}catch(e){}}
     if(!raw) return false;
     const sv = JSON.parse(raw);
     if(!sv.started) return false;
 
-    // 還原核心狀態
     Object.assign(G, sv);
 
-    // 強制重設戰鬥狀態（避免讀入卡住的戰鬥）
     G.zone = {active:false,zi:-1,at:0,mon:null,isBoss:false};
     G.camp.active = false;
     G.trav.active = false;
@@ -2384,18 +2357,18 @@ async function loadGame(){
     G.mfl.defBuff = 0; G.mfl.rateBuff = 1;
     G.daoShieldBuff = 0; G.daoBurnTurns = 0;
 
-    // 還原門派技能 CD
     if(sv._bsCD){
       const bs = gS().bSkills;
       sv._bsCD.forEach((cd,i)=>{ if(bs[i]) bs[i].cur = cd; });
     }
     G.daoSkCDs = sv._daoCD || {};
 
-    // 確保 abilities 完整
     G.abilities = ABILITIES.map((a,i) => ({...a, u: sv.abilities?.[i]?.u || false}));
 
-    // 確保新增欄位有預設值（向後相容）
     if(!G.mfl)G.mfl={lv:0,killBuff:0,activeCur:0,defBuff:0,rateBuff:1};
+    if(G.bStage===undefined||G.bStage===null)G.bStage=0;
+    if(!G.bodyId&&sv.bodyId)G.bodyId=sv.bodyId;
+    if(!G.bodyId)G.bodyId='sun';// 預設太陽體
     if(!G._demonKills)G._demonKills=0;
     if(!G._demonPermAtk)G._demonPermAtk=0;
     if(!G._demonStacks)G._demonStacks=0;
@@ -2410,7 +2383,7 @@ async function loadGame(){
     if(G.bagFilter===undefined)G.bagFilter=-1;
     if(G.ageTick===undefined)G.ageTick=0;
     if(!G.bgBuff)G.bgBuff=null;
-    // 確保 dao 結構完整（新欄位）
+
     G.dao.forEach((d,i)=>{
       const base=DAO_DATA[i];if(!base)return;
       if(!d.skills)d.skills=base.skills?base.skills.map(s=>({...s})):[];
@@ -2420,7 +2393,7 @@ async function loadGame(){
       if(d.baseHp===undefined)d.baseHp=base.baseHp||0;
       if(!d._lastRiIdx)d._lastRiIdx=0;
     });
-    // 確保 TIANJIAO cdEnd 存在
+
     if(sv._tjCD)TIANJIAO.forEach((tj,i)=>{if(sv._tjCD[i]!==undefined)tj.cdEnd=sv._tjCD[i];});
 
     return true;
@@ -2430,7 +2403,7 @@ async function loadGame(){
 function deleteSave(){
   if(!confirm('確定要刪除存檔？此操作無法復原！')) return;
   try{localStorage.removeItem(SAVE_KEY);}catch(e){}
-  // 清除 IndexedDB
+
   if(_idb){
     try{
       const tx=_idb.transaction('save','readwrite');
@@ -2456,11 +2429,10 @@ async function showSaveInfo(){
   } catch(e){}
 }
 
-// 啟動時嘗試讀取存檔
 (async function(){
   renderBodyPick();
   if(await loadGame()){
-    // 讀檔成功：跳過初始畫面，直接進遊戲
+
     document.getElementById('pane-init').style.display='none';
     document.getElementById('pane-main').style.display='';
     document.getElementById('main-nav').style.display='flex';
@@ -2468,7 +2440,7 @@ async function showSaveInfo(){
     rUI2(); updateUI();
     LOG('✦ 讀取存檔成功！歡迎回來，'+G.playerName+'！','go');
     pushEv('✦ 存檔已讀取','繼續你的修仙之路！','var(--gold2)');
-    // 重設按鈕狀態
+
     const bcs = document.getElementById('btn-cs');
     const bce = document.getElementById('btn-ce');
     if(bcs){bcs.disabled=false;}
@@ -2480,12 +2452,11 @@ async function showSaveInfo(){
   }
 })();
 
-// ── PWA 安裝提示 ──
 let _deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   _deferredPrompt = e;
-  // 顯示安裝按鈕
+
   const btn = document.getElementById('pwa-install-btn');
   if(btn) btn.style.display = 'flex';
 });
@@ -2501,7 +2472,6 @@ function installPWA(){
   }
 }
 
-// ── Service Worker（讓遊戲可離線玩）──
 if('serviceWorker' in navigator){
   const swCode = `
 self.addEventListener('install', e => {
