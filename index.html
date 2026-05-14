@@ -2188,19 +2188,29 @@ const SAVE_KEY = 'xianxia_save_v11';
 function saveGame(){
   if(!G.started) return;
   try{
-    // 暫停戰鬥狀態不存（重新載入後讓玩家重新進入）
+    // 道侶 skills 只存 cur/offCur，不存函數
+    const daoSv=G.dao.map(d=>({
+      ...d,
+      skills:d.skills?d.skills.map(s=>({...s,action:undefined})):[]
+    }));
     const sv = {
       ...G,
+      dao:daoSv,
       zone:{active:false,zi:-1,at:0,mon:null,isBoss:false},
-      // 存 bSkills CD 狀態
       _bsCD: gS().bSkills.map(s=>s.cur),
-      // 存道侶技能 CD
       _daoCD: {...G.daoSkCDs},
       _tjCD: TIANJIAO.map(tj=>tj.cdEnd||0),
       _ts: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(sv));
-  } catch(e){ console.warn('存檔失敗', e); }
+    // 視覺反饋
+    const btn=document.querySelector('[title="手動存檔"]');
+    if(btn){btn.textContent='✓';setTimeout(()=>{btn.textContent='💾';},1200);}
+  } catch(e){
+    console.warn('存檔失敗',e);
+    const btn=document.querySelector('[title="手動存檔"]');
+    if(btn){btn.textContent='✗';setTimeout(()=>{btn.textContent='💾';},1500);}
+  }
 }
 
 function loadGame(){
