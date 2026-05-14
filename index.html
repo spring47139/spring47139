@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/json,{
+  &quot;name&quot;: &quot;洪荒修仙錄&quot;,
+  &quot;short_name&quot;: &quot;修仙錄&quot;,
+  &quot;display&quot;: &quot;standalone&quot;,
+  &quot;orientation&quot;: &quot;portrait&quot;,
+  &quot;background_color&quot;: &quot;#180c00&quot;,
+  &quot;theme_color&quot;: &quot;#180c00&quot;,
+  &quot;start_url&quot;: &quot;.&quot;,
+  &quot;icons&quot;: [{
+    &quot;src&quot;: &quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%23180c00'/><text x='96' y='130' text-anchor='middle' font-size='110' fill='%23d4a030'>☯</text></svg>&quot;,
+    &quot;sizes&quot;: &quot;192x192&quot;,
+    &quot;type&quot;: &quot;image/svg+xml&quot;
+  }]
+}">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="洪荒修仙錄">
 <meta name="mobile-web-app-capable" content="yes">
@@ -187,7 +201,32 @@ body{font-family:'Noto Serif SC',serif;background:var(--paper2);color:var(--ink)
 .tj-name{font-size:11px;font-weight:700;color:var(--ink2);}
 .tj-desc{font-size:9px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;}
 .tj-reward{font-size:8px;margin-top:3px;font-family:'Noto Sans SC',sans-serif;}
-</style></head><body>
+</style>
+<link rel="manifest" id="manifest-link">
+<script>
+const manifestData = {
+  "name": "洪荒修仙錄",
+  "short_name": "修仙錄",
+  "description": "洪荒修仙放置遊戲",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#180c00",
+  "theme_color": "#180c00",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%23180c00'/><text x='256' y='340' text-anchor='middle' font-size='280' fill='%23d4a030'>☯</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+};
+const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+const manifestUrl = URL.createObjectURL(blob);
+document.getElementById('manifest-link').href = manifestUrl;
+</script>
+</head><body>
 <div class="topbar">
   <div class="ava" id="main-ava"><svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="18" fill="#2d1405"/><text x="18" y="24" text-anchor="middle" font-size="15" fill="#d4a030">☯</text></svg></div>
   <div class="pi"><div class="pn" id="pn">—</div><div class="pr" id="pr">選擇門派開始</div><div class="ps" id="ps"></div></div>
