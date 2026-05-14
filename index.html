@@ -2196,6 +2196,7 @@ function saveGame(){
       _bsCD: gS().bSkills.map(s=>s.cur),
       // 存道侶技能 CD
       _daoCD: {...G.daoSkCDs},
+      _tjCD: TIANJIAO.map(tj=>tj.cdEnd||0),
       _ts: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(sv));
@@ -2230,6 +2231,32 @@ function loadGame(){
 
     // 確保 abilities 完整
     G.abilities = ABILITIES.map((a,i) => ({...a, u: sv.abilities?.[i]?.u || false}));
+
+    // 確保新增欄位有預設值（向後相容）
+    if(!G.mfl)G.mfl={lv:0,killBuff:0,activeCur:0,defBuff:0,rateBuff:1};
+    if(G.mfl.rateBuff===undefined)G.mfl.rateBuff=1;
+    if(G.mfl.defBuff===undefined)G.mfl.defBuff=0;
+    if(!G.stask)G.stask={cl:[false,false],resetAt:0};
+    if(!G.daily.resetAt)G.daily.resetAt=0;
+    if(G.brkFailCount===undefined)G.brkFailCount=0;
+    if(G.brkCdEnd===undefined)G.brkCdEnd=0;
+    if(G.brkWeak===undefined)G.brkWeak=false;
+    if(G.brkWeakEnd===undefined)G.brkWeakEnd=0;
+    if(G.bagFilter===undefined)G.bagFilter=-1;
+    if(G.ageTick===undefined)G.ageTick=0;
+    if(!G.bgBuff)G.bgBuff=null;
+    // 確保 dao 結構完整（新欄位）
+    G.dao.forEach((d,i)=>{
+      const base=DAO_DATA[i];if(!base)return;
+      if(!d.skills)d.skills=base.skills?base.skills.map(s=>({...s})):[];
+      if(d.shield===undefined)d.shield=base.shield||0;
+      if(d.baseAtk===undefined)d.baseAtk=base.baseAtk||0;
+      if(d.baseDef===undefined)d.baseDef=base.baseDef||0;
+      if(d.baseHp===undefined)d.baseHp=base.baseHp||0;
+      if(!d._lastRiIdx)d._lastRiIdx=0;
+    });
+    // 確保 TIANJIAO cdEnd 存在
+    if(sv._tjCD)TIANJIAO.forEach((tj,i)=>{if(sv._tjCD[i]!==undefined)tj.cdEnd=sv._tjCD[i];});
 
     return true;
   } catch(e){ console.warn('讀檔失敗', e); return false; }
