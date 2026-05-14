@@ -1152,17 +1152,18 @@ function doBreak(){
   const successRate=Math.min(.95,Math.max(.40,.65+expBonus+failBonus));
   const ok=Math.random()<successRate;
   if(ok){
+    const prevReq=REALMS[G.ri].req;// 先記住本層需求
     G.ri++;
     const nr=REALMS[G.ri];
-    G.exp=Math.max(0,G.exp-REALMS[G.ri-1].req);// 突破後扣除本層需求，保留超出部分
+    G.exp=Math.max(0,G.exp-prevReq);// 扣除本層需求，保留超出部分
     G.bHp=cMH();
     G.fame+=8;
     G.brkFailCount=0;
     G.brkWeak=false;
     G.brkWeakEnd=0;
     if(Math.random()<.38)tryDrop();
-    LOG(`★ 【${G.playerName}】突破至【${nr.n}】！修為歸零，重新修煉。`,'sp');
-    const _sr=Math.round(Math.min(.95,Math.max(.40,.65+expBonus+Math.min(.40,G.brkFailCount*.08)))*100);pushEv('★ 境界突破',`突破至【${nr.n}】！修為歸零，迎接新境界的考驗！（成功率${_sr}%）`,gS().color);
+    LOG(`★ 【${G.playerName}】突破至【${nr.n}】！`,`sp`);
+    const _sr=Math.round(Math.min(.95,Math.max(.40,.65+expBonus+Math.min(.40,G.brkFailCount*.08)))*100);pushEv('★ 境界突破',`突破至【${nr.n}】！超出修為保留，繼續累積！（成功率${_sr}%）`,gS().color);
     if(G.sid==='ms')G.exp+=Math.floor(cR()*5);
   } else {
     G.brkFailCount++;
