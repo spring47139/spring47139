@@ -1037,6 +1037,15 @@ function cDodge(){const bd=gB();let d=bd?bdStatAt(bd,G.bStage,'dodge'):0;const f
 function cLeech(){const bd=gB();return bd?bdStatAt(bd,G.bStage,'leech'):0;}
 function cP(){return Math.floor(cA()*2.5+cD()*2+cS()+cMH()*.3+cR()*30);}
 function dRI(d){for(let i=DAO_RL.length-1;i>=0;i--)if(d.ri>=DAO_RL[i].req)return i;return 0;}
+// 道侶境界顯示：對應 REALMS 顯示完整名稱（煉氣三層 等）
+function daoRealmName(d){
+  if(!d||d.ri<=0)return '凡人';
+  // 用修為值對應 REALMS 境界名
+  for(let i=REALMS.length-1;i>=0;i--){
+    if(d.ri>=REALMS[i].req)return REALMS[i].n;
+  }
+  return REALMS[0].n;
+}
 // 道侶屬性：基礎值 × (1 + 境界加成)
 function daoStat(d,key){if(!d)return 0;const ri=dRI(d);const grow=1+DAO_RL[ri].b*3;return Math.floor((d[key]||0)*grow);}
 function daoAtk(d){return daoStat(d,'baseAtk');}
@@ -1145,15 +1154,16 @@ function doBreak(){
   if(ok){
     G.ri++;
     const nr=REALMS[G.ri];
+    G.exp=0;// 突破後修為歸零，重新累積
     G.bHp=cMH();
     G.fame+=8;
-    G.brkFailCount=0;// 成功後重置失敗次數
+    G.brkFailCount=0;
     G.brkWeak=false;
     G.brkWeakEnd=0;
     if(Math.random()<.38)tryDrop();
-    LOG(`★ 【${G.playerName}】突破至【${nr.n}】！`,'sp');
-    const _sr=Math.round(Math.min(.95,Math.max(.40,.65+expBonus+Math.min(.40,G.brkFailCount*.08)))*100);pushEv('★ 境界突破',`突破至【${nr.n}】！（成功率${_sr}%）`,gS().color);
-    if(G.sid==='ms')G.exp+=Math.floor(cR()*25);
+    LOG(`★ 【${G.playerName}】突破至【${nr.n}】！修為歸零，重新修煉。`,'sp');
+    const _sr=Math.round(Math.min(.95,Math.max(.40,.65+expBonus+Math.min(.40,G.brkFailCount*.08)))*100);pushEv('★ 境界突破',`突破至【${nr.n}】！修為歸零，迎接新境界的考驗！（成功率${_sr}%）`,gS().color);
+    if(G.sid==='ms')G.exp+=Math.floor(cR()*5);
   } else {
     G.brkFailCount++;
     const fc=G.brkFailCount;
@@ -1439,6 +1449,123 @@ const DAO_CHAT={
 /* ── 道侶門派專屬對話（雪靈兒/焰妃/月瑤對各門派的反應）── */
 // 這些台詞會和通用台詞一起加入 DAO_CHAT 對應道侶的池子中
 (function(){
+  // 追加通用台詞（不分門派）
+  const more={
+    xueling:[
+      // 宗門
+      {t:'camp',msg:'你今天修煉的時間比昨天少了。',color:'#90c8ff'},
+      {t:'camp',msg:'靈石記得留一點。別全花光。',color:'#90c8ff'},
+      {t:'camp',msg:'……我幫你看了下周的氣象。有雷。',color:'#90c8ff'},
+      {t:'camp',msg:'你背後的穴道有點堵，我幫你疏通一下。',color:'#c0e8ff'},
+      {t:'camp',msg:'今天的靈氣濃度高，適合衝擊一下境界。',color:'#90c8ff'},
+      {t:'camp',msg:'吃東西了嗎。',color:'#90c8ff'},
+      // 歷練
+      {t:'trav',msg:'這裡的妖獸和往常不同。謹慎。',color:'#90c8ff'},
+      {t:'trav',msg:'……你剛才差點踩到機關。',color:'#90c8ff'},
+      {t:'trav',msg:'前面的岔路往右。我確定。',color:'#90c8ff'},
+      {t:'trav',msg:'風向變了，可能有伏兵。',color:'#90c8ff'},
+      {t:'trav',msg:'你走路的時候在想什麼。',color:'#90c8ff'},
+      {t:'trav',msg:'這朵花有毒。別碰。',color:'#90c8ff'},
+      // 征戰
+      {t:'zone',msg:'不要讓牠靠近你的側翼。',color:'#90c8ff'},
+      {t:'zone',msg:'我看著你。',color:'#90c8ff'},
+      {t:'zone',msg:'這隻弱點是頸部。',color:'#90c8ff'},
+      {t:'zone',msg:'……你還有氣力嗎。',color:'#90c8ff'},
+      {t:'zone',msg:'退後一步，讓我先。',color:'#90c8ff'},
+      // 好感
+      {t:'any',msg:'……其實，我一直在注意你。',minAff:72,color:'#c0e8ff'},
+      {t:'any',msg:'你笑起來不像平時那麼鋒利。',minAff:78,color:'#c0e8ff'},
+      {t:'any',msg:'有時候我在想，如果你不在了……算了。',minAff:85,color:'#c0e8ff'},
+      {t:'any',msg:'冷不冷。我可以離你近一點。',minAff:92,color:'#d8f0ff'},
+    ],
+    yanfei:[
+      // 宗門
+      {t:'camp',msg:'你在做什麼，那麼認真！讓我看看！',color:'#ff9070'},
+      {t:'camp',msg:'靈石夠不夠？我前天搶了些，要不要分你？',color:'#ff9070'},
+      {t:'camp',msg:'哼，修這麼久還沒突破，我都替你急！',color:'#ff9070'},
+      {t:'camp',msg:'你知道嗎，剛才有個弟子說你壞話，我替你揍了他！',color:'#ff9070'},
+      {t:'camp',msg:'今天的飯好難吃。你也這樣覺得吧。',color:'#ff9070'},
+      {t:'camp',msg:'我做了點火靈補藥，你要不要喝。別謝我，剩下的。',color:'#ffb090'},
+      // 歷練
+      {t:'trav',msg:'這個地方我來過！跟我走就對了！……大概。',color:'#ff9070'},
+      {t:'trav',msg:'跑什麼跑！等等我！',color:'#ff9070'},
+      {t:'trav',msg:'前面有個洞府！我先進去探路！',color:'#ff9070'},
+      {t:'trav',msg:'你餓了嗎？我帶了火燒餅！',color:'#ff9070'},
+      {t:'trav',msg:'這裡的靈氣有點燥，對我有利！讓我來！',color:'#ff9070'},
+      {t:'trav',msg:'哼，這種小路你也走得這麼慢？',color:'#ff9070'},
+      // 征戰
+      {t:'zone',msg:'讓開！這個我來！',color:'#ff9070'},
+      {t:'zone',msg:'別擋我！火法不認人！',color:'#ff9070'},
+      {t:'zone',msg:'這種貨色也敢擋路，真是不知死活！',color:'#ff9070'},
+      {t:'zone',msg:'你要撐住啊！我火法要蓄力！',color:'#ff9070'},
+      {t:'zone',msg:'好了好了，交給我！',color:'#ff9070'},
+      // 好感
+      {t:'any',msg:'喂……你有沒有覺得，我最近對你特別兇？',minAff:68,color:'#ffb090'},
+      {t:'any',msg:'那是因為……算了，你自己想。',minAff:72,color:'#ffb090'},
+      {t:'any',msg:'你要是死了，我才不會難過！才不會！',minAff:82,color:'#ffb090'},
+      {t:'any',msg:'……我偶爾會想，要是我沒遇到你就好了。省得這麼煩。',minAff:90,color:'#ffd0b0'},
+    ],
+    yueyao:[
+      // 宗門
+      {t:'camp',msg:'今日子時，適合引氣入脈。可以一試。',color:'#c0a8ff'},
+      {t:'camp',msg:'你似乎有些心神不寧，可是遇到了什麼？',color:'#c0a8ff'},
+      {t:'camp',msg:'月瑤為你備了一盞靈茶，可安神定志。',color:'#c0a8ff'},
+      {t:'camp',msg:'境界之事，急不得，緩不得，需與自身節律相合。',color:'#c0a8ff'},
+      {t:'camp',msg:'宗門中有人在議論你，月瑤已聽見，你勿掛心。',color:'#c0a8ff'},
+      {t:'camp',msg:'今夜星象，主大吉。你的機緣近了。',color:'#c0a8ff'},
+      // 歷練
+      {t:'trav',msg:'此地靈獸已感知我們的氣息，需靜心掩蓋。',color:'#c0a8ff'},
+      {t:'trav',msg:'月瑤在這棵樹下感應到了什麼……是舊時的靈陣殘跡。',color:'#c0a8ff'},
+      {t:'trav',msg:'走慢一些，此地有暗勁，需以心察之。',color:'#c0a8ff'},
+      {t:'trav',msg:'你看，那邊有道光，或許是緣份所在。',color:'#c0a8ff'},
+      {t:'trav',msg:'月瑤為你護法，你放心感悟便是。',color:'#c0a8ff'},
+      {t:'trav',msg:'此路盡頭有靈泉，月瑤早已感應。',color:'#c0a8ff'},
+      // 征戰
+      {t:'zone',msg:'月光為刃，月瑤在此。',color:'#c0a8ff'},
+      {t:'zone',msg:'此敵心神已亂，可一擊制之。',color:'#c0a8ff'},
+      {t:'zone',msg:'月瑤護你左側，你只管前攻。',color:'#c0a8ff'},
+      {t:'zone',msg:'勝負已定，只待你出手。',color:'#c0a8ff'},
+      {t:'zone',msg:'不急，待月瑤先以月力壓制。',color:'#c0a8ff'},
+      // 好感
+      {t:'any',msg:'月瑤有時夢見你，醒來卻記不清了。只是……心情很好。',minAff:68,color:'#e0d0ff'},
+      {t:'any',msg:'你可知，月瑤觀星，有一顆星已許久未移動，那是你的位置。',minAff:76,color:'#e0d0ff'},
+      {t:'any',msg:'若有來生，月瑤仍願在此等你。',minAff:86,color:'#e0d0ff'},
+      {t:'any',msg:'道侶二字，月瑤從未輕言。如今……說給你聽。',minAff:94,color:'#f0eaff'},
+    ],
+    biluo:[
+      // 宗門
+      {t:'camp',msg:'碧蘿今天採到了三種靈草！要看嗎？',color:'#90e068'},
+      {t:'camp',msg:'那隻小松鼠又來找碧蘿玩了！好可愛！',color:'#90e068'},
+      {t:'camp',msg:'碧蘿幫你澆了靈田，你不用謝！',color:'#90e068'},
+      {t:'camp',msg:'你今天看起來好累，碧蘿幫你揉揉肩膀？',color:'#90e068'},
+      {t:'camp',msg:'碧蘿覺得宗門的伙食可以加點靈草，更補！',color:'#90e068'},
+      {t:'camp',msg:'今天的月亮好圓！碧蘿好喜歡！你呢？',color:'#90e068'},
+      // 歷練
+      {t:'trav',msg:'碧蘿聽到了奇怪的聲音……是妖獸嗎？',color:'#90e068'},
+      {t:'trav',msg:'這棵樹好大！碧蘿想爬上去看看！',color:'#90e068'},
+      {t:'trav',msg:'啊！蝴蝶！碧蘿去追一下！……等等，任務要緊！',color:'#90e068'},
+      {t:'trav',msg:'碧蘿的腳痠了，可以休息一下嗎？',color:'#90e068'},
+      {t:'trav',msg:'這裡的空氣好好聞！有靈藥的氣息！',color:'#90e068'},
+      {t:'trav',msg:'碧蘿感覺那邊有危險……草草告訴我的！',color:'#90e068'},
+      // 征戰
+      {t:'zone',msg:'碧蘿怕怕，但不跑！你在旁邊！',color:'#90e068'},
+      {t:'zone',msg:'治好了！你繼續打！碧蘿在！',color:'#90e068'},
+      {t:'zone',msg:'那個妖獸在欺負小動物！打它！',color:'#90e068'},
+      {t:'zone',msg:'碧蘿把藤蔓纏上去了！快趁現在！',color:'#90e068'},
+      {t:'zone',msg:'不要受傷！碧蘿的草藥快用完了！',color:'#90e068'},
+      // 好感
+      {t:'any',msg:'碧蘿每次見到你，都不想走了。',minAff:68,color:'#c0f088'},
+      {t:'any',msg:'你知道碧蘿最開心的時候是什麼嗎？就是現在！',minAff:75,color:'#c0f088'},
+      {t:'any',msg:'碧蘿想了很久，決定把最珍貴的靈芝送給你。',minAff:83,color:'#c0f088'},
+      {t:'any',msg:'碧蘿以後每天都要見到你，好不好？',minAff:92,color:'#d8ffa8'},
+    ],
+  };
+  Object.keys(more).forEach(k=>{
+    if(DAO_CHAT[k])DAO_CHAT[k]=DAO_CHAT[k].concat(more[k]);
+  });
+})();
+
+(function(){
   const extra={
     xueling:[
       {t:'any',msg:'劍修……有鋒芒，但也容易傷到自己。要小心。',sid:['qy'],color:'#90c8ff'},
@@ -1679,7 +1806,7 @@ function stopTrav(){G.trav.active=false;document.getElementById('btn-ts').disabl
 function rTrav(){const ts=document.getElementById('trav-st');if(ts){if(G.trav.active){ts.innerHTML=`<div style="background:var(--jade4);border:1px solid var(--jade2);border-radius:var(--r);padding:7px 10px;"><div style="font-size:10px;font-weight:700;color:var(--jade);">⛰ 外出歷練中</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;font-family:'Noto Sans SC',sans-serif;"></div></div>`;}else{ts.innerHTML=`<div style="font-size:9px;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;padding:5px 0;"></div>`;}}}
 
 // 道侶（結識後可選擇跟隨出戰，一次只能選一位）
-function rDao(){const el=document.getElementById('dao-list');el.innerHTML='';const metD=G.dao.filter(d=>d.met);if(!metD.length){el.innerHTML='<div style="font-size:10px;color:var(--ink3);font-family:\'Noto Sans SC\',sans-serif;padding:7px 0;">尚未邂逅任何道侶。</div>';return;}metD.forEach((d)=>{const i=G.dao.indexOf(d);const isFollowing=G.daoFollow===d.id;let sl='相識',slC='ps2';if(d.aff>=50&&d.aff<80){sl='心儀';slC='pg';}else if(d.aff>=80){sl='✦ 道侶';slC='pj';}const dri=dRI(d);const drn=DAO_RL[dri].n;const card=document.createElement('div');card.className='dcard'+(isFollowing?' active-dao':'');card.innerHTML=`<div class="dport">${DSVG[d.id]||''}</div><div class="dinfo"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span class="dn">${d.n}</span><span class="pill ${slC}">${sl}</span>${isFollowing?'<span class="pill pi2">💑 跟隨出戰</span>':''}</div><div class="dt">${d.ti}</div><div class="dd">${d.d}</div><div style="font-size:9px;color:var(--jade);margin-top:2px;">跟隨加成：${d.followBonus}</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;">境界：${drn} · 修為 ${fmt(d.ri)}（隨玩家成長）</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px;"><span style="color:#d4537e;font-size:11px;">♡</span><div class="bg" style="flex:1;height:4px;"><div class="bar" style="width:${d.aff}%;background:#d4537e;height:4px;"></div></div><span style="font-size:8px;color:var(--ink3);">${Math.floor(d.aff)}/100</span></div><div style="display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;">${d.aff>=30&&!isFollowing?`<button class="sb cj" onclick="followDao(${i})">💑 選擇跟隨出戰</button>`:isFollowing?`<button class="sb cc" onclick="unfollowDao()">✕ 取消跟隨</button>`:'<span style="font-size:9px;color:var(--ink3);">好感達30可選擇跟隨</span>'}${d.aff<100?`<button class="sb${G.stone>=d.gC?' cg':''}" onclick="giftD(${i})" ${G.stone>=d.gC?'':'disabled'}>贈【${d.gN}】(${d.gC}石)</button>`:''}</div></div>`;el.appendChild(card);});}
+function rDao(){const el=document.getElementById('dao-list');el.innerHTML='';const metD=G.dao.filter(d=>d.met);if(!metD.length){el.innerHTML='<div style="font-size:10px;color:var(--ink3);font-family:\'Noto Sans SC\',sans-serif;padding:7px 0;">尚未邂逅任何道侶。</div>';return;}metD.forEach((d)=>{const i=G.dao.indexOf(d);const isFollowing=G.daoFollow===d.id;let sl='相識',slC='ps2';if(d.aff>=50&&d.aff<80){sl='心儀';slC='pg';}else if(d.aff>=80){sl='✦ 道侶';slC='pj';}const dri=dRI(d);const drn=DAO_RL[dri].n;const card=document.createElement('div');card.className='dcard'+(isFollowing?' active-dao':'');card.innerHTML=`<div class="dport">${DSVG[d.id]||''}</div><div class="dinfo"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;"><span class="dn">${d.n}</span><span class="pill ${slC}">${sl}</span>${isFollowing?'<span class="pill pi2">💑 跟隨出戰</span>':''}</div><div class="dt">${d.ti}</div><div class="dd">${d.d}</div><div style="font-size:9px;color:var(--jade);margin-top:2px;">跟隨加成：${d.followBonus}</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;">境界：${daoRealmName(d)}</div><div style="display:flex;align-items:center;gap:4px;margin-top:4px;"><span style="color:#d4537e;font-size:11px;">♡</span><div class="bg" style="flex:1;height:4px;"><div class="bar" style="width:${d.aff}%;background:#d4537e;height:4px;"></div></div><span style="font-size:8px;color:var(--ink3);">${Math.floor(d.aff)}/100</span></div><div style="display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;">${d.aff>=30&&!isFollowing?`<button class="sb cj" onclick="followDao(${i})">💑 選擇跟隨出戰</button>`:isFollowing?`<button class="sb cc" onclick="unfollowDao()">✕ 取消跟隨</button>`:'<span style="font-size:9px;color:var(--ink3);">好感達30可選擇跟隨</span>'}${d.aff<100?`<button class="sb${G.stone>=d.gC?' cg':''}" onclick="giftD(${i})" ${G.stone>=d.gC?'':'disabled'}>贈【${d.gN}】(${d.gC}石)</button>`:''}</div></div>`;el.appendChild(card);});}
 
 function followDao(i){const d=G.dao[i];if(!d.met||d.aff<30)return;if(G.daoFollow&&G.daoFollow!==d.id)unfollowDao();G.daoFollow=d.id;LOG(`💑 選擇【${d.n}】跟隨出戰！修為/秒大幅提升`,'pk');pushEv('💑 道侶跟隨',`${d.n} 決定陪伴你出戰。跟隨加成：${d.followBonus}`,'#f0a0c8');rDao();rUI2();updateUI();}
 function unfollowDao(){const d=gD();if(d)LOG(`${d.n} 暫時分開...`,'pk');G.daoFollow=null;rDao();rUI2();updateUI();}
@@ -2008,16 +2135,36 @@ setInterval(()=>{
   // 碧蘿跟隨恢復HP
   const fd=gD();if(fd&&fd.sp==='heal'&&fd.aff>=80)G.bHp=Math.min(cMH(),G.bHp+cMH()*.008);
   // 道侶境界成長（跟隨道侶成長更快）
-  G.dao.forEach(d=>{if(d.met){const fg=d.id===G.daoFollow?0.8:0.5;d.ri+=cR()*fg;if(d.aff<100)d.aff=Math.min(100,d.aff+.006);}});
+  G.dao.forEach(d=>{
+  if(d.met){
+    const fg=d.id===G.daoFollow?0.8:0.5;
+    d.ri+=cR()*fg;
+    if(d.aff<100)d.aff=Math.min(100,d.aff+.006);
+    // 道侶修為到達下一境界自動進階
+    const curR=daoRealmName(d);
+    // 找當前境界index
+    let curIdx=0;
+    for(let i=REALMS.length-1;i>=0;i--){if(d.ri>=REALMS[i].req){curIdx=i;break;}}
+    // 若超過下一境界需求，不需額外處理（daoRealmName自動對應）
+    // 但要顯示進階提示
+    if(!d._lastRiIdx)d._lastRiIdx=0;
+    if(curIdx>d._lastRiIdx){
+      const nr=REALMS[curIdx];
+      LOG(`💑 ${d.n} 突破至【${nr.n}】！`,'pk');
+      d._lastRiIdx=curIdx;
+      if(G.curTab==='dao')rDao();
+    }
+  }
+});
   if(G.tick%10===0){const sg=Math.floor(G.ri*.5+.2);if(sg>0)G.stone+=sg;}
   // 碧蘿偶爾掉藥材
   if(fd&&fd.sp==='heal'&&fd.aff>=80&&G.tick%45===0&&Math.random()<.35)G.herb+=1;
-  if(G.zone.active){G.zone.at++;if(G.zone.at>=2){G.zone.at=0;autoFight();tryMFL();if(G.zone.active)updateBUI();}gS().bSkills.forEach(sk=>{if(sk.cur>0)sk.cur=Math.max(0,sk.cur-1);});if(G.mfl.activeCur>0)G.mfl.activeCur=Math.max(0,G.mfl.activeCur-1);if(G.tick%20===0&&Math.random()<.15)trigDaoChat('zone');}
+  if(G.zone.active){G.zone.at++;if(G.zone.at>=2){G.zone.at=0;autoFight();tryMFL();if(G.zone.active)updateBUI();}gS().bSkills.forEach(sk=>{if(sk.cur>0)sk.cur=Math.max(0,sk.cur-1);});if(G.mfl.activeCur>0)G.mfl.activeCur=Math.max(0,G.mfl.activeCur-1);if(G.tick%12===0&&Math.random()<.30)trigDaoChat('zone');}
   // 事件間隔10~15秒（tick每秒，at每秒++）
-  if(G.camp.active){G.camp.at++;if(G.camp.at>=R(10,15)){G.camp.at=0;trigSE();if(Math.random()<.12)trigDaoChat('camp');}
+  if(G.camp.active){G.camp.at++;if(G.camp.at>=R(10,15)){G.camp.at=0;trigSE();if(Math.random()<.25)trigDaoChat('camp');}
   // 門派輔助招式在宗門掛機中觸發
   trigAuxSkill();}
-  if(G.trav.active){G.trav.at++;if(G.trav.at>=R(10,15)){G.trav.at=0;trigTE();if(Math.random()<.12)trigDaoChat('trav');}
+  if(G.trav.active){G.trav.at++;if(G.trav.at>=R(10,15)){G.trav.at=0;trigTE();if(Math.random()<.25)trigDaoChat('trav');}
   // 門派輔助招式在歷練中觸發
   trigAuxSkill();}
   if(!G.zone.active&&!G.camp.active&&!G.trav.active&&G.tick%90===0&&Math.random()<.25)trigSE();
