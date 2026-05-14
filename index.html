@@ -1049,8 +1049,41 @@ function fmE(t,ev){return t.replace(/{e}/g,ev.e||0).replace(/{s}/g,ev.s||0).repl
 function trigSE(){const pool=gS().campEvs;if(!pool.length)return;const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.type==='bonus'?'var(--gold2)':ev.type==='rival'||ev.type==='event'?'var(--sky3)':'var(--jade3)';pushEv(ev.bad?'⚠ 宗門危機':'🏯 宗門動態',msg,color);addCLog(msg,color,G.camp.log,'camp-log');LOG('[宗門]'+msg,ev.bad?'dk':'gd');// 道侶跟隨觸發道侶專屬事件（20%機率）
 if(G.camp.active&&G.daoFollow&&Math.random()<.20)trigDaoEv();checkBreak();updateUI();if(G.curTab==='camp')rCamp();}
 
-function trigTE(){const pool=gS().travEvs;if(!pool.length)return;// 邂逅道侶
-const unmet=G.dao.filter(d=>!d.met);if(unmet.length>0&&Math.random()<.12){const avail=DAO_MEET.filter(m=>unmet.find(d=>d.id===m.id));if(avail.length){const tr=pk(avail);const dao=G.dao.find(d=>d.id===tr.id);if(dao){dao.met=true;dao.aff=10;}const msg=tr.t;pushEv('♡ 道侶邂逅',msg+'（好感度：10）','#f0a0c8');addCLog(msg,'#f0a0c8',G.trav.log,'trav-log');LOG(`✦ 與【${dao.n}】相遇！`,'pk');updateUI();if(G.curTab==='dao')rDao();return;}}const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.t.includes('機緣')?'var(--gold2)':'var(--jade3)';pushEv(ev.bad?'⚠ 歷練危機':'⛰ 歷練奇遇',msg,color);addCLog(msg,color,G.trav.log,'trav-log');LOG('[歷練]'+msg,ev.bad?'dk':'gd');// 道侶跟隨觸發道侶事件（20%機率）
+/* 渡劫輔助奇遇池 */
+const TRIBULATION_EVTS=[
+ {t:'遇見一位歷劫失敗的散修，交流心得，渡劫冷卻縮短30分鐘',cdReduce:1800,srBonus:0},
+ {t:'偶得天雷石，蘊含渡劫之力，渡劫成功率提升，冷卻縮短15分鐘',cdReduce:900,srBonus:1},
+ {t:'發現上古渡劫秘法殘篇，感悟渡劫之道，成功率大幅提升',cdReduce:0,srBonus:2},
+ {t:'遭遇天劫痕跡，逆向感悟，渡劫冷卻縮短1小時，成功率微升',cdReduce:3600,srBonus:1},
+ {t:'找到定心靈泉，服下後道心清明，渡劫成功率顯著提升',cdReduce:0,srBonus:3},
+ {t:'偶遇渡劫成功的前輩，得其指點，冷卻縮短20分鐘，成功率微升',cdReduce:1200,srBonus:1},
+];
+
+function trigTE(){const pool=gS().travEvs;if(!pool.length)return;
+// 邂逅道侶
+const unmet=G.dao.filter(d=>!d.met);if(unmet.length>0&&Math.random()<.12){const avail=DAO_MEET.filter(m=>unmet.find(d=>d.id===m.id));if(avail.length){const tr=pk(avail);const dao=G.dao.find(d=>d.id===tr.id);if(dao){dao.met=true;dao.aff=10;}const msg=tr.t;pushEv('♡ 道侶邂逅',msg+'（好感度：10）','#f0a0c8');addCLog(msg,'#f0a0c8',G.trav.log,'trav-log');LOG(`✦ 與【${dao.n}】相遇！`,'pk');updateUI();if(G.curTab==='dao')rDao();return;}}
+// 渡劫輔助奇遇（15%機率，只有在渡劫冷卻中或有失敗記錄時才觸發）
+if(Math.random()<.15&&(G.brkCdEnd>nowSec()||G.brkFailCount>0)){
+  const ev=pk(TRIBULATION_EVTS);
+  const now=nowSec();
+  let effects=[];
+  if(ev.cdReduce>0&&G.brkCdEnd>now){
+    G.brkCdEnd=Math.max(now,G.brkCdEnd-ev.cdReduce);
+    const mins=Math.round(ev.cdReduce/60);
+    effects.push(`冷卻縮短${mins}分鐘`);
+  }
+  if(ev.srBonus>0){
+    G.brkFailCount=Math.min(G.brkFailCount+ev.srBonus,G.brkFailCount+3);// 額外增加失敗計數讓成功率更高
+    const bonusPct=ev.srBonus*8;
+    effects.push(`渡劫成功率+${bonusPct}%`);
+  }
+  const msg=ev.t+(effects.length?`（${effects.join('，')}）`:'');
+  pushEv('⚡ 渡劫奇遇',msg,'var(--gold2)');
+  addCLog(msg,'var(--gold2)',G.trav.log,'trav-log');
+  LOG('[歷練]'+msg,'go');
+  updateUI();if(G.curTab==='trav')rTrav();return;
+}
+const ev=pk(pool);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':ev.t.includes('機緣')?'var(--gold2)':'var(--jade3)';pushEv(ev.bad?'⚠ 歷練危機':'⛰ 歷練奇遇',msg,color);addCLog(msg,color,G.trav.log,'trav-log');LOG('[歷練]'+msg,ev.bad?'dk':'gd');// 道侶跟隨觸發道侶事件（20%機率）
 if(G.trav.active&&G.daoFollow&&Math.random()<.20)trigDaoEv();checkBreak();updateUI();if(G.curTab==='trav')rTrav();}
 
 function trigDaoEv(){const fd=gD();if(!fd||!fd.events||!fd.events.length)return;const ev=pk(fd.events);appEv(ev);const msg=fmE(ev.t,ev);const color=ev.bad?'var(--cr3)':'#f0a0c8';pushEv(`💑 ${fd.n}的陪伴`,msg,color);if(G.camp.active)addCLog(`[${fd.n}] `+msg,'#f0a0c8',G.camp.log,'camp-log');else addCLog(`[${fd.n}] `+msg,'#f0a0c8',G.trav.log,'trav-log');LOG(`[${fd.n}] `+msg,'pk');checkBreak();updateUI();}
